@@ -1,0 +1,55 @@
+#include <winresrc.h>
+
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    	1,0,0,0
+PRODUCTVERSION 	1,0,0,0
+FILEFLAGSMASK  	VS_FFI_FILEFLAGSMASK
+#ifndef DEBUG
+FILEFLAGS      	0
+#else
+FILEFLAGS      	VS_FF_DEBUG
+#endif
+FILEOS         	VOS__WINDOWS32
+#ifdef _CONSOLE
+FILETYPE       	VFT_APP
+#else
+FILETYPE       	VFT_DLL
+#endif
+
+FILESUBTYPE    	VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",      "René DEVICHI"
+            VALUE "FileDescription",  "bplist reader"
+            VALUE "FileVersion",      "1.0"
+            VALUE "InternalName",     "bplist"
+            VALUE "LegalCopyright",   "René DEVICHI"
+            VALUE "LegalTrademarks1", ""
+            VALUE "LegalTrademarks2", ""
+#ifdef _CONSOLE
+            VALUE "OriginalFilename", "bplist.exe"
+#else
+            VALUE "OriginalFilename", "bplist.dll"
+#endif
+            VALUE "ProductName",      "bplist reader"
+            VALUE "ProductVersion",   "1.0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        /* The following line should only be modified for localized versions.     */
+        /* It consists of any number of WORD,WORD pairs, with each pair           */
+        /* describing a language,codepage combination supported by the file.      */
+        /*                                                                        */
+        /* For example, a file might have values "0x409,1252" indicating that it  */
+        /* supports English language (0x409) in the Windows ANSI codepage (1252). */
+
+        VALUE "Translation", 0x409, 1252
+
+    END
+END

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iphonebackupbrowser", "iphonebackupbrowser.csproj", "{806CFEC2-A2A6-4995-8534-755069E1889A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|x86.ActiveCfg = Debug|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|x86.Build.0 = Debug|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|x86.ActiveCfg = Release|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
