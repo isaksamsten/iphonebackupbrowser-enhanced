@@ -685,16 +685,24 @@ namespace iphonebackupbrowser
             {
                 toolShowBtn.Enabled = true;
                 toolExportBtn.Enabled = true;
+
+                exportMenu.Enabled = true;
+                showMenu.Enabled = true;
             }
             else if (listView2.SelectedItems.Count > 1)
             {
                 toolShowBtn.Enabled = false;
+                showMenu.Enabled = false;
+
                 toolExportBtn.Enabled = true;
+                exportMenu.Enabled = true;
             }
             else
             {
                 toolShowBtn.Enabled = false;
                 toolExportBtn.Enabled = false;
+                showMenu.Enabled = false;
+                exportMenu.Enabled = false;
             }
 
         }
@@ -762,8 +770,6 @@ namespace iphonebackupbrowser
                         string fileFolder = ifile.Path.Substring(0, lastIndex);
                         Directory.CreateDirectory(Path.Combine(path, fileFolder.Replace("/", Path.DirectorySeparatorChar.ToString())));
                     }
-
-                    
                     
                     // Copy the file (overwrite)
                     File.Copy(source, dest, true);
@@ -799,6 +805,63 @@ namespace iphonebackupbrowser
             }
 
             return response;
+        }
+
+        private void searchBox_TextChanged(object sender, EventArgs e)
+        {
+            string content = searchBox.Text.ToLower();
+            listView1_DoubleClick(sender, e); // Fill.
+
+            List<ListViewItem> collection = new List<ListViewItem>();
+            foreach (ListViewItem itm in listView2.Items)
+                collection.Add(itm);
+
+            listView2.Items.Clear();
+            listView2.BeginUpdate();
+            foreach (ListViewItem itm in collection)
+            {
+                iPhoneFile file = itm.Tag as iPhoneFile;
+                if(file.Path.ToLower().Contains(content) || string.IsNullOrWhiteSpace(content)) 
+                {
+                    listView2.Items.Add(itm);
+                }
+            }
+            listView2.EndUpdate();
+        }
+
+        private void appSearchTxt_TextChanged(object sender, EventArgs e)
+        {
+            string content = appSearchTxt.Text.ToLower();
+            comboBox1_SelectedIndexChanged(sender, e); //fill
+
+            List<ListViewItem> collection = new List<ListViewItem>();
+            foreach (ListViewItem itm in listView1.Items)
+                collection.Add(itm);
+
+            listView1.Items.Clear();
+            listView1.BeginUpdate();
+            foreach (ListViewItem itm in collection)
+            {
+                iPhoneApp file = itm.Tag as iPhoneApp;
+                if (file.DisplayName.ToLower().Contains(content)
+                    || file.Identifier.ToLower().Contains(content)
+                    || string.IsNullOrWhiteSpace(content))
+                {
+                    listView1.Items.Add(itm);
+                }
+            }
+            listView1.EndUpdate();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Original app: http://code.google.com/p/iphonebackupbrowser/" + "\n"
+                + "Enhanced by: Isak & Magnus");
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         /*

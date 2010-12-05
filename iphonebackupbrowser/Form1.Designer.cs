@@ -37,18 +37,31 @@
             this.toolShowBtn = new System.Windows.Forms.ToolStripButton();
             this.toolExportBtn = new System.Windows.Forms.ToolStripButton();
             this.toolExportProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.searchBox = new System.Windows.Forms.ToolStripTextBox();
+            this.sideLabelLbl = new System.Windows.Forms.Label();
+            this.appSearchTxt = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 12);
+            this.comboBox1.Location = new System.Drawing.Point(99, 27);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(424, 21);
+            this.comboBox1.Size = new System.Drawing.Size(275, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -73,9 +86,9 @@
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(12, 39);
+            this.listView1.Location = new System.Drawing.Point(12, 54);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(670, 205);
+            this.listView1.Size = new System.Drawing.Size(670, 190);
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 7;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -85,11 +98,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(446, 12);
+            this.button1.Location = new System.Drawing.Point(380, 26);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 21);
+            this.button1.Size = new System.Drawing.Size(75, 21);
             this.button1.TabIndex = 8;
-            this.button1.Text = "open";
+            this.button1.Text = "Open Folder";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -122,7 +135,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolShowBtn,
             this.toolExportBtn,
-            this.toolExportProgress});
+            this.toolExportProgress,
+            this.toolStripSeparator1,
+            this.toolStripLabel1,
+            this.searchBox});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(670, 25);
@@ -131,25 +147,23 @@
             // 
             // toolShowBtn
             // 
-            this.toolShowBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolShowBtn.Enabled = false;
             this.toolShowBtn.Image = global::iphonebackupbrowser.Icons.View;
             this.toolShowBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolShowBtn.Name = "toolShowBtn";
-            this.toolShowBtn.Size = new System.Drawing.Size(23, 22);
-            this.toolShowBtn.Text = "Show selected";
+            this.toolShowBtn.Size = new System.Drawing.Size(73, 22);
+            this.toolShowBtn.Text = "View File";
             this.toolShowBtn.ToolTipText = "Show Selected";
             this.toolShowBtn.Click += new System.EventHandler(this.toolShowBtn_Click);
             // 
             // toolExportBtn
             // 
-            this.toolExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolExportBtn.Enabled = false;
             this.toolExportBtn.Image = global::iphonebackupbrowser.Icons.Export;
             this.toolExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolExportBtn.Name = "toolExportBtn";
-            this.toolExportBtn.Size = new System.Drawing.Size(23, 22);
-            this.toolExportBtn.Text = "Export selected";
+            this.toolExportBtn.Size = new System.Drawing.Size(107, 22);
+            this.toolExportBtn.Text = "Export Selected";
             this.toolExportBtn.Click += new System.EventHandler(this.toolExportBtn_Click);
             // 
             // toolExportProgress
@@ -161,18 +175,117 @@
             this.toolExportProgress.Step = 1;
             this.toolExportProgress.Visible = false;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(42, 22);
+            this.toolStripLabel1.Text = "Search";
+            // 
+            // searchBox
+            // 
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(200, 25);
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
+            // 
+            // sideLabelLbl
+            // 
+            this.sideLabelLbl.AutoSize = true;
+            this.sideLabelLbl.Location = new System.Drawing.Point(12, 30);
+            this.sideLabelLbl.Name = "sideLabelLbl";
+            this.sideLabelLbl.Size = new System.Drawing.Size(85, 13);
+            this.sideLabelLbl.TabIndex = 10;
+            this.sideLabelLbl.Text = "Select a backup";
+            // 
+            // appSearchTxt
+            // 
+            this.appSearchTxt.Location = new System.Drawing.Point(461, 27);
+            this.appSearchTxt.Name = "appSearchTxt";
+            this.appSearchTxt.Size = new System.Drawing.Size(221, 20);
+            this.appSearchTxt.TabIndex = 11;
+            this.appSearchTxt.TextChanged += new System.EventHandler(this.appSearchTxt_TextChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fuleToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(694, 24);
+            this.menuStrip1.TabIndex = 12;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fuleToolStripMenuItem
+            // 
+            this.fuleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quitToolStripMenuItem});
+            this.fuleToolStripMenuItem.Name = "fuleToolStripMenuItem";
+            this.fuleToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fuleToolStripMenuItem.Text = "File";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showMenu,
+            this.exportMenu});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // showMenu
+            // 
+            this.showMenu.Enabled = false;
+            this.showMenu.Image = global::iphonebackupbrowser.Icons.View;
+            this.showMenu.Name = "showMenu";
+            this.showMenu.Size = new System.Drawing.Size(152, 22);
+            this.showMenu.Text = "View";
+            this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
+            // 
+            // exportMenu
+            // 
+            this.exportMenu.Enabled = false;
+            this.exportMenu.Image = global::iphonebackupbrowser.Icons.Export;
+            this.exportMenu.Name = "exportMenu";
+            this.exportMenu.Size = new System.Drawing.Size(152, 22);
+            this.exportMenu.Text = "Export";
+            this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 565);
+            this.Controls.Add(this.appSearchTxt);
+            this.Controls.Add(this.sideLabelLbl);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "iPhone Backup Browser";
+            this.Text = "iPhone Backup Browser Enhanced";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -180,7 +293,10 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -195,6 +311,18 @@
         private System.Windows.Forms.ToolStripButton toolShowBtn;
         private System.Windows.Forms.ToolStripButton toolExportBtn;
         private System.Windows.Forms.ToolStripProgressBar toolExportProgress;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripTextBox searchBox;
+        private System.Windows.Forms.Label sideLabelLbl;
+        private System.Windows.Forms.TextBox appSearchTxt;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showMenu;
+        private System.Windows.Forms.ToolStripMenuItem exportMenu;
     }
 }
 
