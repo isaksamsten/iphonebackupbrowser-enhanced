@@ -648,22 +648,56 @@ namespace iphonebackupbrowser
 
         private void listView2_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            string[] filenames;
+            iPhoneBackup backup = comboBox1.SelectedItem as iPhoneBackup;
+            List<iPhoneFile> files = new List<iPhoneFile>();
+            foreach(ListViewItem itm in listView2.SelectedItems)
+                files.Add(itm.Tag as iPhoneFile);
 
-            string ext = "";
-            if (files92 == null) ext = ".mddata";
 
-            iPhoneBackup backup = (iPhoneBackup)comboBox1.SelectedItem;
+            toolExportProgress.Visible = true;
+            toolExportProgress.Maximum = files.Count;
+            toolExportProgress.Step = 1;
 
-            int k = 0;
-            filenames = new string[listView2.SelectedItems.Count];
-
-            foreach (ListViewItem i in listView2.SelectedItems)
+            string path = Path.GetTempPath();
+            List<string> filenames = new List<string>();
+            foreach (var ifile in files)
             {
-                filenames[k++] = Path.Combine(backup.path, ((iPhoneFile)i.Tag).Key + ext);
+                string source = Path.Combine(backup.path, ifile.Key);
+                string dest = Path.Combine(path, ifile.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+                // If there is a folder structur
+                // create it.
+                int lastIndex = ifile.Path.LastIndexOf("/");
+                if (lastIndex >= 0)
+                {
+                    string fileFolder = ifile.Path.Substring(0, lastIndex);
+                    Directory.CreateDirectory(Path.Combine(path, fileFolder.Replace("/", Path.DirectorySeparatorChar.ToString())));
+                }
+
+                // Copy the file (overwrite)
+                File.Copy(source, dest, true);
+
+                FileInfo info = new FileInfo(dest);
+                if (info.Extension == ".plist")
+                {
+                    try
+                    {
+                        byte[] bytes = null;
+                        DLL.bplist2xml(info.FullName, out bytes, true);
+
+                        WriteByteArrayToFile(bytes, info.FullName + ".new");
+                        filenames.Add(info.FullName + ".new");
+                    }
+                    catch { }
+                }
+
+                filenames.Add(dest);
             }
 
-            listView2.DoDragDrop(new DataObject(DataFormats.FileDrop, filenames), DragDropEffects.Copy);
+            toolExportProgress.Value = 0;
+            toolExportProgress.Visible = false;
+         
+            listView2.DoDragDrop(new DataObject(DataFormats.FileDrop, filenames.ToArray()), DragDropEffects.Copy);
         }
 
 
@@ -777,10 +811,14 @@ namespace iphonebackupbrowser
                     FileInfo info = new FileInfo(dest);
                     if (info.Extension == ".plist")
                     {
-                        byte[] bytes = null;
-                        DLL.bplist2xml(info.FullName, out bytes, true);
+                        try
+                        {
+                            byte[] bytes = null;
+                            DLL.bplist2xml(info.FullName, out bytes, true);
 
-                        WriteByteArrayToFile(bytes, info.FullName + ".new");                        
+                            WriteByteArrayToFile(bytes, info.FullName + ".new");
+                        }
+                        catch { }
                     }
 
                     toolExportProgress.Value = toolExportProgress.Value + 1;
