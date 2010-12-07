@@ -762,9 +762,19 @@ namespace iphonebackupbrowser
             string src = Path.Combine(backup.path, file.Key);
             string dest = Path.Combine(tempPath, fileName);
             File.Copy(src, dest, true);
+
             try
             {
-                System.Diagnostics.Process.Start(dest);
+                //if .db file we'll open it up in the internal SQL browser
+                if (Path.GetExtension(dest).EndsWith(".db"))
+                {
+                    DatabaseInspector f2 = new DatabaseInspector(dest);
+                    f2.Show();
+                }
+                else 
+                { 
+                    System.Diagnostics.Process.Start(dest);
+                }
             }
             catch
             {
