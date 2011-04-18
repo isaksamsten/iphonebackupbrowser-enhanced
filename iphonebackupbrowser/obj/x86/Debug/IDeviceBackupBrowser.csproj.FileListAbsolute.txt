@@ -4,3 +4,9 @@ C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphoneba
 C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\IDevice.Properties.Resources.resources
 C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\bin\Debug\IDeviceBackupBrowser.exe
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\bin\Debug\IDeviceBackupBrowser.pdb
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\bin\Debug\IDevice.Browsers.dll
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\bin\Debug\IDevice.Browsers.pdb
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\IDeviceBackupBrowser.exe
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\IDeviceBackupBrowser.pdb
