@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 
-namespace iphonebackupbrowser
+namespace IDevice
 {
 
     class DLL

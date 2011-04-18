@@ -22,3 +22,5 @@ F:\WORKSPACE\SCHOOL\iPhone Backup Browser\isakkarlsson-iphonebackupbrowser-enhan
 F:\WORKSPACE\SCHOOL\iPhone Backup Browser\isakkarlsson-iphonebackupbrowser-enhanced-f51983a\iphonebackupbrowser\obj\x86\Debug\iphonebackupbrowser.SQL.ManualQueryHelpForm.resources
 E:\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser\iphonebackupbrowser\obj\x86\Debug\iphonebackupbrowser.SQL.ManualQueryHelpForm.resources
 E:\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser\iphonebackupbrowser\obj\x86\Debug\iphonebackupbrowser.DatabaseInspector.resources
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\iphonebackupbrowser.exe
+C:\Documents and Settings\isak\My Documents\Visual Studio 2010\Projects\iphonebackupbrowser-enhanced\iphonebackupbrowser\obj\x86\Debug\iphonebackupbrowser.pdb

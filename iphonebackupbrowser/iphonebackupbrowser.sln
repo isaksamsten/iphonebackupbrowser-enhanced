@@ -1,18 +1,40 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iphonebackupbrowser", "iphonebackupbrowser.csproj", "{806CFEC2-A2A6-4995-8534-755069E1889A}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDeviceBackupBrowser", "IDeviceBackupBrowser.csproj", "{806CFEC2-A2A6-4995-8534-755069E1889A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDevice.Browsers", "..\IDevice.Browsers\IDevice.Browsers.csproj", "{13BD71C3-5966-478F-B543-80C487670B0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|x86.ActiveCfg = Debug|x86
 		{806CFEC2-A2A6-4995-8534-755069E1889A}.Debug|x86.Build.0 = Debug|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|Any CPU.ActiveCfg = Release|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|Mixed Platforms.Build.0 = Release|x86
 		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|x86.ActiveCfg = Release|x86
 		{806CFEC2-A2A6-4995-8534-755069E1889A}.Release|x86.Build.0 = Release|x86
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{13BD71C3-5966-478F-B543-80C487670B0B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

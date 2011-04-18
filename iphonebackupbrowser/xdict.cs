@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 
 
-namespace iphonebackupbrowser
+namespace IDevice
 {
 
     // Summary:
