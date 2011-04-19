@@ -1,0 +1,1179 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PList</name>
+    </assembly>
+    <members>
+        <member name="T:PList.Internal.PListElementFactory">
+            <summary>
+            Singleton class which generates concrete <see cref="T:CE.iPhone.IPListElement"/> from the Tag or TypeCode
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.Internal.PListElementFactory"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.Register``1(``0)">
+            <summary>
+            Registers the specified element.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.Register``1(System.String,System.Byte,``0)">
+            <summary>
+            Registers the specified element.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="tag">The tag.</param>
+            <param name="typeCode">The type code.</param>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.Create(System.Byte,System.Int32)">
+            <summary>
+            Creates a concrete <see cref="T:CE.iPhone.IPListElement"/> object secified specified by it's typecode.
+            </summary>
+            <param name="typeCode">The typecode of the element.</param>
+            <param name="length">The length of the element 
+            (required only for <see cref="T:CE.iPhone.PListBool"/>, <see cref="T:CE.iPhone.PListNull"/> and <see cref="T:CE.iPhone.PListFill"/>).</param>
+            <returns>The created <see cref="T:CE.iPhone.IPListElement"/> object</returns>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.Create(System.String)">
+            <summary>        
+            Creates a concrete <see cref="T:CE.iPhone.IPListElement"/> object secified specified by it's tag.
+            </summary>
+            <param name="tag">The tag of the element.</param>
+            <returns>The created <see cref="T:CE.iPhone.IPListElement"/> object</returns>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.CreateLengthElement(System.Int32)">
+            <summary>
+            Creates a <see cref="T:CE.iPhone.IPListElement"/> object used for exteded length information.
+            </summary>
+            <param name="length">The exteded length information.</param>
+            <returns>The <see cref="T:CE.iPhone.IPListElement"/> object used for exteded length information.</returns>
+        </member>
+        <member name="M:PList.Internal.PListElementFactory.CreateKeyElement(System.String)">
+            <summary>
+            Creates a <see cref="T:CE.iPhone.IPListElement"/> object used for dictionary keys.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>The <see cref="T:CE.iPhone.IPListElement"/> object used for dictionary keys.</returns>
+        </member>
+        <member name="P:PList.Internal.PListElementFactory.Instance">
+            <summary>
+            Gets the instance.
+            </summary>
+            <value>The instance.</value>
+        </member>
+        <member name="T:PList.PListRoot">
+            <summary>
+            Represents a PList File
+            </summary>
+        </member>
+        <member name="M:PList.PListRoot.Load(System.String)">
+            <summary>
+            Loads the PList from specified file.
+            </summary>
+            <param name="fileName">The path of the PList.</param>
+            <returns>A <see cref="T:PList.PListRoot"/> object loaded from the file</returns>
+        </member>
+        <member name="M:PList.PListRoot.Load(System.IO.Stream)">
+            <summary>
+            Loads the PList from specified stream.
+            </summary>
+            <param name="stream">The stream containing the PList.</param>
+            <returns>A <see cref="T:PList.PListRoot"/> object loaded from the stream</returns>
+        </member>
+        <member name="M:PList.PListRoot.Save(System.String,PList.PListFormat)">
+            <summary>
+            Saves the PList to the specified path.
+            </summary>
+            <param name="fileName">The path of the PList.</param>
+            <param name="format">The format of the PList (Binary/Xml).</param>
+        </member>
+        <member name="M:PList.PListRoot.Save(System.String)">
+            <summary>
+            Saves the PList to the specified path.
+            </summary>
+            <param name="fileName">The path of the PList.</param>
+        </member>
+        <member name="M:PList.PListRoot.Save(System.IO.Stream)">
+            <summary>
+            Saves the PList to the specified stream.
+            </summary>
+            <param name="stream">The stream in which the PList is saves.</param>
+        </member>
+        <member name="M:PList.PListRoot.Save(System.IO.Stream,PList.PListFormat)">
+            <summary>
+            Saves the PList to the specified stream.
+            </summary>
+            <param name="stream">The stream in which the PList is saves.</param>
+            <param name="format">The format of the PList (Binary/Xml).</param>
+        </member>
+        <member name="M:PList.PListRoot.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, 
+            you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a 
+            custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> 
+            to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is
+            produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> 
+            method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/>
+            method.
+            </returns>
+        </member>
+        <member name="M:PList.PListRoot.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListRoot.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="P:PList.PListRoot.Format">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:PList.PListRoot"/> is stored in binary format.
+            </summary>
+            <value><c>true</c> if stored in binary format; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:PList.PListRoot.Root">
+            <summary>
+            Gets or sets the root PList-Element.
+            </summary>
+            <value>The root PList-Element.</value>
+        </member>
+        <member name="T:PList.PListData">
+            <summary>
+            Represents a Byte[] Value from a PList
+            </summary>
+        </member>
+        <member name="T:PList.Internal.PListElement`1">
+            <summary>
+            An abstract base class for primitive PList types
+            </summary>
+            <typeparam name="T">The .Net equivalent to the PList type</typeparam>
+        </member>
+        <member name="T:PList.IPListElement">
+            <summary>
+            A .Net representation of a  PList element
+            </summary>
+        </member>
+        <member name="M:PList.IPListElement.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.IPListElement.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>The count of PList elements in this element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.IPListElement.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.IPListElement.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.IPListElement.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.IPListElement.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.IPListElement.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, 
+            you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a 
+            custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> 
+            to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is
+            produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> 
+            method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/>
+            method.
+            </returns>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>The XML String representation of the Value.</returns>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.op_Implicit(PList.Internal.PListElement{`0})~`0">
+            <summary>
+            Performs an implicit conversion from <see cref="!:CE.iPhone.PList.PListElement&lt;T&gt;"/> to <see cref="!:T"/>.
+            </summary>
+            <param name="element">The elem.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>
+            The count of PList elements in this element.
+            </returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.Internal.PListElement`1.Equals(PList.IPListElement)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+        </member>
+        <member name="P:PList.Internal.PListElement`1.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.Internal.PListElement`1.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.Internal.PListElement`1.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:PList.Internal.PListElement`1.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="M:PList.PListData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListData"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListData.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListData"/> class.
+            </summary>
+            <param name="value">The value of this element.</param>
+        </member>
+        <member name="M:PList.PListData.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String (encoded as Base64), read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListData.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value (encoded as Base64).
+            </returns>
+        </member>
+        <member name="M:PList.PListData.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListData.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListData.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListData.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListData.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListData.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.PListString">
+            <summary>
+            Represents an string Value from a PList 
+            </summary>
+        </member>
+        <member name="M:PList.PListString.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListString"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListString.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListString"/> class.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:PList.PListString.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListString.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value.
+            </returns>
+        </member>
+        <member name="M:PList.PListString.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListString.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListString.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListString.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListString.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListString.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.PListNull">
+            <summary>
+            Represents a null element in a PList
+            </summary>
+            <remarks>Is skipped in Xml-Serialization</remarks>
+        </member>
+        <member name="M:PList.PListNull.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListNull.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListNull.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>
+            The count of PList elements in this element.
+            </returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListNull.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListNull.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:PList.PListNull.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListNull.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="P:PList.PListNull.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListNull.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListNull.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:PList.PListBool">
+            <summary>
+            Represents a Boolean Value from a PList
+            </summary>
+        </member>
+        <member name="M:PList.PListBool.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListBool"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListBool.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListBool"/> class.
+            </summary>
+            <param name="value">The Value of this element</param>
+        </member>
+        <member name="M:PList.PListBool.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListBool.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="M:PList.PListBool.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListBool.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value.
+            </returns>
+        </member>
+        <member name="M:PList.PListBool.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListBool.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListBool.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListBool.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListBool.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListBool.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:PList.PListBool.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.PListDict">
+            <summary>
+            Represents an dictionary with <see cref="T:System.String"/> keys and <see cref="T:CE.iPhone.IPListElement"/> values
+            </summary>
+        </member>
+        <member name="M:PList.PListDict.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDict.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDict.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>
+            The count of PList elements in this element.
+            </returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDict.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDict.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:PList.PListDict.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListDict.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="P:PList.PListDict.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListDict.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListDict.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:PList.PListInteger">
+            <summary>
+            Represents an integer Value from a PList
+            </summary>
+        </member>
+        <member name="M:PList.PListInteger.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListInteger"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListInteger.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListInteger"/> class.
+            </summary>
+            <param name="value">The value of this element.</param>
+        </member>
+        <member name="M:PList.PListInteger.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListInteger.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value.
+            </returns>
+        </member>
+        <member name="M:PList.PListInteger.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListInteger.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListInteger.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListInteger.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListInteger.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListInteger.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.PListFill">
+            <summary>
+            Represents a fill element in a PList
+            </summary>
+            <remarks>Is skipped in Xml-Serialization</remarks>
+        </member>
+        <member name="M:PList.PListFill.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListFill.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListFill.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>
+            The count of PList elements in this element.
+            </returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListFill.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListFill.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:PList.PListFill.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListFill.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="P:PList.PListFill.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListFill.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListFill.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:PList.PListReal">
+            <summary>
+            Represents a double Value from a PList
+            </summary>
+        </member>
+        <member name="M:PList.PListReal.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListReal"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListReal.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListReal"/> class.
+            </summary>
+            <param name="value">The value of this element.</param>
+        </member>
+        <member name="M:PList.PListReal.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListReal.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value.
+            </returns>
+        </member>
+        <member name="M:PList.PListReal.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListReal.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListReal.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListReal.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListReal.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListReal.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.Internal.PListBinaryWriter">
+            <summary>
+            A class, used to write a <see cref="T:CE.iPhone.IPListElemnet"/>  binary formated to a stream
+            </summary>
+        </member>
+        <member name="F:PList.Internal.PListBinaryWriter.s_PListHeader">
+            <summary>
+            The Header (bplist00)
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListBinaryWriter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.Internal.PListBinaryWriter"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListBinaryWriter.Write(System.IO.Stream,PList.IPListElement)">
+            <summary>
+            Writers a <see cref="T:CE.iPhone.IPListElemnet"/> to the specified stream.
+            </summary>
+            <param name="stream">The stream.</param>
+            <param name="element">The element.</param>
+        </member>
+        <member name="M:PList.Internal.PListBinaryWriter.FormatIdx(System.Int32)">
+            <summary>
+            Formats an element idx based on the ElementIdxSize.
+            </summary>
+            <param name="idx">The idx.</param>
+            <returns>The formated idx.</returns>
+        </member>
+        <member name="M:PList.Internal.PListBinaryWriter.WriteInternal(PList.IPListElement)">
+            <summary>
+            Writers a <see cref="T:CE.iPhone.IPListElemnet"/> to the current stream position
+            </summary>
+            <param name="element">The element.</param>
+            <returns>The Inx of the written element</returns>
+        </member>
+        <member name="P:PList.Internal.PListBinaryWriter.BaseStream">
+            <summary>
+            Gets the basestream.
+            </summary>
+            <value>The basestream.</value>
+        </member>
+        <member name="P:PList.Internal.PListBinaryWriter.ElementIdxSize">
+            <summary>
+            Gets or sets the size of the element idx.
+            </summary>
+            <value>The size of the element idx.</value>
+        </member>
+        <member name="P:PList.Internal.PListBinaryWriter.Offsets">
+            <summary>
+            Gets the offset table.
+            </summary>
+            <value>The offset table.</value>
+        </member>
+        <member name="T:PList.Internal.PListBinaryReader">
+            <summary>
+            A class, used to read binary formated <see cref="T:CE.iPhone.IPListElemnet"/> from a stream
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListBinaryReader.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.Internal.PListBinaryReader"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.Internal.PListBinaryReader.Read(System.IO.Stream)">
+            <summary>
+            Reads a binary formated <see cref="T:CE.iPhone.IPListElemnet"/> from the specified stream.
+            </summary>
+            <param name="stream">The stream.</param>
+            <returns>The <see cref="T:CE.iPhone.IPListElemnet"/>, read from the specified stream</returns>
+        </member>
+        <member name="M:PList.Internal.PListBinaryReader.ReadInternal(System.Int32)">
+            <summary>
+            Reads the <see cref="T:CE.iPhone.IPListElemnet"/> at the specified idx.
+            </summary>
+            <param name="elemNr">The elem idx.</param>
+            <returns>The <see cref="T:CE.iPhone.IPListElemnet"/> at the specified idx.</returns>
+        </member>
+        <member name="M:PList.Internal.PListBinaryReader.ReadInternal">
+            <summary>
+            Reads the <see cref="T:CE.iPhone.IPListElemnet"/> at the current stream position.
+            </summary>
+            <returns>The <see cref="T:CE.iPhone.IPListElemnet"/> at the current stream position.</returns>
+        </member>
+        <member name="P:PList.Internal.PListBinaryReader.BaseStream">
+            <summary>
+            Gets the basestream.
+            </summary>
+            <value>The basestream.</value>
+        </member>
+        <member name="P:PList.Internal.PListBinaryReader.ElementIdxSize">
+            <summary>
+            Gets or sets the size of the element idx.
+            </summary>
+            <value>The size of the element idx.</value>
+        </member>
+        <member name="P:PList.Internal.PListBinaryReader.CurrentElementTypeCode">
+            <summary>
+            Gets the current element type code.
+            </summary>
+            <value>The current element type code.</value>
+        </member>
+        <member name="P:PList.Internal.PListBinaryReader.CurrentElementLength">
+            <summary>
+            Gets the length of the current element.
+            </summary>
+            <value>The length of the current element.</value>
+        </member>
+        <member name="T:PList.PListDate">
+            <summary>
+            Represents a DateTime Value from a PList
+            </summary>
+        </member>
+        <member name="M:PList.PListDate.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListDate"/> class.
+            </summary>
+        </member>
+        <member name="M:PList.PListDate.#ctor(System.DateTime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PList.PListDate"/> class.
+            </summary>
+            <param name="value">The value of this element.</param>
+        </member>
+        <member name="M:PList.PListDate.Parse(System.String)">
+            <summary>
+            Parses the specified value from a given String, read from Xml.
+            </summary>
+            <param name="value">The String whis is parsed.</param>
+        </member>
+        <member name="M:PList.PListDate.ToXmlString">
+            <summary>
+            Gets the XML String representation of the Value.
+            </summary>
+            <returns>
+            The XML String representation of the Value.
+            </returns>
+        </member>
+        <member name="M:PList.PListDate.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDate.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListDate.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="P:PList.PListDate.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListDate.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListDate.Value">
+            <summary>
+            Gets or sets the value of this element.
+            </summary>
+            <value>The value of this element.</value>
+        </member>
+        <member name="T:PList.PListFormat">
+            <summary>
+            The Format of a PList File
+            </summary>
+        </member>
+        <member name="T:PList.PListArray">
+            <summary>
+            Represents an array of an <see cref="T:CE.iPhone.IPListElement"/> objects
+            </summary>
+        </member>
+        <member name="M:PList.PListArray.ReadBinary(PList.Internal.PListBinaryReader)">
+            <summary>
+            Reads this element binary from the reader.
+            </summary>
+            <param name="reader">The <see cref="T:CE.iPhone.PListBinaryReader"/> from which the element is read.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListArray.GetPListElementLength">
+            <summary>
+            Gets the length of this PList element.
+            </summary>
+            <returns>The length of this PList element.</returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListArray.GetPListElementCount">
+            <summary>
+            Gets the count of PList elements in this element.
+            </summary>
+            <returns>
+            The count of PList elements in this element.
+            </returns>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListArray.WriteBinary(PList.Internal.PListBinaryWriter)">
+            <summary>
+            Writes this element binary to the writer.
+            </summary>
+            <param name="writer">The <see cref="T:CE.iPhone.PListBinaryWriter"/> to which the element is written.</param>
+            <remarks>Provided for internal use only.</remarks>
+        </member>
+        <member name="M:PList.PListArray.GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:PList.PListArray.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:PList.PListArray.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="P:PList.PListArray.Tag">
+            <summary>
+            Gets the Xml tag of this element.
+            </summary>
+            <value>The Xml tag of this element.</value>
+        </member>
+        <member name="P:PList.PListArray.TypeCode">
+            <summary>
+            Gets the binary typecode of this element.
+            </summary>
+            <value>The binary typecode of this element.</value>
+        </member>
+        <member name="P:PList.PListArray.IsBinaryUnique">
+            <summary>
+            Gets a value indicating whether this instance is written only once in binary mode.
+            </summary>
+            <value>
+            	<c>true</c> this instance is written only once in binary mode; otherwise, <c>false</c>.
+            </value>
+        </member>
+    </members>
+</doc>

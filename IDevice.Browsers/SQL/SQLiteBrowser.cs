@@ -48,6 +48,7 @@ namespace IDevice.Browsers.SQL
             }
 
             SQLiteConnection.Close();
+            Show();
         }
 
         private void addDatabaseTable(string tableName)

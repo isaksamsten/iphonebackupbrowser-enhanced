@@ -33,7 +33,9 @@ namespace IDevice.Browsers.Browsers
 
         public IBrowsable Get(string prefix)
         {
-            IBrowsable browsable = _browsers[prefix];
+            IBrowsable browsable = null;
+            _browsers.TryGetValue(prefix, out browsable);
+
             return browsable != null ? browsable : new DefaultHandler();
         }
 
