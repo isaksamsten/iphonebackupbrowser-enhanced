@@ -151,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libs\SQLite.Interop.dll" />
+    <Content Include="Libs\System.Data.SQLite.dll" />
+    <Content Include="Libs\System.Data.SQLite.Linq.dll" />
     <Content Include="Libs\System.Runtime.Serialization.Plists.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
