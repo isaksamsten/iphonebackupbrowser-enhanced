@@ -27,14 +27,15 @@ namespace IDevice.Browsers
             return Initialize(new FileInfo(path));
         }
 
-        public virtual MenuItem GetMenu()
+        public virtual ToolStripMenuItem GetMenu()
         {
             throw new NotImplementedException();
         }
 
-        public virtual void Register()
+
+        public virtual string Prefix
         {
-            BrowseHandler.Current.Add(prefix, this);
+            get { return this.prefix; }
         }
     }
 }

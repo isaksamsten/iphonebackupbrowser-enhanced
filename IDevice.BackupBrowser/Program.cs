@@ -15,11 +15,14 @@ namespace IDevice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            BackupBrowser browser = new BackupBrowser();
             // Run bootstrapper logic
-            Browsers.BrowseHandler.Current.Initialize();
+            foreach (string s in Properties.Settings.Default.Browsers)
+            {
+                BrowseHandler.Current.Register(s);
+            }
 
-            Application.Run(new BackupBrowser());
+            Application.Run(browser);
         }
     }
 }

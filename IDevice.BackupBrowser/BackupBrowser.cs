@@ -139,6 +139,11 @@ namespace IDevice
         public BackupBrowser()
         {
             InitializeComponent();
+
+            BrowseHandler.Current.Registered += delegate(object source, RegisterEventArgs e)
+            {
+                menuStrip1.Items.Add(e.Browser.GetMenu());
+            };
         }
 
 

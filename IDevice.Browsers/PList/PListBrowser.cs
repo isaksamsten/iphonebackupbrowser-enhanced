@@ -14,7 +14,8 @@ namespace IDevice.Browsers.PList
 {
     public partial class PListBrowser : AbstractBrowsable
     {
-        public PListBrowser() : base(".plist")
+        public PListBrowser()
+            : base(".plist")
         {
             InitializeComponent();
         }
@@ -26,18 +27,26 @@ namespace IDevice.Browsers.PList
 
         public override Form Initialize(string path)
         {
+            plistList.Clear();
             PListRoot root = PListRoot.Load(path);
-            foreach (var p in root.Root as PListDict)
+            PopulateRecurse(root.Root as PListDict, "");
+
+            return this;
+        }
+
+        private void PopulateRecurse(PListDict dict, string space)
+        {
+            foreach (var p in dict)
             {
                 ListViewItem itm = new ListViewItem();
                 itm.Tag = p.Value;
-                itm.Text = p.Key;
+                itm.Text = space + p.Key;
                 itm.SubItems.Add(p.Value.ToString());
-
                 plistList.Items.Add(itm);
-            }
 
-            return this;
+                if (p.Value is PListDict)
+                    PopulateRecurse(p.Value as PListDict, space + " ");
+            }
         }
 
         private void PListBrowser_Load(object sender, EventArgs e)

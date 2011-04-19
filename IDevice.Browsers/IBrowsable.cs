@@ -9,10 +9,10 @@ namespace IDevice.Browsers
 {
     public interface IBrowsable
     {
+        string Prefix { get; }
+
         Form Initialize(FileInfo file);
         Form Initialize(string path);
-
-        void Register();
-        MenuItem GetMenu();
+        ToolStripMenuItem GetMenu();
     }
 }

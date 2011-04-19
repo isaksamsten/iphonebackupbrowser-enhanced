@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupDataModel.cs" />
+    <Compile Include="BrowseHandler.cs" />
     <Compile Include="IPhone\IPhoneApp.cs" />
     <Compile Include="IPhone\IPhoneBackup.cs" />
     <Compile Include="IPhone\IPhoneFile.cs" />
@@ -101,10 +102,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
