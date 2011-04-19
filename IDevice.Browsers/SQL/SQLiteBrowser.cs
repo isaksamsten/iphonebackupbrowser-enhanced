@@ -12,12 +12,14 @@ using IDevice.SQL;
 
 namespace IDevice.Browsers.SQL
 {
-    public partial class SQLiteBrowser : Form, IBrowsable
+    public partial class SQLiteBrowser : AbstractBrowsable
     {
         private static string m_DatabaseFilePath;
         private Dictionary<string, Table> m_Tables = new Dictionary<string, Table>();
 
+
         public SQLiteBrowser()
+            : base("*.db")
         {
             InitializeComponent();
         }
@@ -131,7 +133,7 @@ namespace IDevice.Browsers.SQL
 
                     ListViewItem currentItem = new ListViewItem();
 
-                    
+
 
                     foreach (Column currentColumn in currentTable.getColumns())
                     {
@@ -143,8 +145,8 @@ namespace IDevice.Browsers.SQL
                                 currentItem.SubItems.Add(reader[currentColumn.name].ToString());
 
                         }
-                        catch 
-                        { 
+                        catch
+                        {
                             //don't prompt user
                         }
 
@@ -154,10 +156,11 @@ namespace IDevice.Browsers.SQL
 
                 //Arrange column headers to display everything
                 int numberOfColumns = currentTable.getColumns().Count;
-                for (int i = 0; i < numberOfColumns; i++) {
+                for (int i = 0; i < numberOfColumns; i++)
+                {
                     tableContentList.Columns[i].Width = -2;
                 }
-                
+
 
 
                 SQLiteConnection.Close();
@@ -208,7 +211,7 @@ namespace IDevice.Browsers.SQL
 
             public void addNewColumn(Column column)
             {
-                if(!m_TableColumn.Contains(column))
+                if (!m_TableColumn.Contains(column))
                     m_TableColumn.Add(column);
             }
 
@@ -227,7 +230,7 @@ namespace IDevice.Browsers.SQL
                 String columns = "";
 
 
-            foreach (Column column in m_TableColumn)
+                foreach (Column column in m_TableColumn)
                 {
                     columns += column.name + " ";
                 }
@@ -236,7 +239,8 @@ namespace IDevice.Browsers.SQL
                 return "*";
             }
 
-            public void removeColumn(Column c) {
+            public void removeColumn(Column c)
+            {
                 m_TableColumn.Remove(c);
             }
 
@@ -291,12 +295,12 @@ namespace IDevice.Browsers.SQL
 
         }
 
-        public Form Initialize(System.IO.FileInfo file)
+        public override Form Initialize(System.IO.FileInfo file)
         {
             return Initialize(file.FullName);
         }
 
-        public Form Initialize(string path)
+        public override Form Initialize(string path)
         {
             databaseTableExtraction(path);
 

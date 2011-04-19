@@ -30,13 +30,13 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSplit = new System.Windows.Forms.SplitContainer();
             this.plistList = new System.Windows.Forms.ListView();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
@@ -63,6 +63,18 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -75,13 +87,13 @@
             // binaryToolStripMenuItem
             // 
             this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.binaryToolStripMenuItem.Text = "Binary";
             // 
             // readableToolStripMenuItem
             // 
             this.readableToolStripMenuItem.Name = "readableToolStripMenuItem";
-            this.readableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.readableToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.readableToolStripMenuItem.Text = "Readable";
             // 
             // mainSplit
@@ -94,7 +106,7 @@
             // 
             this.mainSplit.Panel1.Controls.Add(this.plistList);
             this.mainSplit.Size = new System.Drawing.Size(685, 459);
-            this.mainSplit.SplitterDistance = 331;
+            this.mainSplit.SplitterDistance = 330;
             this.mainSplit.TabIndex = 2;
             // 
             // plistList
@@ -102,22 +114,10 @@
             this.plistList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plistList.Location = new System.Drawing.Point(0, 0);
             this.plistList.Name = "plistList";
-            this.plistList.Size = new System.Drawing.Size(331, 459);
+            this.plistList.Size = new System.Drawing.Size(330, 459);
             this.plistList.TabIndex = 0;
             this.plistList.UseCompatibleStateImageBehavior = false;
-            this.plistList.View = System.Windows.Forms.View.List;
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.plistList.View = System.Windows.Forms.View.Details;
             // 
             // PListBrowser
             // 

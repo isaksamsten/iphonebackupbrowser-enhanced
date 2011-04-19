@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 
 using mbdbdump;
-using IDevice.Browsers.Browsers;
+using IDevice.Browsers;
 using PList;
 
 using IDevice.Reader;

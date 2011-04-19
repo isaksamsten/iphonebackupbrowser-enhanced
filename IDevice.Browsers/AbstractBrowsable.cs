@@ -7,13 +7,34 @@ using System.Windows.Forms;
 
 namespace IDevice.Browsers
 {
-    public abstract class AbstractBrowsable : Form, IBrowsable
+    public class AbstractBrowsable : Form, IBrowsable
     {
-        public abstract Form Initialize(FileInfo file);
+        private string prefix;
+        protected AbstractBrowsable(string prefix)
+        {
+            this.prefix = prefix;
+        }
+
+        public AbstractBrowsable() : this("*******************") { }
+
+        public virtual Form Initialize(FileInfo file)
+        {
+            throw new NotImplementedException("Sub-class responsibility");
+        }
 
         public virtual Form Initialize(string path)
         {
             return Initialize(new FileInfo(path));
+        }
+
+        public virtual MenuItem GetMenu()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Register()
+        {
+            BrowseHandler.Current.Add(prefix, this);
         }
     }
 }

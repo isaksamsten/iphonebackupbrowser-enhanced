@@ -55,7 +55,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BrowseHandler.cs" />
-    <Compile Include="DefaultHandler.cs" />
+    <Compile Include="DefaultHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IBrowsable.cs" />
     <Compile Include="PList\PListBrowser.cs">
       <SubType>Form</SubType>

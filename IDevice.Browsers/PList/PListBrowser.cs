@@ -12,27 +12,26 @@ using System.Xml;
 
 namespace IDevice.Browsers.PList
 {
-    public partial class PListBrowser : Form, IBrowsable
+    public partial class PListBrowser : AbstractBrowsable
     {
-        public PListBrowser()
+        public PListBrowser() : base(".plist")
         {
             InitializeComponent();
         }
 
-        public Form Initialize(System.IO.FileInfo file)
+        public override Form Initialize(System.IO.FileInfo file)
         {
             return Initialize(file.FullName);
         }
 
-        public Form Initialize(string path)
+        public override Form Initialize(string path)
         {
             PListRoot root = PListRoot.Load(path);
             foreach (var p in root.Root as PListDict)
             {
                 ListViewItem itm = new ListViewItem();
-                itm.Tag = p.Key;
+                itm.Tag = p.Value;
                 itm.Text = p.Key;
-                itm.SubItems.Add(p.Key.ToString());
                 itm.SubItems.Add(p.Value.ToString());
 
                 plistList.Items.Add(itm);

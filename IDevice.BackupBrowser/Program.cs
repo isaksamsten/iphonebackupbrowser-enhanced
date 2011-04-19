@@ -15,6 +15,10 @@ namespace IDevice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Run bootstrapper logic
+            Browsers.BrowseHandler.Current.Initialize();
+
             Application.Run(new BackupBrowser());
         }
     }

@@ -238,7 +238,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -256,7 +256,7 @@
             this.showMenu.Enabled = false;
             this.showMenu.Image = ((System.Drawing.Image)(resources.GetObject("showMenu.Image")));
             this.showMenu.Name = "showMenu";
-            this.showMenu.Size = new System.Drawing.Size(152, 22);
+            this.showMenu.Size = new System.Drawing.Size(117, 22);
             this.showMenu.Text = "View";
             this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
             // 
@@ -265,7 +265,7 @@
             this.exportMenu.Enabled = false;
             this.exportMenu.Image = ((System.Drawing.Image)(resources.GetObject("exportMenu.Image")));
             this.exportMenu.Name = "exportMenu";
-            this.exportMenu.Size = new System.Drawing.Size(152, 22);
+            this.exportMenu.Size = new System.Drawing.Size(117, 22);
             this.exportMenu.Text = "Export";
             this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
             // 
@@ -282,19 +282,19 @@
             // locationsToolStripMenuItem
             // 
             this.locationsToolStripMenuItem.Name = "locationsToolStripMenuItem";
-            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.locationsToolStripMenuItem.Text = "Locations";
             // 
             // mediaToolStripMenuItem
             // 
             this.mediaToolStripMenuItem.Name = "mediaToolStripMenuItem";
-            this.mediaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mediaToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.mediaToolStripMenuItem.Text = "Media";
             // 
             // contactsToolStripMenuItem
             // 
             this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
-            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.contactsToolStripMenuItem.Text = "Contacts";
             // 
             // aboutToolStripMenuItem

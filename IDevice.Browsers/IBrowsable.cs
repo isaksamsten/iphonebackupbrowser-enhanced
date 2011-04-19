@@ -11,5 +11,8 @@ namespace IDevice.Browsers
     {
         Form Initialize(FileInfo file);
         Form Initialize(string path);
+
+        void Register();
+        MenuItem GetMenu();
     }
 }

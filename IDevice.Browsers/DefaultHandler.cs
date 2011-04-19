@@ -8,6 +8,8 @@ namespace IDevice.Browsers
 {
     public class DefaultHandler : AbstractBrowsable
     {
+        public DefaultHandler() : base("*") { }
+
         public override Form Initialize(System.IO.FileInfo file)
         {
             System.Diagnostics.Process.Start(file.FullName);
