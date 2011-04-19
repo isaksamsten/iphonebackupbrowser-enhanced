@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PList">
+      <HintPath>..\IDevice.BackupBrowser\bin\Debug\PList.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.69.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -48,10 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractBrowsable.cs" />
+    <Compile Include="AbstractBrowsable.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BrowseHandler.cs" />
     <Compile Include="DefaultHandler.cs" />
     <Compile Include="IBrowsable.cs" />
+    <Compile Include="PList\PListBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PList\PListBrowser.Designer.cs">
+      <DependentUpon>PListBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQL\ManualQueryHelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +83,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PList\PListBrowser.resx">
+      <DependentUpon>PListBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SQL\ManualQueryHelpForm.resx">
       <DependentUpon>ManualQueryHelpForm.cs</DependentUpon>
     </EmbeddedResource>

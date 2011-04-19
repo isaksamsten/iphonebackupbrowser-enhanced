@@ -48,7 +48,6 @@ namespace IDevice.Browsers.SQL
             }
 
             SQLiteConnection.Close();
-            Show();
         }
 
         private void addDatabaseTable(string tableName)
@@ -292,17 +291,16 @@ namespace IDevice.Browsers.SQL
 
         }
 
-
-
-
-        public void Open(System.IO.FileInfo file)
+        public Form Initialize(System.IO.FileInfo file)
         {
-            Open(file.FullName);
+            return Initialize(file.FullName);
         }
 
-        public void Open(string path)
+        public Form Initialize(string path)
         {
             databaseTableExtraction(path);
+
+            return this;
         }
     }
         #endregion

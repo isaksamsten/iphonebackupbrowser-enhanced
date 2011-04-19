@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace IDevice.Browsers
 {
     public interface IBrowsable
     {
-        void Open(FileInfo file);
-        void Open(string path);
+        Form Initialize(FileInfo file);
+        Form Initialize(string path);
     }
 }

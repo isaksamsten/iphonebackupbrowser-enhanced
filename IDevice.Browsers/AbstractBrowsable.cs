@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace IDevice.Browsers
 {
-    public abstract class AbstractBrowsable : IBrowsable
+    public abstract class AbstractBrowsable : Form, IBrowsable
     {
-        public abstract void Open(FileInfo file);
+        public abstract Form Initialize(FileInfo file);
 
-        public virtual void Open(string path)
+        public virtual Form Initialize(string path)
         {
-            Open(new FileInfo(path));
+            return Initialize(new FileInfo(path));
         }
     }
 }

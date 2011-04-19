@@ -5,6 +5,9 @@ using System.Text;
 
 namespace IDevice.Browsers.Browsers
 {
+    /// <summary>
+    /// This one need a boot strapper to load Browsers at boot time
+    /// </summary>
     public class BrowseHandler
     {
         private static BrowseHandler _handler;
@@ -22,7 +25,8 @@ namespace IDevice.Browsers.Browsers
         {
             _browsers = new Dictionary<string, IBrowsable> 
             {
-                { ".db", new SQL.SQLiteBrowser() }
+                { ".db", new SQL.SQLiteBrowser() },
+                { ".plist", new PList.PListBrowser() }
             };
         }
 
