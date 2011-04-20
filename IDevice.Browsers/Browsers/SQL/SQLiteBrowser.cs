@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Data.Common;
-using IDevice.SQL;
+using IDevice.Plugins.Browsers.SQL;
 
-namespace IDevice.Browsers.SQL
+namespace IDevice.Plugins.Browsers.SQL
 {
     public partial class SQLiteBrowser : AbstractBrowsable
     {

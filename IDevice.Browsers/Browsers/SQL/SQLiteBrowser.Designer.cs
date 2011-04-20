@@ -1,4 +1,4 @@
-﻿namespace IDevice.Browsers.SQL
+﻿namespace IDevice.Plugins.Browsers.SQL
 {
     partial class SQLiteBrowser
     {
@@ -210,7 +210,7 @@
             // 
             this.queryExecuteButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.queryExecuteButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.queryExecuteButton.Image = global::IDevice.Browsers.Properties.Resources.view_next1;
+            this.queryExecuteButton.Image = global::IDevice.Plugins.Properties.Resources.view_next1;
             this.queryExecuteButton.Location = new System.Drawing.Point(3, 3);
             this.queryExecuteButton.Name = "queryExecuteButton";
             this.queryExecuteButton.Size = new System.Drawing.Size(94, 28);

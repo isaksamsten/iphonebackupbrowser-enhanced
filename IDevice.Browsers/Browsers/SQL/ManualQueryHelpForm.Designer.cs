@@ -1,4 +1,4 @@
-﻿namespace IDevice.SQL
+﻿namespace IDevice.Plugins.Browsers.SQL
 {
     partial class ManualQueryHelpForm
     {

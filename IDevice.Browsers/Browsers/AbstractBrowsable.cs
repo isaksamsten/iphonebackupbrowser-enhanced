@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-namespace IDevice.Browsers
+namespace IDevice.Plugins.Browsers
 {
     public class AbstractBrowsable : Form, IBrowsable
     {

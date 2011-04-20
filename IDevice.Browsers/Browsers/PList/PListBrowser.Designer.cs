@@ -1,4 +1,4 @@
-﻿namespace IDevice.Browsers.PList
+﻿namespace IDevice.Plugins.Browsers.PList
 {
     partial class PListBrowser
     {

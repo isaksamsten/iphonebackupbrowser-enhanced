@@ -27,13 +27,13 @@ namespace IDevice.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
             "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>IDevice.Browsers</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection Browsers {
+            "tring>IDevice.Plugins</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Plugins {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["Browsers"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Plugins"]));
             }
             set {
-                this["Browsers"] = value;
+                this["Plugins"] = value;
             }
         }
     }

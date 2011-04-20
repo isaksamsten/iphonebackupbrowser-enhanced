@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using IDevice.Plugins;
 
 namespace IDevice
 {
@@ -15,13 +16,12 @@ namespace IDevice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            BackupBrowser browser = new BackupBrowser();
-            // Run bootstrapper logic
-            foreach (string s in Properties.Settings.Default.Browsers)
-            {
-                BrowseHandler.Current.Register(s);
-            }
+            
+          
 
+            BackupBrowser browser = new BackupBrowser();
+            
+            
             Application.Run(browser);
         }
     }

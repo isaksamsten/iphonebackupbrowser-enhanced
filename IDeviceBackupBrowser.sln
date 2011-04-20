@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDevice.BackupBrowser", "IDevice.BackupBrowser\IDevice.BackupBrowser.csproj", "{806CFEC2-A2A6-4995-8534-755069E1889A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDevice.Browsers", "IDevice.Browsers\IDevice.Browsers.csproj", "{13BD71C3-5966-478F-B543-80C487670B0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDevice.Plugins", "IDevice.Browsers\IDevice.Plugins.csproj", "{13BD71C3-5966-478F-B543-80C487670B0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

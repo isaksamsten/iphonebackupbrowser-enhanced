@@ -15,11 +15,12 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 
 using mbdbdump;
-using IDevice.Browsers;
+using IDevice.Plugins.Browsers;
 using PList;
 
 using IDevice.Reader;
 using IDevice.IPhone;
+using IDevice.Plugins;
 
 namespace IDevice
 {
@@ -134,18 +135,40 @@ namespace IDevice
 
 
         private ListViewColumnSorter lvwColumnSorter;
-
+        private BrowserManager _browserManger;
+        private PluginManager _pluginManager;
 
         public BackupBrowser()
         {
             InitializeComponent();
 
-            BrowseHandler.Current.Registered += delegate(object source, RegisterEventArgs e)
+            _pluginManager = new PluginManager(Properties.Settings.Default.Plugins.ToArray());
+            _pluginManager.Added += new EventHandler<PluginArgs>(_pluginManager_Added);
+            _pluginManager.Removed += new EventHandler<PluginArgs>(_pluginManager_Removed);
+
+            _browserManger = new BrowserManager(_pluginManager);
+            _browserManger.Registered += new EventHandler<RegisterEventArgs>(browserManger_Registered);
+
+            foreach (IPlugin p in _pluginManager)
             {
-                menuStrip1.Items.Add(e.Browser.GetMenu());
-            };
+                // Register(p);
+            }
         }
 
+        void _pluginManager_Removed(object sender, PluginArgs e)
+        {
+            // REmove menu and clean up interface
+        }
+
+        void _pluginManager_Added(object sender, PluginArgs e)
+        {
+            // Load the plugin in the interface
+        }
+
+        void browserManger_Registered(object sender, RegisterEventArgs e)
+        {
+            // do nothing
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -595,7 +618,7 @@ namespace IDevice
 
             try
             {
-                Form form = BrowseHandler.Current.Get(Path.GetExtension(dest)).Initialize(dest);
+                Form form = _browserManger.Get(Path.GetExtension(dest)).Initialize(dest);
                 if (form != null)
                     form.ShowDialog(this);
             }

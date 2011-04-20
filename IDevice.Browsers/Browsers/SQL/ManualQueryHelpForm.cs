@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace IDevice.SQL
+namespace IDevice.Plugins.Browsers.SQL
 {
     public partial class ManualQueryHelpForm : Form
     {

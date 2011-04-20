@@ -10,7 +10,7 @@ using PList;
 using System.IO;
 using System.Xml;
 
-namespace IDevice.Browsers.PList
+namespace IDevice.Plugins.Browsers.PList
 {
     public partial class PListBrowser : AbstractBrowsable
     {

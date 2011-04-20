@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using IDevice.Browsers;
+using IDevice.Plugins.Browsers;
+using IDevice.Plugins;
 
 namespace IDevice
 {
@@ -21,23 +22,45 @@ namespace IDevice
     /// <summary>
     /// This one need a boot strapper to load Browsers at boot time
     /// </summary>
-    public class BrowseHandler : IEnumerable<KeyValuePair<string, IBrowsable>>
+    public class BrowserManager : IEnumerable<KeyValuePair<string, IBrowsable>>
     {
         public event EventHandler<RegisterEventArgs> Registered;
-        private static BrowseHandler _handler;
-        public static BrowseHandler Current
-        {
-            get
-            {
-                if (_handler == null)
-                    _handler = new BrowseHandler();
-                return _handler;
-            }
-        }
         private Dictionary<string, IBrowsable> _browsers;
-        private BrowseHandler()
+        private PluginManager _manager;
+        public  BrowserManager(PluginManager manager)
         {
             _browsers = new Dictionary<string, IBrowsable>();
+            foreach (IPlugin p in manager)
+            {
+                if (p is IBrowsable)
+                {
+                    IBrowsable b = p as IBrowsable;
+                    Add(b.Prefix, b);
+                }
+            }
+
+            _manager = manager;
+
+            _manager.Added += new EventHandler<PluginArgs>(_manager_Added);
+            _manager.Removed += new EventHandler<PluginArgs>(_manager_Removed);
+        }
+
+        void _manager_Removed(object sender, PluginArgs e)
+        {
+            IBrowsable p = e.Plugin as IBrowsable;
+            if (p != null)
+            {
+                Remove(p.Prefix);   
+            }
+        }
+
+        void _manager_Added(object sender, PluginArgs e)
+        {
+            IBrowsable p = e.Plugin as IBrowsable;
+            if (p != null)
+            {
+                Add(p.Prefix, p);
+            }
         }
 
         public void Add(string prefix, IBrowsable browser)
@@ -48,6 +71,11 @@ namespace IDevice
         public void Add(string prefix, Type browser)
         {
             Add(prefix, (IBrowsable)Activator.CreateInstance(browser));
+        }
+
+        public void Remove(string prefix)
+        {
+            _browsers.Remove(prefix);
         }
 
         public IBrowsable Get(string prefix)
@@ -72,21 +100,6 @@ namespace IDevice
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _browsers.GetEnumerator();
-        }
-
-        public void Register(string path)
-        {
-            Assembly assembly = Assembly.Load(path);
-            IEnumerable<Type> types = assembly
-                .GetTypes()
-                .Where(t => t.GetInterfaces()
-                    .Any(p => p == (typeof(IBrowsable))) && !t.IsAbstract);
-
-            foreach (Type t in types)
-            {
-                IBrowsable browsable = (IBrowsable)Activator.CreateInstance(t);
-                Add(browsable.Prefix, browsable);
-            }
         }
 
         public void OnRegistered(IBrowsable b)

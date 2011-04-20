@@ -3,9 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PList;
+using System.Collections.Specialized;
 
 namespace IDevice.Reader
 {
+    public static class StringCollectionExtension
+    {
+        public static string[] ToArray(this StringCollection collection)
+        {
+            List<string> paths = new List<string>();
+            foreach (string s in collection)
+                paths.Add(s);
+
+            return paths.ToArray();
+        }
+
+    }
     public static class PListExtensions
     {
         public static T ToType<T>(this PList.IPListElement element) where T : PList.IPListElement

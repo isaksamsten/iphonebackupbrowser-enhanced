@@ -61,11 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupDataModel.cs" />
-    <Compile Include="BrowseHandler.cs" />
+    <Compile Include="BrowserManager.cs" />
     <Compile Include="IPhone\IPhoneApp.cs" />
     <Compile Include="IPhone\IPhoneBackup.cs" />
     <Compile Include="IPhone\IPhoneFile.cs" />
     <Compile Include="IPhone\IPhoneManifestData.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\Icons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,6 +78,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="PropertyList-1_0.cs" />
     <Compile Include="Reader\IReader.cs" />
     <Compile Include="Reader\PListExtensions.cs" />
     <Compile Include="xdict.cs" />
@@ -88,7 +90,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyList-1_0.cs" />
     <EmbeddedResource Include="BackupBrowser.resx">
       <DependentUpon>BackupBrowser.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,7 +104,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -114,12 +114,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IDevice.Browsers\IDevice.Browsers.csproj">
-      <Project>{13BD71C3-5966-478F-B543-80C487670B0B}</Project>
-      <Name>IDevice.Browsers</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\export.png" />
@@ -156,6 +150,13 @@
     <Content Include="Libs\System.Data.SQLite.dll" />
     <Content Include="Libs\System.Data.SQLite.Linq.dll" />
     <Content Include="Libs\System.Runtime.Serialization.Plists.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\IDevice.Browsers\IDevice.Plugins.csproj">
+      <Project>{13BD71C3-5966-478F-B543-80C487670B0B}</Project>
+      <Name>IDevice.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
