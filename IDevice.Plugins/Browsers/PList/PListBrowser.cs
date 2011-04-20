@@ -20,12 +20,7 @@ namespace IDevice.Plugins.Browsers.PList
             InitializeComponent();
         }
 
-        public override Form Initialize(System.IO.FileInfo file)
-        {
-            return Initialize(file.FullName);
-        }
-
-        public override Form Initialize(string path)
+        public override Form Open(string path)
         {
             plistList.Clear();
             PListRoot root = PListRoot.Load(path);

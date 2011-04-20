@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using IDevice.Plugins;
 
-namespace IDevice.Plugins
+namespace IDevice.Managers
 {
     public class PluginArgs : EventArgs
     {

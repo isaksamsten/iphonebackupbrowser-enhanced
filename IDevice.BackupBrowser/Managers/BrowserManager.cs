@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using IDevice.Plugins.Browsers;
 using IDevice.Plugins;
 
-namespace IDevice
+
+namespace IDevice.Managers
 {
     public class RegisterEventArgs : EventArgs
     {

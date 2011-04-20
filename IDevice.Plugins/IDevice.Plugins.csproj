@@ -57,7 +57,6 @@
     <Compile Include="Browsers\DefaultHandler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Browsers\IBrowsable.cs" />
     <Compile Include="Browsers\PList\PListBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,7 +75,6 @@
     <Compile Include="Browsers\SQL\SQLiteBrowser.Designer.cs">
       <DependentUpon>SQLiteBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Include="IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -131,9 +129,15 @@
     <None Include="Resources\view_next1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Analyzers\" />
+    <ProjectReference Include="..\IDevice.BackupBrowser\IDevice.BackupBrowser.csproj">
+      <Project>{806CFEC2-A2A6-4995-8534-755069E1889A}</Project>
+      <Name>IDevice.BackupBrowser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)\IDevice.BackupBrowser\bin\Debug\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

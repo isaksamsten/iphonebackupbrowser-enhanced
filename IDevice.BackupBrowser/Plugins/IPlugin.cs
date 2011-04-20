@@ -15,6 +15,14 @@ namespace IDevice.Plugins
         /// <returns></returns>
         ToolStripMenuItem GetMenu();
 
+        /// <summary>
+        /// Get an instance of a the selection model
+        /// </summary>
+        /// <param name="model"></param>
+        void SetModel(SelectionModel model);
+
+        Form Open();
+
         // TO BE ADDED
         //string Name { get; }
         //string Author { get; }

@@ -16,12 +16,8 @@ namespace IDevice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-          
 
-            BackupBrowser browser = new BackupBrowser();
-            
-            
+            BackupBrowser browser = new BackupBrowser();            
             Application.Run(browser);
         }
     }

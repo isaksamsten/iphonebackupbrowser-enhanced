@@ -60,13 +60,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackupDataModel.cs" />
-    <Compile Include="BrowserManager.cs" />
+    <Compile Include="Plugins\IAnalyzer.cs" />
+    <Compile Include="SelectionModel.cs" />
+    <Compile Include="Plugins\IBrowsable.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Managers\BrowserManager.cs" />
     <Compile Include="IPhone\IPhoneApp.cs" />
     <Compile Include="IPhone\IPhoneBackup.cs" />
     <Compile Include="IPhone\IPhoneFile.cs" />
     <Compile Include="IPhone\IPhoneManifestData.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Managers\PluginManager.cs" />
     <Compile Include="Properties\Icons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -152,12 +155,6 @@
     <Content Include="Libs\System.Runtime.Serialization.Plists.dll" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\IDevice.Browsers\IDevice.Plugins.csproj">
-      <Project>{13BD71C3-5966-478F-B543-80C487670B0B}</Project>
-      <Name>IDevice.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)\Libs\*.dll" "$(ProjectDir)\$(OutDir)"</PostBuildEvent>

@@ -15,17 +15,40 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 
 using mbdbdump;
-using IDevice.Plugins.Browsers;
 using PList;
 
 using IDevice.Reader;
 using IDevice.IPhone;
 using IDevice.Plugins;
+using IDevice.Managers;
 
 namespace IDevice
 {
+    public class IPhoneAppSelectedArgs : EventArgs
+    {
+        public IPhoneApp[] Selected { get; private set; }
+
+        public IPhoneAppSelectedArgs(IPhoneApp[] selected) 
+        {
+            Selected = selected;
+        }
+    }
+
+    public class IPhoneBackupSelectedArgs : EventArgs
+    {
+        public IPhoneBackup Selected { get; private set; }
+
+        public IPhoneBackupSelectedArgs(IPhoneBackup selected)
+        {
+            Selected = selected;
+        }
+    }
+
     public partial class BackupBrowser : Form
     {
+        public event EventHandler<IPhoneAppSelectedArgs> SelectedApps;
+        public event EventHandler<IPhoneBackupSelectedArgs> SelectedBackup;
+
         /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
         /// </summary>
@@ -147,7 +170,6 @@ namespace IDevice
             _pluginManager.Removed += new EventHandler<PluginArgs>(_pluginManager_Removed);
 
             _browserManger = new BrowserManager(_pluginManager);
-            _browserManger.Registered += new EventHandler<RegisterEventArgs>(browserManger_Registered);
 
             foreach (IPlugin p in _pluginManager)
             {
@@ -163,11 +185,6 @@ namespace IDevice
         void _pluginManager_Added(object sender, PluginArgs e)
         {
             // Load the plugin in the interface
-        }
-
-        void browserManger_Registered(object sender, RegisterEventArgs e)
-        {
-            // do nothing
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -356,6 +373,7 @@ namespace IDevice
             try
             {
                 IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
+                OnSelectedBackup(backup);
 
                 // backup iTunes 9.2+
                 if (File.Exists(Path.Combine(backup.Path, "Manifest.mbdb")))
@@ -366,7 +384,6 @@ namespace IDevice
                     {
                         manifest = new IPhoneManifestData();
                         List<IPhoneApp> apps = ParseAll(root.Root as PListDict);
-                        BackupDataModel.Current.Add(apps);
                     }
                 }
                 else
@@ -381,6 +398,14 @@ namespace IDevice
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+            }
+        }
+
+        private void OnSelectedBackup(IPhoneBackup backup)
+        {
+            if (SelectedBackup != null)
+            {
+                SelectedBackup(backupSelect, new IPhoneBackupSelectedArgs(backup));
             }
         }
 
@@ -591,7 +616,20 @@ namespace IDevice
                 showMenu.Enabled = false;
                 exportMenu.Enabled = false;
             }
+            List<IPhoneApp> list = new List<IPhoneApp>();
+            foreach (ListViewItem itm in fileList.SelectedItems)
+            {
+                list.Add(itm.Tag as IPhoneApp);
+            }
 
+            OnSelectedApps(list.ToArray());
+
+        }
+
+        private void OnSelectedApps(IPhoneApp[] iPhoneApp)
+        {
+            if (SelectedApps != null)
+                SelectedApps(fileList, new IPhoneAppSelectedArgs(iPhoneApp));
         }
 
         private void toolShowBtn_Click(object sender, EventArgs e)
@@ -618,7 +656,7 @@ namespace IDevice
 
             try
             {
-                Form form = _browserManger.Get(Path.GetExtension(dest)).Initialize(dest);
+                Form form = _browserManger.Get(Path.GetExtension(dest)).Open(dest);
                 if (form != null)
                     form.ShowDialog(this);
             }

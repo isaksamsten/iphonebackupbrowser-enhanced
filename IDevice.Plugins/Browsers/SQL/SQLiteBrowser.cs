@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Data.Common;
 using IDevice.Plugins.Browsers.SQL;
+using IDevice.IPhone;
 
 namespace IDevice.Plugins.Browsers.SQL
 {
@@ -19,7 +20,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
 
         public SQLiteBrowser()
-            : base("*.db")
+            : base(".db")
         {
             InitializeComponent();
         }
@@ -295,16 +296,10 @@ namespace IDevice.Plugins.Browsers.SQL
 
         }
 
-        public override Form Initialize(System.IO.FileInfo file)
+        public override Form Open(string file)
         {
-            return Initialize(file.FullName);
-        }
-
-        public override Form Initialize(string path)
-        {
-            databaseTableExtraction(path);
-
-            return this;
+            databaseTableExtraction(file);
+            return Open();
         }
     }
         #endregion

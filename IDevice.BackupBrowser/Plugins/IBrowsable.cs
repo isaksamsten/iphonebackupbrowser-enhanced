@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using IDevice.Plugins;
 
-namespace IDevice.Plugins.Browsers
+namespace IDevice.Plugins
 {
     public interface IBrowsable : IPlugin
     {
@@ -16,17 +16,10 @@ namespace IDevice.Plugins.Browsers
         string Prefix { get; }
 
         /// <summary>
-        /// Initialize this browsable with file
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        Form Initialize(FileInfo file);
-
-        /// <summary>
-        /// Init with path to file
+        /// Open with a filename
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        Form Initialize(string path);
+        Form Open(string path);
     }
 }

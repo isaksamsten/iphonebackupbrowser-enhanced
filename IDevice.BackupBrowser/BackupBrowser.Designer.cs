@@ -153,7 +153,7 @@
             // toolShowBtn
             // 
             this.toolShowBtn.Enabled = false;
-            this.toolShowBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolShowBtn.Image")));
+            //this.toolShowBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolShowBtn.Image")));
             this.toolShowBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolShowBtn.Name = "toolShowBtn";
             this.toolShowBtn.Size = new System.Drawing.Size(68, 22);
@@ -164,7 +164,7 @@
             // toolExportBtn
             // 
             this.toolExportBtn.Enabled = false;
-            this.toolExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolExportBtn.Image")));
+            //this.toolExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolExportBtn.Image")));
             this.toolExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolExportBtn.Name = "toolExportBtn";
             this.toolExportBtn.Size = new System.Drawing.Size(103, 22);
@@ -254,7 +254,7 @@
             // showMenu
             // 
             this.showMenu.Enabled = false;
-            this.showMenu.Image = ((System.Drawing.Image)(resources.GetObject("showMenu.Image")));
+            //this.showMenu.Image = ((System.Drawing.Image)(resources.GetObject("showMenu.Image")));
             this.showMenu.Name = "showMenu";
             this.showMenu.Size = new System.Drawing.Size(117, 22);
             this.showMenu.Text = "View";
@@ -263,7 +263,7 @@
             // exportMenu
             // 
             this.exportMenu.Enabled = false;
-            this.exportMenu.Image = ((System.Drawing.Image)(resources.GetObject("exportMenu.Image")));
+            //this.exportMenu.Image = ((System.Drawing.Image)(resources.GetObject("exportMenu.Image")));
             this.exportMenu.Name = "exportMenu";
             this.exportMenu.Size = new System.Drawing.Size(117, 22);
             this.exportMenu.Text = "Export";

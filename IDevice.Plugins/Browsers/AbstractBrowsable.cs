@@ -10,6 +10,8 @@ namespace IDevice.Plugins.Browsers
     public class AbstractBrowsable : Form, IBrowsable
     {
         private string prefix;
+        private SelectionModel _selectionModel;
+
         protected AbstractBrowsable(string prefix)
         {
             this.prefix = prefix;
@@ -17,14 +19,20 @@ namespace IDevice.Plugins.Browsers
 
         public AbstractBrowsable() : this("*******************") { }
 
-        public virtual Form Initialize(FileInfo file)
+        protected SelectionModel SelectionModel
         {
-            throw new NotImplementedException("Sub-class responsibility");
+            get { return _selectionModel; }
         }
 
-        public virtual Form Initialize(string path)
+        protected virtual void PreOpen()
         {
-            return Initialize(new FileInfo(path));
+
+        }
+
+        public virtual Form Open()
+        {
+            PreOpen();
+            return this;
         }
 
         public virtual ToolStripMenuItem GetMenu()
@@ -36,6 +44,18 @@ namespace IDevice.Plugins.Browsers
         public virtual string Prefix
         {
             get { return this.prefix; }
+        }
+
+
+        public void SetModel(SelectionModel model)
+        {
+            _selectionModel = model;
+        }
+
+
+        public virtual Form Open(string path)
+        {
+            throw new NotImplementedException();
         }
     }
 }
