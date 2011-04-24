@@ -7,6 +7,14 @@ using IDevice.Plugins;
 
 namespace IDevice.Managers
 {
+
+    public static class TypeExtensions
+    {
+        public static bool HasInterface(this Type t, Type t2)
+        {
+            return t.GetInterfaces().Any(p => p == (t2));
+        }
+    }
     public class PluginArgs : EventArgs
     {
         public PluginArgs(IPlugin plugin)
@@ -23,6 +31,8 @@ namespace IDevice.Managers
         public event EventHandler<PluginArgs> Removed;
 
         private List<IPlugin> _plugins = new List<IPlugin>();
+        private List<Type> _types = new List<Type>();
+
         public PluginManager(string[] assmblies)
         {
             try
@@ -46,8 +56,7 @@ namespace IDevice.Managers
         {
             IEnumerable<Type> types = assembly
                 .GetTypes()
-                .Where(t => t.GetInterfaces()
-                    .Any(p => p == (typeof(IPlugin))) && !t.IsAbstract);
+                .Where(t => t.HasInterface(typeof(IPlugin)) && !t.IsAbstract && !t.IsInterface);
 
             foreach (Type t in types)
             {
@@ -71,13 +80,13 @@ namespace IDevice.Managers
 
         protected virtual void OnRemoved(IPlugin p)
         {
-            if(Removed != null)
+            if (Removed != null)
                 Removed(this, new PluginArgs(p));
         }
 
         protected virtual void OnAdded(IPlugin p)
         {
-            if(Removed != null)
+            if (Removed != null)
                 Added(this, new PluginArgs(p));
         }
 
@@ -87,6 +96,11 @@ namespace IDevice.Managers
             {
                 return _plugins.ToArray();
             }
+        }
+
+        public Type[] Types
+        {
+            get { return _types.ToArray(); }
         }
 
         public IEnumerator<IPlugin> GetEnumerator()

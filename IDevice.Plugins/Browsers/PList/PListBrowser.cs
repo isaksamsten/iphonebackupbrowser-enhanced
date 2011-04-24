@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using PList;
 using System.IO;
 using System.Xml;
+using IDevice.IPhone;
 
 namespace IDevice.Plugins.Browsers.PList
 {
@@ -20,13 +21,16 @@ namespace IDevice.Plugins.Browsers.PList
             InitializeComponent();
         }
 
-        public override Form Open(string path)
+        protected override void PreOpen()
         {
             plistList.Clear();
-            PListRoot root = PListRoot.Load(path);
-            PopulateRecurse(root.Root as PListDict, "");
-
-            return this;
+            IPhoneFile file = SelectedFiles.FirstOrDefault();
+            if (file != null)
+            {
+                FileInfo info = FileManager.GetWorkingFile(SelectedBackup, file);
+                PListRoot root = PListRoot.Load(info.FullName);
+                PopulateRecurse(root.Root as PListDict, "");
+            }
         }
 
         private void PopulateRecurse(PListDict dict, string space)
@@ -41,6 +45,26 @@ namespace IDevice.Plugins.Browsers.PList
 
                 if (p.Value is PListDict)
                     PopulateRecurse(p.Value as PListDict, space + " ");
+                else if (p.Value is PListArray)
+                    PopulateArray(p.Value as PListArray, space + " ");
+            }
+        }
+
+        private void PopulateArray(PListArray pListArray, string space)
+        {
+            int lvl = 0;
+            foreach (var p in pListArray)
+            {
+                ListViewItem itm = new ListViewItem();
+                itm.Tag = p;
+                itm.Text = space + lvl++;
+                itm.SubItems.Add(p.ToString());
+                plistList.Items.Add(itm);
+
+                if (p is PListDict)
+                    PopulateRecurse(p as PListDict, space + " ");
+                else if (p is PListArray)
+                    PopulateArray(p as PListArray, space + " ");
             }
         }
 
@@ -48,6 +72,35 @@ namespace IDevice.Plugins.Browsers.PList
         {
             plistList.Columns.Add("Key", 100);
             plistList.Columns.Add("Value", 300);
+        }
+
+        public override string PluginAuthor
+        {
+            get
+            {
+                return "Isak Karlsson";
+            }
+        }
+
+        public override string PluginName
+        {
+            get
+            {
+                return "PListBrowser";
+            }
+        }
+
+        public override string PluginDescription
+        {
+            get
+            {
+                return "Browse plist files";
+            }
+        }
+
+        private void plistList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

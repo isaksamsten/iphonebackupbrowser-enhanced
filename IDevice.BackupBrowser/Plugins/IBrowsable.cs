@@ -14,12 +14,5 @@ namespace IDevice.Plugins
         /// The prefix this browser handels
         /// </summary>
         string Prefix { get; }
-
-        /// <summary>
-        /// Open with a filename
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        Form Open(string path);
     }
 }

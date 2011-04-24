@@ -29,7 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SQLiteBrowser));
-            this.tableContentList = new System.Windows.Forms.ListView();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sQLiteTutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.globalTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -41,13 +45,8 @@
             this.manualQueryField = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.queryExecuteButton = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sQLiteTutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableContentList = new System.Windows.Forms.ListView();
+            this.menuStrip1.SuspendLayout();
             this.globalTableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -55,21 +54,47 @@
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableContentList
+            // menuStrip1
             // 
-            this.tableContentList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableContentList.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tableContentList.FullRowSelect = true;
-            this.tableContentList.Location = new System.Drawing.Point(3, 203);
-            this.tableContentList.Name = "tableContentList";
-            this.tableContentList.Size = new System.Drawing.Size(910, 300);
-            this.tableContentList.TabIndex = 0;
-            this.tableContentList.UseCompatibleStateImageBehavior = false;
-            this.tableContentList.View = System.Windows.Forms.View.Details;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(916, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.quitToolStripMenuItem.Text = "Close Inspector";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sQLiteTutorialToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // sQLiteTutorialToolStripMenuItem
+            // 
+            this.sQLiteTutorialToolStripMenuItem.Name = "sQLiteTutorialToolStripMenuItem";
+            this.sQLiteTutorialToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.sQLiteTutorialToolStripMenuItem.Text = "SQLite Tutorial";
             // 
             // globalTableLayoutPanel
             // 
@@ -109,7 +134,7 @@
             // 
             this.groupBox2.Controls.Add(this.databaseTableList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(294, 166);
@@ -121,10 +146,10 @@
             // 
             this.databaseTableList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.databaseTableList.FormattingEnabled = true;
-            this.databaseTableList.ItemHeight = 19;
-            this.databaseTableList.Location = new System.Drawing.Point(3, 23);
+            this.databaseTableList.ItemHeight = 20;
+            this.databaseTableList.Location = new System.Drawing.Point(3, 22);
             this.databaseTableList.Name = "databaseTableList";
-            this.databaseTableList.Size = new System.Drawing.Size(288, 140);
+            this.databaseTableList.Size = new System.Drawing.Size(288, 141);
             this.databaseTableList.TabIndex = 0;
             this.databaseTableList.DoubleClick += new System.EventHandler(this.databaseTableList_DoubleClick);
             // 
@@ -132,7 +157,7 @@
             // 
             this.groupBox1.Controls.Add(this.tableColumnList);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(303, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(294, 166);
@@ -144,10 +169,10 @@
             // 
             this.tableColumnList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableColumnList.FormattingEnabled = true;
-            this.tableColumnList.Location = new System.Drawing.Point(3, 23);
+            this.tableColumnList.Location = new System.Drawing.Point(3, 22);
             this.tableColumnList.MultiColumn = true;
             this.tableColumnList.Name = "tableColumnList";
-            this.tableColumnList.Size = new System.Drawing.Size(288, 140);
+            this.tableColumnList.Size = new System.Drawing.Size(288, 141);
             this.tableColumnList.TabIndex = 0;
             // 
             // groupBox3
@@ -155,7 +180,7 @@
             this.groupBox3.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox3.Controls.Add(this.tableLayoutPanel3);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(603, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(304, 166);
@@ -183,7 +208,7 @@
             // manualQueryField
             // 
             this.manualQueryField.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.manualQueryField.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manualQueryField.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manualQueryField.Location = new System.Drawing.Point(3, 3);
             this.manualQueryField.Multiline = true;
             this.manualQueryField.Name = "manualQueryField";
@@ -209,7 +234,7 @@
             // queryExecuteButton
             // 
             this.queryExecuteButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.queryExecuteButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.queryExecuteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.queryExecuteButton.Image = global::IDevice.Plugins.Properties.Resources.view_next1;
             this.queryExecuteButton.Location = new System.Drawing.Point(3, 3);
             this.queryExecuteButton.Name = "queryExecuteButton";
@@ -219,76 +244,34 @@
             this.queryExecuteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.queryExecuteButton.UseVisualStyleBackColor = true;
             // 
-            // statusStrip1
+            // tableContentList
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 484);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(916, 22);
-            this.statusStrip1.TabIndex = 4;
-            this.statusStrip1.Text = "statusStrip1";
+            this.tableContentList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableContentList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tableContentList.FullRowSelect = true;
+            this.tableContentList.Location = new System.Drawing.Point(3, 203);
+            this.tableContentList.Name = "tableContentList";
+            this.tableContentList.Size = new System.Drawing.Size(910, 300);
+            this.tableContentList.TabIndex = 0;
+            this.tableContentList.UseCompatibleStateImageBehavior = false;
+            this.tableContentList.View = System.Windows.Forms.View.Details;
             // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(916, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // quitToolStripMenuItem
-            // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.quitToolStripMenuItem.Text = "Close Inspector";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sQLiteTutorialToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // sQLiteTutorialToolStripMenuItem
-            // 
-            this.sQLiteTutorialToolStripMenuItem.Name = "sQLiteTutorialToolStripMenuItem";
-            this.sQLiteTutorialToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.sQLiteTutorialToolStripMenuItem.Text = "SQLite Tutorial";
-            // 
-            // DatabaseInspector
+            // SQLiteBrowser
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Dialog;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(916, 506);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.globalTableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "DatabaseInspector";
+            this.Name = "SQLiteBrowser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Database Inspector";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.globalTableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -297,10 +280,6 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,8 +299,6 @@
         private System.Windows.Forms.TextBox manualQueryField;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button queryExecuteButton;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;

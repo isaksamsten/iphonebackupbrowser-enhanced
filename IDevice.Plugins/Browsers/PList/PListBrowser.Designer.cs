@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.mainSplit = new System.Windows.Forms.SplitContainer();
+            this.plistList = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,13 +37,35 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainSplit = new System.Windows.Forms.SplitContainer();
-            this.plistList = new System.Windows.Forms.ListView();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
             this.mainSplit.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // mainSplit
+            // 
+            this.mainSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainSplit.Location = new System.Drawing.Point(0, 24);
+            this.mainSplit.Name = "mainSplit";
+            // 
+            // mainSplit.Panel1
+            // 
+            this.mainSplit.Panel1.Controls.Add(this.plistList);
+            this.mainSplit.Size = new System.Drawing.Size(685, 459);
+            this.mainSplit.SplitterDistance = 489;
+            this.mainSplit.TabIndex = 2;
+            // 
+            // plistList
+            // 
+            this.plistList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plistList.Location = new System.Drawing.Point(0, 0);
+            this.plistList.Name = "plistList";
+            this.plistList.Size = new System.Drawing.Size(489, 459);
+            this.plistList.TabIndex = 0;
+            this.plistList.UseCompatibleStateImageBehavior = false;
+            this.plistList.View = System.Windows.Forms.View.Details;
+            this.plistList.SelectedIndexChanged += new System.EventHandler(this.plistList_SelectedIndexChanged);
             // 
             // menuStrip1
             // 
@@ -96,29 +120,6 @@
             this.readableToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.readableToolStripMenuItem.Text = "Readable";
             // 
-            // mainSplit
-            // 
-            this.mainSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainSplit.Location = new System.Drawing.Point(0, 24);
-            this.mainSplit.Name = "mainSplit";
-            // 
-            // mainSplit.Panel1
-            // 
-            this.mainSplit.Panel1.Controls.Add(this.plistList);
-            this.mainSplit.Size = new System.Drawing.Size(685, 459);
-            this.mainSplit.SplitterDistance = 330;
-            this.mainSplit.TabIndex = 2;
-            // 
-            // plistList
-            // 
-            this.plistList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plistList.Location = new System.Drawing.Point(0, 0);
-            this.plistList.Name = "plistList";
-            this.plistList.Size = new System.Drawing.Size(330, 459);
-            this.plistList.TabIndex = 0;
-            this.plistList.UseCompatibleStateImageBehavior = false;
-            this.plistList.View = System.Windows.Forms.View.Details;
-            // 
             // PListBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,11 +131,11 @@
             this.Name = "PListBrowser";
             this.Text = "PListBrowser";
             this.Load += new System.EventHandler(this.PListBrowser_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.mainSplit.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).EndInit();
             this.mainSplit.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

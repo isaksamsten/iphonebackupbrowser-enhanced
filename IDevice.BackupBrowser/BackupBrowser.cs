@@ -24,29 +24,9 @@ using IDevice.Managers;
 
 namespace IDevice
 {
-    public class IPhoneAppSelectedArgs : EventArgs
-    {
-        public IPhoneApp[] Selected { get; private set; }
-
-        public IPhoneAppSelectedArgs(IPhoneApp[] selected) 
-        {
-            Selected = selected;
-        }
-    }
-
-    public class IPhoneBackupSelectedArgs : EventArgs
-    {
-        public IPhoneBackup Selected { get; private set; }
-
-        public IPhoneBackupSelectedArgs(IPhoneBackup selected)
-        {
-            Selected = selected;
-        }
-    }
-
     public partial class BackupBrowser : Form
     {
-        public event EventHandler<IPhoneAppSelectedArgs> SelectedApps;
+        public event EventHandler<IPhoneFileSelectedArgs> SelectedFiles;
         public event EventHandler<IPhoneBackupSelectedArgs> SelectedBackup;
 
         /// <summary>
@@ -160,6 +140,7 @@ namespace IDevice
         private ListViewColumnSorter lvwColumnSorter;
         private BrowserManager _browserManger;
         private PluginManager _pluginManager;
+        private SelectionModel _selectionModel;
 
         public BackupBrowser()
         {
@@ -170,10 +151,11 @@ namespace IDevice
             _pluginManager.Removed += new EventHandler<PluginArgs>(_pluginManager_Removed);
 
             _browserManger = new BrowserManager(_pluginManager);
+            _selectionModel = new SelectionModel(this);
 
             foreach (IPlugin p in _pluginManager)
             {
-                // Register(p);
+                p.SetModel(_selectionModel);
             }
         }
 
@@ -455,9 +437,9 @@ namespace IDevice
                             PListRoot root = PListRoot.Load(Path.Combine(backup.Path, f + ".mdinfo"));
                             PListDict dict = root.Root as PListDict;
                             string domain;
-                            if(dict.ContainsKey("Domain"))
+                            if (dict.ContainsKey("Domain"))
                                 domain = dict["Domain"].Value().ToString();
-                            if(dict.ContainsKey("Path"))
+                            if (dict.ContainsKey("Path"))
                                 ff.Path = dict["Path"].Value().ToString();
 
                             if (ff.Path == null)
@@ -616,20 +598,20 @@ namespace IDevice
                 showMenu.Enabled = false;
                 exportMenu.Enabled = false;
             }
-            List<IPhoneApp> list = new List<IPhoneApp>();
+            List<IPhoneFile> list = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
             {
-                list.Add(itm.Tag as IPhoneApp);
+                list.Add(itm.Tag as IPhoneFile);
             }
 
-            OnSelectedApps(list.ToArray());
+            OnSelectedFiles(list.ToArray());
 
         }
 
-        private void OnSelectedApps(IPhoneApp[] iPhoneApp)
+        private void OnSelectedFiles(IPhoneFile[] file)
         {
-            if (SelectedApps != null)
-                SelectedApps(fileList, new IPhoneAppSelectedArgs(iPhoneApp));
+            if (SelectedFiles != null)
+                SelectedFiles(fileList, new IPhoneFileSelectedArgs(file));
         }
 
         private void toolShowBtn_Click(object sender, EventArgs e)
@@ -637,28 +619,20 @@ namespace IDevice
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
             IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
 
-            string tempPath = Path.GetTempPath();
-            string fileName = "";
-
-            int lastIndex = file.Path.LastIndexOf("/");
-            if (lastIndex >= 0)
-            {
-                fileName = file.Path.Substring(lastIndex + 1, file.Path.Length - lastIndex - 1);
-            }
-            else
-            {
-                fileName = file.Path;
-            }
-
-            string src = Path.Combine(backup.Path, file.Key);
-            string dest = Path.Combine(tempPath, fileName);
-            File.Copy(src, dest, true);
+            FileManager filemanager = new FileManager();
+            FileInfo dest = filemanager.GetWorkingFile(backup, file);
 
             try
             {
-                Form form = _browserManger.Get(Path.GetExtension(dest)).Open(dest);
-                if (form != null)
-                    form.ShowDialog(this);
+                IBrowsable browser = _browserManger.Get(dest.Extension);
+                if (browser != null)
+                {
+                    Form form = browser.Open();
+                    if (browser.IsModal)
+                        form.ShowDialog(this);
+                    else
+                        form.Show();
+                }
             }
             catch
             {
@@ -799,6 +773,26 @@ namespace IDevice
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+    }
+
+    public class IPhoneFileSelectedArgs : EventArgs
+    {
+        public IPhoneFile[] Selected { get; private set; }
+
+        public IPhoneFileSelectedArgs(IPhoneFile[] selected)
+        {
+            Selected = selected;
+        }
+    }
+
+    public class IPhoneBackupSelectedArgs : EventArgs
+    {
+        public IPhoneBackup Selected { get; private set; }
+
+        public IPhoneBackupSelectedArgs(IPhoneBackup selected)
+        {
+            Selected = selected;
         }
     }
 

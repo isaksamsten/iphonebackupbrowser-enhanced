@@ -11,7 +11,7 @@ namespace IDevice
         private BackupBrowser _browser;
         public SelectionModel(BackupBrowser browser)
         {
-            browser.SelectedApps += new EventHandler<IPhoneAppSelectedArgs>(browser_SelectedApp);
+            browser.SelectedFiles += new EventHandler<IPhoneFileSelectedArgs>(browser_SelectedApp);
             browser.SelectedBackup += new EventHandler<IPhoneBackupSelectedArgs>(browser_SelectedBackup);
         }
 
@@ -20,12 +20,12 @@ namespace IDevice
             Backup = e.Selected;
         }
 
-        void browser_SelectedApp(object sender, IPhoneAppSelectedArgs e)
+        void browser_SelectedApp(object sender, IPhoneFileSelectedArgs e)
         {
-            SelectedApps = e.Selected;
+            Files = e.Selected;
         }
 
-        public IPhoneApp[] SelectedApps
+        public IPhoneFile[] Files
         {
             get;
             private set;

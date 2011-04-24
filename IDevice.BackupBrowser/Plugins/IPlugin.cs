@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace IDevice.Plugins
 {
-    public interface IPlugin
+    public interface IPlugin : IComparable<IPlugin>
     {
         /// <summary>
         /// Get the menu to be added to the menu
@@ -21,12 +21,36 @@ namespace IDevice.Plugins
         /// <param name="model"></param>
         void SetModel(SelectionModel model);
 
+        /// <summary>
+        /// is this a modal window
+        /// </summary>
+        bool IsModal { get; }
+
+        /// <summary>
+        /// Open this plugin
+        /// </summary>
+        /// <returns></returns>
         Form Open();
 
         // TO BE ADDED
-        //string Name { get; }
-        //string Author { get; }
-        //string Description { get; }
+        /// <summary>
+        /// Name of the plugin
+        /// 
+        /// It is supposed to be unique
+        /// </summary>
+        string PluginName { get; }
+
+        /// <summary>
+        /// Name of the author
+        /// </summary>
+        string PluginAuthor { get; }
+        
+        /// <summary>
+        /// Description
+        /// </summary>
+        string PluginDescription { get; }
+
+
         //Icon Icon { get; }
 
 

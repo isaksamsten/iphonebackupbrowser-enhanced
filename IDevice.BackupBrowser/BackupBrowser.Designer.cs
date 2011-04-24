@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackupBrowser));
             this.backupSelect = new System.Windows.Forms.ComboBox();
             this.fileList = new System.Windows.Forms.ListView();
             this.folderList = new System.Windows.Forms.ListView();
@@ -153,10 +152,9 @@
             // toolShowBtn
             // 
             this.toolShowBtn.Enabled = false;
-            //this.toolShowBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolShowBtn.Image")));
             this.toolShowBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolShowBtn.Name = "toolShowBtn";
-            this.toolShowBtn.Size = new System.Drawing.Size(68, 22);
+            this.toolShowBtn.Size = new System.Drawing.Size(52, 22);
             this.toolShowBtn.Text = "View File";
             this.toolShowBtn.ToolTipText = "Show Selected";
             this.toolShowBtn.Click += new System.EventHandler(this.toolShowBtn_Click);
@@ -164,10 +162,9 @@
             // toolExportBtn
             // 
             this.toolExportBtn.Enabled = false;
-            //this.toolExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("toolExportBtn.Image")));
             this.toolExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolExportBtn.Name = "toolExportBtn";
-            this.toolExportBtn.Size = new System.Drawing.Size(103, 22);
+            this.toolExportBtn.Size = new System.Drawing.Size(87, 22);
             this.toolExportBtn.Text = "Export Selected";
             this.toolExportBtn.Click += new System.EventHandler(this.toolExportBtn_Click);
             // 
@@ -254,7 +251,6 @@
             // showMenu
             // 
             this.showMenu.Enabled = false;
-            //this.showMenu.Image = ((System.Drawing.Image)(resources.GetObject("showMenu.Image")));
             this.showMenu.Name = "showMenu";
             this.showMenu.Size = new System.Drawing.Size(117, 22);
             this.showMenu.Text = "View";
@@ -263,7 +259,6 @@
             // exportMenu
             // 
             this.exportMenu.Enabled = false;
-            //this.exportMenu.Image = ((System.Drawing.Image)(resources.GetObject("exportMenu.Image")));
             this.exportMenu.Name = "exportMenu";
             this.exportMenu.Size = new System.Drawing.Size(117, 22);
             this.exportMenu.Text = "Export";

@@ -10,6 +10,7 @@ using System.Data.SQLite;
 using System.Data.Common;
 using IDevice.Plugins.Browsers.SQL;
 using IDevice.IPhone;
+using System.IO;
 
 namespace IDevice.Plugins.Browsers.SQL
 {
@@ -296,10 +297,46 @@ namespace IDevice.Plugins.Browsers.SQL
 
         }
 
-        public override Form Open(string file)
+        public override bool IsModal
         {
-            databaseTableExtraction(file);
-            return Open();
+            get
+            {
+                return false;
+            }
+        }
+
+        public override string PluginAuthor
+        {
+            get
+            {
+                return "Magnus Wahlgren";
+            }
+        }
+
+        public override string PluginDescription
+        {
+            get
+            {
+                return "Simple db browser";
+            }
+        }
+
+        public override string PluginName
+        {
+            get
+            {
+                return "SQLiteBrowser";
+            }
+        }
+
+        protected override void PreOpen()
+        {
+            IPhoneFile file = SelectedFiles.FirstOrDefault();
+            if (file != null)
+            {
+                FileInfo path = FileManager.GetWorkingFile(SelectedBackup, file);
+                databaseTableExtraction(path.FullName);
+            }
         }
     }
         #endregion

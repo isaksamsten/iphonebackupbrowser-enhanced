@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+using IDevice.IPhone;
+using IDevice.Managers;
 
 namespace IDevice.Plugins.Browsers
 {
@@ -11,10 +13,12 @@ namespace IDevice.Plugins.Browsers
     {
         private string prefix;
         private SelectionModel _selectionModel;
+        private FileManager _fileManager;
 
         protected AbstractBrowsable(string prefix)
         {
             this.prefix = prefix;
+            _fileManager = new FileManager();
         }
 
         public AbstractBrowsable() : this("*******************") { }
@@ -23,6 +27,26 @@ namespace IDevice.Plugins.Browsers
         {
             get { return _selectionModel; }
         }
+
+        protected virtual IPhoneFile[] SelectedFiles
+        {
+            get { return _selectionModel.Files; }
+        }
+
+        protected virtual IPhoneBackup SelectedBackup
+        {
+            get { return _selectionModel.Backup; }
+        }
+
+        protected virtual FileManager FileManager
+        {
+            get { return _fileManager; }
+        }
+
+        /// <summary>
+        /// Default to a modal window
+        /// </summary>
+        public virtual bool IsModal { get { return true; } }
 
         protected virtual void PreOpen()
         {
@@ -37,7 +61,7 @@ namespace IDevice.Plugins.Browsers
 
         public virtual ToolStripMenuItem GetMenu()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
 
@@ -52,10 +76,37 @@ namespace IDevice.Plugins.Browsers
             _selectionModel = model;
         }
 
-
-        public virtual Form Open(string path)
+        public virtual string PluginAuthor
         {
-            throw new NotImplementedException();
+            get { return "none"; }
+        }
+
+        public virtual string PluginDescription
+        {
+            get { return "none"; }
+        }
+
+        public virtual string PluginName
+        {
+            get { return "none"; }
+        }
+
+        public override int GetHashCode()
+        {
+            return PluginName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is IPlugin))
+                return false;
+
+            return CompareTo(obj as IPlugin) == 0;
+        }
+
+        public int CompareTo(IPlugin other)
+        {
+            return PluginName.CompareTo(other.PluginName);
         }
     }
 }
