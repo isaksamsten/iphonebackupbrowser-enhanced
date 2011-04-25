@@ -678,10 +678,13 @@ namespace IDevice
                 if (browser != null)
                 {
                     Form form = browser.Open();
-                    if (browser.IsModal)
-                        form.ShowDialog(this);
-                    else
-                        form.Show();
+                    if (form != null)
+                    {
+                        if (browser.IsModal)
+                            form.ShowDialog(this);
+                        else
+                            form.Show();
+                    }
                 }
             }
             catch

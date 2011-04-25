@@ -14,14 +14,13 @@ using System.IO;
 
 namespace IDevice.Plugins.Browsers.SQL
 {
-    public partial class SQLiteBrowser : AbstractBrowsable
+    public partial class SQLiteBrowser : AbstractPlugin, IBrowsable
     {
         private static string m_DatabaseFilePath;
         private Dictionary<string, Table> m_Tables = new Dictionary<string, Table>();
 
 
         public SQLiteBrowser()
-            : base(".db")
         {
             InitializeComponent();
         }
@@ -342,6 +341,11 @@ namespace IDevice.Plugins.Browsers.SQL
                 FileInfo path = FileManager.GetWorkingFile(SelectedBackup, file);
                 databaseTableExtraction(path.FullName);
             }
+        }
+
+        public string Prefix
+        {
+            get { return ".db"; }
         }
     }
         #endregion

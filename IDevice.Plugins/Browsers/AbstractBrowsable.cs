@@ -9,19 +9,15 @@ using IDevice.Managers;
 
 namespace IDevice.Plugins.Browsers
 {
-    public class AbstractBrowsable : Form, IBrowsable
+    public abstract class AbstractPlugin : Form
     {
-        private string prefix;
         private SelectionModel _selectionModel;
         private FileManager _fileManager;
 
-        protected AbstractBrowsable(string prefix)
+        protected AbstractPlugin()
         {
-            this.prefix = prefix;
             _fileManager = new FileManager();
         }
-
-        public AbstractBrowsable() : this("*******************") { }
 
         protected SelectionModel SelectionModel
         {
@@ -83,31 +79,43 @@ namespace IDevice.Plugins.Browsers
 
         }
 
-        public virtual string Prefix
-        {
-            get { return this.prefix; }
-        }
-
-
+        /// <summary>
+        /// Standard to register a model and a selection changed
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
         public void RegisterModel(SelectionModel model)
         {
             _selectionModel = model;
+            _selectionModel.Changed += new EventHandler(OnSelectionChanged);
         }
 
-        public virtual string PluginAuthor
+        /// <summary>
+        /// Invoked when the selection modelse selection changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnSelectionChanged(object sender, EventArgs e)
         {
-            get { return "none"; }
+
         }
 
-        public virtual string PluginDescription
-        {
-            get { return "none"; }
-        }
+        #region plugin info
 
-        public virtual string PluginName
-        {
-            get { return "none"; }
-        }
+        public abstract string PluginAuthor { get; }
+
+        //public virtual string PluginAuthor
+        //{
+        //    get { return "none"; }
+        //}
+
+        public abstract string PluginDescription { get; }
+
+        public abstract string PluginName { get; }
+
+        #endregion
+
+        #region Equality
 
         public override int GetHashCode()
         {
@@ -126,5 +134,7 @@ namespace IDevice.Plugins.Browsers
         {
             return PluginName.CompareTo(other.PluginName);
         }
+
+        #endregion
     }
 }

@@ -15,10 +15,9 @@ using IDevice;
 
 namespace IDevice.Plugins.Browsers.PList
 {
-    public partial class PListBrowser : AbstractBrowsable
+    public partial class PListBrowser : AbstractPlugin, IBrowsable
     {
         public PListBrowser()
-            : base(".plist")
         {
             InitializeComponent();
         }
@@ -106,6 +105,11 @@ namespace IDevice.Plugins.Browsers.PList
 
             lblHead.Text = element.TypeName();
 
+        }
+
+        public string Prefix
+        {
+            get { return ".plist"; }
         }
     }
 }
