@@ -31,12 +31,13 @@ namespace IDevice.Managers
         public event EventHandler<PluginArgs> Removed;
 
         private List<IPlugin> _plugins = new List<IPlugin>();
-        private List<Type> _types = new List<Type>();
+        private List<string> _blacklist = new List<string>();
 
-        public PluginManager(string[] assmblies)
+        public PluginManager(string[] assmblies, string[] blacklist)
         {
             try
             {
+                _blacklist.AddRange(blacklist);
                 foreach (string a in assmblies)
                     Load(a);
             }
@@ -98,19 +99,14 @@ namespace IDevice.Managers
             }
         }
 
-        public Type[] Types
-        {
-            get { return _types.ToArray(); }
-        }
-
         public IEnumerator<IPlugin> GetEnumerator()
         {
-            return _plugins.GetEnumerator();
+            return _plugins.Where(t => !_blacklist.Contains(t.PluginName)).GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _plugins.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

@@ -4,22 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using IDevice.Managers;
 
 namespace IDevice.Plugins
 {
-    public interface IPlugin : IComparable<IPlugin>
+    public interface IPlugin : IComparable<IPlugin>, IDisposable
     {
         /// <summary>
         /// Get the menu to be added to the menu
         /// </summary>
         /// <returns></returns>
-        ToolStripMenuItem GetMenu();
+        void RegisterMenu(MenuManager manager);
+
+        /// <summary>
+        /// Unregister my menu
+        /// </summary>
+        /// <param name="manager"></param>
+        void UnregisterMenu(MenuManager manager);
 
         /// <summary>
         /// Get an instance of a the selection model
         /// </summary>
         /// <param name="model"></param>
-        void SetModel(SelectionModel model);
+        void RegisterModel(SelectionModel model);
 
         /// <summary>
         /// is this a modal window

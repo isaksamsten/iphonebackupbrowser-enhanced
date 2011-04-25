@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\FileManager.cs" />
+    <Compile Include="Managers\MenuManager.cs" />
     <Compile Include="Plugins\IAnalyzer.cs" />
     <Compile Include="SelectionModel.cs" />
     <Compile Include="Plugins\IBrowsable.cs" />
@@ -84,7 +85,7 @@
     </Compile>
     <Compile Include="PropertyList-1_0.cs" />
     <Compile Include="Reader\IReader.cs" />
-    <Compile Include="Reader\PListExtensions.cs" />
+    <Compile Include="PListExtensions.cs" />
     <Compile Include="xdict.cs" />
     <Compile Include="BackupBrowser.cs">
       <SubType>Form</SubType>

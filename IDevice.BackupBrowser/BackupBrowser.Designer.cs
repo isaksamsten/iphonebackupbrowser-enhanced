@@ -42,21 +42,20 @@
             this.searchBox = new System.Windows.Forms.ToolStripTextBox();
             this.sideLabelLbl = new System.Windows.Forms.Label();
             this.appSearchTxt = new System.Windows.Forms.TextBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.dsaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.locationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // backupSelect
@@ -211,26 +210,27 @@
             this.appSearchTxt.TabIndex = 11;
             this.appSearchTxt.TextChanged += new System.EventHandler(this.appSearchTxt_TextChanged);
             // 
-            // menuStrip1
+            // mainMenu
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fuleToolStripMenuItem,
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.analyzeToolStripMenuItem,
             this.aboutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(694, 24);
-            this.menuStrip1.TabIndex = 12;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(694, 24);
+            this.mainMenu.TabIndex = 12;
+            this.mainMenu.Text = "menuStrip1";
             // 
-            // fuleToolStripMenuItem
+            // fileToolStripMenuItem
             // 
-            this.fuleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.quitToolStripMenuItem});
-            this.fuleToolStripMenuItem.Name = "fuleToolStripMenuItem";
-            this.fuleToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
-            this.fuleToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
             // quitToolStripMenuItem
             // 
@@ -250,11 +250,19 @@
             // 
             // showMenu
             // 
+            this.showMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dsaToolStripMenuItem});
             this.showMenu.Enabled = false;
             this.showMenu.Name = "showMenu";
             this.showMenu.Size = new System.Drawing.Size(117, 22);
             this.showMenu.Text = "View";
             this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
+            // 
+            // dsaToolStripMenuItem
+            // 
+            this.dsaToolStripMenuItem.Name = "dsaToolStripMenuItem";
+            this.dsaToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.dsaToolStripMenuItem.Text = "dsa";
             // 
             // exportMenu
             // 
@@ -264,33 +272,17 @@
             this.exportMenu.Text = "Export";
             this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
             // analyzeToolStripMenuItem
             // 
-            this.analyzeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.locationsToolStripMenuItem,
-            this.mediaToolStripMenuItem,
-            this.contactsToolStripMenuItem});
             this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
             this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.analyzeToolStripMenuItem.Text = "Analyze";
-            // 
-            // locationsToolStripMenuItem
-            // 
-            this.locationsToolStripMenuItem.Name = "locationsToolStripMenuItem";
-            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.locationsToolStripMenuItem.Text = "Locations";
-            // 
-            // mediaToolStripMenuItem
-            // 
-            this.mediaToolStripMenuItem.Name = "mediaToolStripMenuItem";
-            this.mediaToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.mediaToolStripMenuItem.Text = "Media";
-            // 
-            // contactsToolStripMenuItem
-            // 
-            this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
-            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.contactsToolStripMenuItem.Text = "Contacts";
             // 
             // aboutToolStripMenuItem
             // 
@@ -311,8 +303,8 @@
             this.Controls.Add(this.folderList);
             this.Controls.Add(this.fileList);
             this.Controls.Add(this.backupSelect);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.mainMenu);
+            this.MainMenuStrip = this.mainMenu;
             this.Name = "BackupBrowser";
             this.Text = "iDevice Backup Browser";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -322,8 +314,8 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,16 +337,15 @@
         private System.Windows.Forms.ToolStripTextBox searchBox;
         private System.Windows.Forms.Label sideLabelLbl;
         private System.Windows.Forms.TextBox appSearchTxt;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fuleToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMenu;
         private System.Windows.Forms.ToolStripMenuItem exportMenu;
         private System.Windows.Forms.ToolStripMenuItem analyzeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem locationsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mediaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dsaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
     }
 }

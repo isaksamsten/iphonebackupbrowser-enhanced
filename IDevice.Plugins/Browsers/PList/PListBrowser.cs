@@ -11,6 +11,8 @@ using System.IO;
 using System.Xml;
 using IDevice.IPhone;
 
+using IDevice;
+
 namespace IDevice.Plugins.Browsers.PList
 {
     public partial class PListBrowser : AbstractBrowsable
@@ -100,7 +102,10 @@ namespace IDevice.Plugins.Browsers.PList
 
         private void plistList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            IPListElement element = plistList.FocusedItem.Tag as IPListElement;
+
+            lblHead.Text = element.TypeName();
+
         }
     }
 }

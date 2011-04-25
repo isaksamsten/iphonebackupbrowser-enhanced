@@ -5,13 +5,16 @@ using System.Text;
 using PList;
 using System.Collections.Specialized;
 
-namespace IDevice.Reader
+namespace IDevice
 {
     public static class StringCollectionExtension
     {
         public static string[] ToArray(this StringCollection collection)
         {
             List<string> paths = new List<string>();
+            if (collection == null)
+                return paths.ToArray();
+
             foreach (string s in collection)
                 paths.Add(s);
 
@@ -26,6 +29,11 @@ namespace IDevice.Reader
             return (T)element;
         }
 
+        public static string TypeName(this IPListElement element)
+        {
+            return element.GetType().Name;
+        }
+
         public static object Value(this PList.IPListElement element)
         {
             object value = null;
@@ -33,6 +41,7 @@ namespace IDevice.Reader
             {
                 case "string": value = element.ToType<PListString>().Value; break;
                 case "date": value = element.ToType<PListDate>().Value; break;
+                case "boolean": value = element.ToType<PListBool>().Value; break;
             }
 
             return value;

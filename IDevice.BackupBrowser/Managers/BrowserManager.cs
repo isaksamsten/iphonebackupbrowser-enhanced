@@ -27,6 +27,7 @@ namespace IDevice.Managers
         public event EventHandler<RegisterEventArgs> Registered;
         private Dictionary<string, IBrowsable> _browsers;
         private PluginManager _manager;
+
         public  BrowserManager(PluginManager manager)
         {
             _browsers = new Dictionary<string, IBrowsable>();
@@ -71,6 +72,11 @@ namespace IDevice.Managers
         public void Add(string prefix, Type browser)
         {
             Add(prefix, (IBrowsable)Activator.CreateInstance(browser));
+        }
+
+        public void Add(IBrowsable b)
+        {
+            Add(b.Prefix, b);
         }
 
         public void Remove(string prefix)

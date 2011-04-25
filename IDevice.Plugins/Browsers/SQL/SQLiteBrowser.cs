@@ -329,6 +329,11 @@ namespace IDevice.Plugins.Browsers.SQL
             }
         }
 
+        public override void RegisterMenu(Managers.MenuManager manager)
+        {
+            manager.Add(Managers.MenuContainer.Base, new ToolStripMenuItem("SQL Browser"));
+        }
+
         protected override void PreOpen()
         {
             IPhoneFile file = SelectedFiles.FirstOrDefault();

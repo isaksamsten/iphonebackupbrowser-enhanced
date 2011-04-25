@@ -48,6 +48,11 @@ namespace IDevice.Plugins.Browsers
         /// </summary>
         public virtual bool IsModal { get { return true; } }
 
+        /// <summary>
+        /// Invoked before the form is opened.
+        /// 
+        /// Conviniet to use to initizlize here
+        /// </summary>
         protected virtual void PreOpen()
         {
 
@@ -59,11 +64,24 @@ namespace IDevice.Plugins.Browsers
             return this;
         }
 
-        public virtual ToolStripMenuItem GetMenu()
+
+        /// <summary>
+        /// Register the menu
+        /// </summary>
+        /// <param name="manager"></param>
+        public virtual void RegisterMenu(MenuManager manager)
         {
-            return null;
+
         }
 
+        /// <summary>
+        /// Un register when not needed
+        /// </summary>
+        /// <param name="manager"></param>
+        public virtual void UnregisterMenu(MenuManager manager)
+        {
+
+        }
 
         public virtual string Prefix
         {
@@ -71,7 +89,7 @@ namespace IDevice.Plugins.Browsers
         }
 
 
-        public void SetModel(SelectionModel model)
+        public void RegisterModel(SelectionModel model)
         {
             _selectionModel = model;
         }

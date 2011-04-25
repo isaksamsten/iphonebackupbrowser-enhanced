@@ -37,8 +37,11 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblHead = new System.Windows.Forms.Label();
+            this.txtContent = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
             this.mainSplit.Panel1.SuspendLayout();
+            this.mainSplit.Panel2.SuspendLayout();
             this.mainSplit.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +55,11 @@
             // mainSplit.Panel1
             // 
             this.mainSplit.Panel1.Controls.Add(this.plistList);
+            // 
+            // mainSplit.Panel2
+            // 
+            this.mainSplit.Panel2.Controls.Add(this.txtContent);
+            this.mainSplit.Panel2.Controls.Add(this.lblHead);
             this.mainSplit.Size = new System.Drawing.Size(685, 459);
             this.mainSplit.SplitterDistance = 489;
             this.mainSplit.TabIndex = 2;
@@ -120,6 +128,25 @@
             this.readableToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.readableToolStripMenuItem.Text = "Readable";
             // 
+            // lblHead
+            // 
+            this.lblHead.AutoSize = true;
+            this.lblHead.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblHead.Location = new System.Drawing.Point(0, 0);
+            this.lblHead.Name = "lblHead";
+            this.lblHead.Size = new System.Drawing.Size(35, 13);
+            this.lblHead.TabIndex = 0;
+            this.lblHead.Text = "label1";
+            // 
+            // txtContent
+            // 
+            this.txtContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtContent.Location = new System.Drawing.Point(0, 13);
+            this.txtContent.Multiline = true;
+            this.txtContent.Name = "txtContent";
+            this.txtContent.Size = new System.Drawing.Size(192, 446);
+            this.txtContent.TabIndex = 1;
+            // 
             // PListBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -132,6 +159,8 @@
             this.Text = "PListBrowser";
             this.Load += new System.EventHandler(this.PListBrowser_Load);
             this.mainSplit.Panel1.ResumeLayout(false);
+            this.mainSplit.Panel2.ResumeLayout(false);
+            this.mainSplit.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).EndInit();
             this.mainSplit.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -152,6 +181,8 @@
         private System.Windows.Forms.ToolStripMenuItem readableToolStripMenuItem;
         private System.Windows.Forms.SplitContainer mainSplit;
         private System.Windows.Forms.ListView plistList;
+        private System.Windows.Forms.TextBox txtContent;
+        private System.Windows.Forms.Label lblHead;
 
     }
 }

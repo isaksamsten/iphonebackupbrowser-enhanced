@@ -141,22 +141,72 @@ namespace IDevice
         private BrowserManager _browserManger;
         private PluginManager _pluginManager;
         private SelectionModel _selectionModel;
+        private MenuManager _menuManager;
 
         public BackupBrowser()
         {
             InitializeComponent();
 
-            _pluginManager = new PluginManager(Properties.Settings.Default.Plugins.ToArray());
+            _pluginManager = new PluginManager(Properties.Settings.Default.Plugins.ToArray(),
+                Properties.Settings.Default.Blacklist.ToArray());
+
             _pluginManager.Added += new EventHandler<PluginArgs>(_pluginManager_Added);
             _pluginManager.Removed += new EventHandler<PluginArgs>(_pluginManager_Removed);
 
             _browserManger = new BrowserManager(_pluginManager);
+
+            _menuManager = new MenuManager();
+            _menuManager.Added += new EventHandler<MenuEvent>(_menuManager_Added);
+
             _selectionModel = new SelectionModel(this);
+
 
             foreach (IPlugin p in _pluginManager)
             {
-                p.SetModel(_selectionModel);
+                Register(p);
             }
+
+            var x = mainMenu.Items.Find("fileToolStripMenuItem", true);
+        }
+
+        void _menuManager_Added(object sender, MenuEvent e)
+        {
+            switch (e.At)
+            {
+                case MenuContainer.Base:
+                    mainMenu.Items.Add(e.Item);
+                    break;
+                case MenuContainer.File:
+                    fileToolStripMenuItem.DropDownItems.Add(e.Item);
+                    break;
+                case MenuContainer.Edit:
+                    editToolStripMenuItem.DropDownItems.Add(e.Item);
+                    break;
+                case MenuContainer.View:
+                    viewToolStripMenuItem.DropDownItems.Add(e.Item);
+                    break;
+                case MenuContainer.Analyzer:
+                    analyzeToolStripMenuItem.DropDownItems.Add(e.Item);
+                    break;
+                default:
+                    ToolStripItem[] collection = mainMenu.Items.Find(e.Name, true);
+                    if (collection.Length == 1)
+                        (collection.FirstOrDefault() as ToolStripMenuItem).DropDownItems.Add(e.Item);
+
+                    break;
+            }
+
+        }
+
+        protected virtual void Register(IPlugin p)
+        {
+            p.RegisterModel(_selectionModel);
+            p.RegisterMenu(_menuManager);
+        }
+
+        protected virtual void Unregister(IPlugin p)
+        {
+            p.Dispose();
         }
 
         void _pluginManager_Removed(object sender, PluginArgs e)
