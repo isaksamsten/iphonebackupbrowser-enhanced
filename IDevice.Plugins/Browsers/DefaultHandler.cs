@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
 
 namespace IDevice.Plugins.Browsers
 {
     public class DefaultBrowser : AbstractPlugin, IBrowsable
     {
-        public string Prefix
+        public string[] Prefixes
         {
-            get { return "*"; }
+            get { return new string[] { "*" }; }
         }
 
         public override Form Open()
         {
-            //implement os open
+            FileInfo info = FileManager.GetWorkingFile(SelectedBackup, SelectedFiles.FirstOrDefault());
+            Process.Start(info.FullName).Start();
             return null;
         }
 

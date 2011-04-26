@@ -21,11 +21,14 @@ using IDevice.Reader;
 using IDevice.IPhone;
 using IDevice.Plugins;
 using IDevice.Managers;
+using NLog;
 
 namespace IDevice
 {
     public partial class BackupBrowser : Form
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public event EventHandler<IPhoneFileSelectedArgs> SelectedFiles;
         public event EventHandler<IPhoneBackupSelectedArgs> SelectedBackup;
 
@@ -200,23 +203,40 @@ namespace IDevice
 
         protected virtual void Register(IPlugin p)
         {
-            p.RegisterModel(_selectionModel);
-            p.RegisterMenu(_menuManager);
+            Console.WriteLine("ars");
+            Logger.Debug("Register '{0}'", p.PluginName);
+            try
+            {
+                p.RegisterModel(_selectionModel);
+                p.RegisterMenu(_menuManager);
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         protected virtual void Unregister(IPlugin p)
         {
-            p.Dispose();
+            Logger.Debug("Unregister '{0}'", p.PluginName);
+            try
+            {
+                p.UnregisterMenu(_menuManager);
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         void _pluginManager_Removed(object sender, PluginArgs e)
         {
-            // REmove menu and clean up interface
+            Unregister(e.Plugin);
         }
 
         void _pluginManager_Added(object sender, PluginArgs e)
         {
-            // Load the plugin in the interface
+            Register(e.Plugin);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -241,6 +261,7 @@ namespace IDevice
             string s = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             s = Path.Combine(s, "Apple Computer", "MobileSync", "Backup");
 
+            Logger.Debug("IPhone backup path resolved to '{0}'.", s);
             DirectoryInfo d = new DirectoryInfo(s);
             if (d.Exists)
             {
@@ -281,6 +302,7 @@ namespace IDevice
                     }
                     catch (Exception ex)
                     {
+                        Logger.ErrorException(ex.Message, ex);
                         MessageBox.Show(ex.ToString());
                     }
                 }
@@ -442,7 +464,7 @@ namespace IDevice
         }
 
 
-        private void listView1_DoubleClick(object sender, EventArgs e)
+        private void folderList_DoubleClick(object sender, EventArgs e)
         {
             IPhoneApp app = (IPhoneApp)folderList.FocusedItem.Tag;
 
@@ -519,7 +541,7 @@ namespace IDevice
         }
 
 
-        private void listView2_DoubleClick(object sender, EventArgs e)
+        private void fileList_DoubleClick(object sender, EventArgs e)
         {
             IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
@@ -534,7 +556,7 @@ namespace IDevice
         }
 
 
-        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void folderList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             switch (folderList.Sorting)
             {
@@ -571,7 +593,7 @@ namespace IDevice
             this.fileList.Sort();
         }
 
-        private void listView2_ItemDrag(object sender, ItemDragEventArgs e)
+        private void fileList_ItemDrag(object sender, ItemDragEventArgs e)
         {
             IPhoneBackup backup = backupSelect.SelectedItem as IPhoneBackup;
             List<IPhoneFile> files = new List<IPhoneFile>();
@@ -623,7 +645,7 @@ namespace IDevice
             prc.Start();
         }
 
-        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        private void fileList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (fileList.SelectedItems.Count == 1)
             {
@@ -672,9 +694,9 @@ namespace IDevice
             FileManager filemanager = new FileManager();
             FileInfo dest = filemanager.GetWorkingFile(backup, file);
 
+            IBrowsable browser = _browserManger.Get(dest.Extension);
             try
             {
-                IBrowsable browser = _browserManger.Get(dest.Extension);
                 if (browser != null)
                 {
                     Form form = browser.Open();
@@ -687,9 +709,12 @@ namespace IDevice
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("No program can open this file. Try export.");
+                MessageBox.Show(string.Format("'{0}' could not be opened by '{1}'"
+                                                + "\n\n'{2}'"
+                                                + "\nStacktrace\n{3}", dest.Name, browser.PluginName,
+                                                ex.Message, ex.StackTrace), ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -758,7 +783,7 @@ namespace IDevice
         private void searchBox_TextChanged(object sender, EventArgs e)
         {
             string content = searchBox.Text.ToLower();
-            listView1_DoubleClick(sender, e); // Fill.
+            folderList_DoubleClick(sender, e); // Fill.
 
             List<ListViewItem> collection = new List<ListViewItem>();
             foreach (ListViewItem itm in fileList.Items)

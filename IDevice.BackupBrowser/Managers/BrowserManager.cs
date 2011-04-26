@@ -28,7 +28,7 @@ namespace IDevice.Managers
         private Dictionary<string, IBrowsable> _browsers;
         private PluginManager _manager;
 
-        public  BrowserManager(PluginManager manager)
+        public BrowserManager(PluginManager manager)
         {
             _browsers = new Dictionary<string, IBrowsable>();
             foreach (IPlugin p in manager)
@@ -36,7 +36,7 @@ namespace IDevice.Managers
                 if (p is IBrowsable)
                 {
                     IBrowsable b = p as IBrowsable;
-                    Add(b.Prefix, b);
+                    Add(b);
                 }
             }
 
@@ -51,7 +51,7 @@ namespace IDevice.Managers
             IBrowsable p = e.Plugin as IBrowsable;
             if (p != null)
             {
-                Remove(p.Prefix);   
+                Remove(p.Prefixes);
             }
         }
 
@@ -60,7 +60,7 @@ namespace IDevice.Managers
             IBrowsable p = e.Plugin as IBrowsable;
             if (p != null)
             {
-                Add(p.Prefix, p);
+                Add(p);
             }
         }
 
@@ -76,12 +76,14 @@ namespace IDevice.Managers
 
         public void Add(IBrowsable b)
         {
-            Add(b.Prefix, b);
+            foreach (string prefix in b.Prefixes)
+                Add(prefix, b);
         }
 
-        public void Remove(string prefix)
+        public void Remove(string[] prefixes)
         {
-            _browsers.Remove(prefix);
+            foreach (string prefix in prefixes)
+                _browsers.Remove(prefix);
         }
 
         public IBrowsable Get(string prefix)

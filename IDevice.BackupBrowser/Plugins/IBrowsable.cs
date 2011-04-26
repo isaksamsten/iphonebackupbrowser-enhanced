@@ -13,6 +13,6 @@ namespace IDevice.Plugins
         /// <summary>
         /// The prefix this browser handels
         /// </summary>
-        string Prefix { get; }
+        string[] Prefixes { get; }
     }
 }

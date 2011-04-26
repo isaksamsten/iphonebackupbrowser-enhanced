@@ -80,8 +80,8 @@
             this.fileList.UseCompatibleStateImageBehavior = false;
             this.fileList.View = System.Windows.Forms.View.Details;
             this.fileList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView2_ColumnClick);
-            this.fileList.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView2_ItemDrag);
-            this.fileList.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
+            this.fileList.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.fileList_ItemDrag);
+            this.fileList.SelectedIndexChanged += new System.EventHandler(this.fileList_SelectedIndexChanged);
             this.fileList.DoubleClick += new System.EventHandler(this.toolShowBtn_Click);
             // 
             // folderList
@@ -96,8 +96,8 @@
             this.folderList.TabIndex = 7;
             this.folderList.UseCompatibleStateImageBehavior = false;
             this.folderList.View = System.Windows.Forms.View.Details;
-            this.folderList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView1_ColumnClick);
-            this.folderList.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            this.folderList.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.folderList_ColumnClick);
+            this.folderList.DoubleClick += new System.EventHandler(this.folderList_DoubleClick);
             // 
             // openFolder
             // 

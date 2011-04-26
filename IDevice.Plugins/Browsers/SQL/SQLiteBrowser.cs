@@ -330,6 +330,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
         public override void RegisterMenu(Managers.MenuManager manager)
         {
+            throw new Exception("isak");
             manager.Add(Managers.MenuContainer.Base, new ToolStripMenuItem("SQL Browser"));
         }
 
@@ -343,9 +344,9 @@ namespace IDevice.Plugins.Browsers.SQL
             }
         }
 
-        public string Prefix
+        public string[] Prefixes
         {
-            get { return ".db"; }
+            get { return new  string[]{ ".db", ".sqlite" }; }
         }
     }
         #endregion

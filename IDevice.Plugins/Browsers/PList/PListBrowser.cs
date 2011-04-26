@@ -107,9 +107,9 @@ namespace IDevice.Plugins.Browsers.PList
 
         }
 
-        public string Prefix
+        public string[] Prefixes
         {
-            get { return ".plist"; }
+            get { return new string[] { ".plist" }; }
         }
     }
 }
