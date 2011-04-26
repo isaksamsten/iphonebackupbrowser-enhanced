@@ -12,12 +12,12 @@ namespace IDevice.Plugins.Browsers.PList
 {
     public class PListBrowserPlugin : AbstractPlugin, IBrowsable
     {
-        public override Form Open()
+        public Form Open()
         {
             IPhoneFile file = SelectedFiles.FirstOrDefault();
             if (file != null)
             {
-                FileInfo info = FileManager.GetWorkingFile(SelectedBackup, file);
+                FileInfo info = FileManager.GetWorkingFile(SelectedBackup, file, true);
                 PListRoot root = PListRoot.Load(info.FullName);
                 return new PListBrowser(root);
             }

@@ -16,7 +16,7 @@ namespace IDevice.Plugins.Browsers.SQL
 {
     public partial class SQLiteBrowser : Form
     {
-        private static string m_DatabaseFilePath;
+        private string m_DatabaseFilePath;
         private Dictionary<string, Table> m_Tables = new Dictionary<string, Table>();
 
 
@@ -294,7 +294,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
         #endregion

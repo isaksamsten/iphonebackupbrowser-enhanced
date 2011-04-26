@@ -20,7 +20,10 @@ namespace IDevice.Plugins.Browsers.PList
         public PListBrowser(PListRoot root)
         {
             InitializeComponent();
-            PopulateRecurse(root.Root as PListDict, "");
+            if (root.Root is PListArray)
+                PopulateArray(root.Root as PListArray, "");
+            else
+                PopulateRecurse(root.Root as PListDict, "");
         }
 
         private void PopulateRecurse(PListDict dict, string space)

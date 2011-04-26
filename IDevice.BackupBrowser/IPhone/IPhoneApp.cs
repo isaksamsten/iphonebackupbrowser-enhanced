@@ -12,7 +12,7 @@ namespace IDevice.IPhone
         public string Name { get; set; }                 // CFBundleName
         public string Identifier { get; set; }          // CFBundleIdentifier
         public string Container { get; set; }            // le chemin d'install sur l'iPhone
-        public List<String> Files { get; set; }
+        public List<IPhoneFile> Files { get; set; }
     };
 
 }

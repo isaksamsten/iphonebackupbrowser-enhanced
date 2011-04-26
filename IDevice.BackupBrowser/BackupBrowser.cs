@@ -32,6 +32,7 @@ namespace IDevice
 
         public event EventHandler<IPhoneFileSelectedArgs> SelectedFiles;
         public event EventHandler<IPhoneBackupSelectedArgs> SelectedBackup;
+        public event EventHandler<IPhoneAppSelectedArgs> SelectedApps;
 
         /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
@@ -135,12 +136,6 @@ namespace IDevice
             }
 
         }
-
-        private List<IPhoneBackup> backups = new List<IPhoneBackup>();
-        private IPhoneManifestData manifest;
-        private mbdb.MBFileRecord[] files92;
-
-
         private ListViewColumnSorter lvwColumnSorter;
         private BrowserManager _browserManger;
         private PluginManager _pluginManager;
@@ -224,7 +219,6 @@ namespace IDevice
 
         protected virtual void Register(IPlugin p)
         {
-            Console.WriteLine("ars");
             Logger.Debug("Register '{0}'", p.Name);
             try
             {
@@ -263,9 +257,9 @@ namespace IDevice
         private void Form1_Load(object sender, EventArgs e)
         {
             folderList.Columns.Add("Display Name", 200);
-            folderList.Columns.Add("Name", 200);
+            //folderList.Columns.Add("Name", 200);
             folderList.Columns.Add("Files");
-            folderList.Columns.Add("Identifier", 200);
+            //folderList.Columns.Add("Identifier", 200);
 
             fileList.Columns.Add("Name", 400);
             fileList.Columns.Add("Size");
@@ -273,222 +267,13 @@ namespace IDevice
             fileList.Columns.Add("Domain", 300);
             fileList.Columns.Add("Key", 250);
 
-            // Créer une instance d'une méthode de trie de la colonne ListView et l'attribuer
-            // au contrôle ListView.            
             lvwColumnSorter = new ListViewColumnSorter();
             fileList.ListViewItemSorter = lvwColumnSorter;
-
-
-            string s = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            s = Path.Combine(s, "Apple Computer", "MobileSync", "Backup");
-
-            Logger.Debug("IPhone backup path resolved to '{0}'.", s);
-            DirectoryInfo d = new DirectoryInfo(s);
-            if (d.Exists)
-            {
-                foreach (DirectoryInfo sd in d.EnumerateDirectories())
-                {
-                    try
-                    {
-                        string filename = Path.Combine(sd.FullName, "Info.plist");
-                        PListRoot root = PListRoot.Load(filename);
-                        PListDict dict = root.Root as PListDict;
-                        if (dict != null)
-                        {
-                            IPhoneBackup backup = new IPhoneBackup();
-                            backup.Path = sd.FullName;
-
-                            foreach (var p in dict)
-                            {
-                                switch (p.Key)
-                                {
-                                    case "Device Name":
-                                        backup.DeviceName = p.Value().ToString();
-                                        break;
-                                    case "Display Name":
-                                        backup.DisplayName = p.Value().ToString();
-                                        break;
-                                    case "Last Backup Date":
-                                        backup.LastBackupDate = p.Value().ToString();
-                                        break;
-                                }
-                            }
-
-                            backups.Add(backup);
-                        }
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        MessageBox.Show(ex.InnerException.ToString());
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.ErrorException(ex.Message, ex);
-                        MessageBox.Show(ex.ToString());
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("There exsist no backups in: " + d.ToString());
-            }
-
-            foreach (IPhoneBackup b in backups)
-            {
-                backupSelect.Items.Add(b);
-            }
         }
-
-        private List<IPhoneApp> ParseAll(PListDict di)
-        {
-            List<IPhoneApp> list = new List<IPhoneApp>();
-
-            PListDict apps = null;
-            if ((apps = di["Applications"] as PListDict) == null)
-                return list;
-
-            Dictionary<string, List<int>> filesByDomain = new Dictionary<string, List<int>>();
-            for (int i = 0; i < files92.Length; ++i)
-            {
-                if ((files92[i].Mode & 0xF000) == 0x8000)
-                {
-                    string d = files92[i].Domain;
-                    if (!filesByDomain.ContainsKey(d))
-                        filesByDomain.Add(d, new List<int>());
-
-                    filesByDomain[d].Add(i);
-                }
-            }
-
-            foreach (var p in apps)
-            {
-                IPhoneApp app = new IPhoneApp();
-
-                app.Key = p.Key;
-
-                PListDict appd = p.Value as PListDict;
-
-                KeyValuePair<string, IPListElement> name = appd.FirstOrDefault(x => x.Key == "CFBundleDisplayName");
-                if (name.Value != null)
-                    app.DisplayName = name.Value.Value().ToString();
-
-                KeyValuePair<string, IPListElement> bname = appd.FirstOrDefault(x => x.Key == "CFBundleName");
-                if (bname.Value != null)
-                    app.Name = bname.Value.Value().ToString();
-
-                KeyValuePair<string, IPListElement> ident = appd.FirstOrDefault(x => x.Key == "CFBundleIdentifier");
-                if (ident.Value != null)
-                    app.Identifier = ident.Value.Value().ToString();
-
-                KeyValuePair<string, IPListElement> cont = appd.FirstOrDefault(x => x.Key == "Container");
-                if (cont.Value != null)
-                    app.Container = cont.Value.Value().ToString();
-
-                if (app.Name == null) app.Name = app.Key;
-                if (app.DisplayName == null) app.DisplayName = app.Name;
-
-                if (filesByDomain.ContainsKey("AppDomain-" + app.Key))
-                {
-                    app.Files = new List<String>();
-
-                    foreach (int i in filesByDomain["AppDomain-" + app.Key])
-                    {
-                        app.Files.Add(i.ToString());
-                    }
-
-                    filesByDomain.Remove("AppDomain-" + app.Key);
-                }
-
-                ListViewItem lvi = new ListViewItem();
-                lvi.Tag = app;
-                lvi.Text = app.DisplayName;
-                lvi.SubItems.Add(app.Name);
-                lvi.SubItems.Add(app.Files != null ? app.Files.Count.ToString() : "N/A");
-                lvi.SubItems.Add(app.Identifier != null ? app.Identifier : "N/A");
-                folderList.Items.Add(lvi);
-
-                list.Add(app);
-            }
-            IPhoneApp system = new IPhoneApp();
-            system.Name = "System";
-            system.DisplayName = "---";
-            system.Identifier = "---";
-            system.Container = "---";
-            system.Files = new List<String>();
-
-            foreach (List<int> i in filesByDomain.Values)
-            {
-                foreach (int j in i)
-                {
-                    system.Files.Add(j.ToString());
-                }
-            }
-
-            ListViewItem lvi2 = new ListViewItem();
-            lvi2.Tag = system;
-            lvi2.Text = system.DisplayName;
-            lvi2.SubItems.Add(system.Name);
-            lvi2.SubItems.Add(system.Files != null ? system.Files.Count.ToString() : "N/A");
-            lvi2.SubItems.Add(system.Identifier != null ? system.Identifier : "N/A");
-            folderList.Items.Add(lvi2);
-
-            list.Add(system);
-
-            return list;
-
-        }
-
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            folderList.Items.Clear();
-            fileList.Items.Clear();
-            files92 = null;
-
-            try
-            {
-                IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
-                OnSelectedBackup(backup);
-
-                // backup iTunes 9.2+
-                if (File.Exists(Path.Combine(backup.Path, "Manifest.mbdb")))
-                {
-                    files92 = mbdbdump.mbdb.ReadMBDB(backup.Path, false, true);
-                    PListRoot root = PListRoot.Load(Path.Combine(backup.Path, "Manifest.plist"));
-                    if (root.Root != null)
-                    {
-                        manifest = new IPhoneManifestData();
-                        List<IPhoneApp> apps = ParseAll(root.Root as PListDict);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("We dont support iTunes v < 9.2");
-                }
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show(ex.InnerException.ToString());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-            }
-        }
-
-        private void OnSelectedBackup(IPhoneBackup backup)
-        {
-            if (SelectedBackup != null)
-            {
-                SelectedBackup(backupSelect, new IPhoneBackupSelectedArgs(backup));
-            }
-        }
-
 
         private void folderList_DoubleClick(object sender, EventArgs e)
         {
             IPhoneApp app = (IPhoneApp)folderList.FocusedItem.Tag;
-
             fileList.Items.Clear();
 
             if (app.Files == null)
@@ -502,45 +287,8 @@ namespace IDevice
                 ListViewItem[] lvic = new ListViewItem[app.Files.Count];
                 int idx = 0;
 
-                foreach (string f in app.Files)
+                foreach (IPhoneFile ff in app.Files)
                 {
-                    IPhoneFile ff;
-
-                    if (manifest.Files == null)
-                    {
-                        ff = new IPhoneFile();
-
-                        mbdb.MBFileRecord x = files92[Int32.Parse(f)];
-
-                        ff.Key = x.key;
-                        ff.Domain = x.Domain;
-                        ff.Path = x.Path;
-                        ff.ModificationTime = x.aTime.ToString();
-                        ff.FileLength = x.FileLength;
-                    }
-                    else
-                    {
-                        //Debug.WriteLine("{0} {1}", f, "");
-                        ff = manifest.Files[f];
-
-                        IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
-
-                        if (ff.Path == null)
-                        {
-                            PListRoot root = PListRoot.Load(Path.Combine(backup.Path, f + ".mdinfo"));
-                            PListDict dict = root.Root as PListDict;
-                            string domain;
-                            if (dict.ContainsKey("Domain"))
-                                domain = dict["Domain"].Value().ToString();
-                            if (dict.ContainsKey("Path"))
-                                ff.Path = dict["Path"].Value().ToString();
-
-                            if (ff.Path == null)
-                                ff.Path = "N/A";
-                        }
-                    }
-
-
                     ListViewItem lvi = new ListViewItem();
                     lvi.Tag = ff;
                     lvi.Text = ff.Path;
@@ -561,22 +309,6 @@ namespace IDevice
             }
         }
 
-
-        private void fileList_DoubleClick(object sender, EventArgs e)
-        {
-            IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
-            IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
-
-            string ext = "";
-            if (files92 == null)
-                ext = ".mddata";
-
-            string argument = @"/select, """ + Path.Combine(backup.Path, file.Key + ext) + @"""";
-
-            System.Diagnostics.Process.Start("explorer.exe", argument);
-        }
-
-
         private void folderList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             switch (folderList.Sorting)
@@ -590,10 +322,8 @@ namespace IDevice
 
         private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            // Déterminer si la colonne sélectionnée est déjà la colonne triée.
             if (e.Column == lvwColumnSorter.SortColumn)
             {
-                // Inverser le sens de tri en cours pour cette colonne.
                 if (lvwColumnSorter.Order == SortOrder.Ascending)
                 {
                     lvwColumnSorter.Order = SortOrder.Descending;
@@ -605,18 +335,15 @@ namespace IDevice
             }
             else
             {
-                // Définir le numéro de colonne à trier ; par défaut sur croissant.
                 lvwColumnSorter.SortColumn = e.Column;
                 lvwColumnSorter.Order = SortOrder.Ascending;
             }
-
-            // Procéder au tri avec les nouvelles options.
             this.fileList.Sort();
         }
 
         private void fileList_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            IPhoneBackup backup = backupSelect.SelectedItem as IPhoneBackup;
+            IPhoneBackup backup = _selectionModel.Backup;
             List<IPhoneFile> files = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
                 files.Add(itm.Tag as IPhoneFile);
@@ -656,7 +383,7 @@ namespace IDevice
 
         private void button1_Click(object sender, EventArgs e)
         {
-            IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
+            IPhoneBackup backup = _selectionModel.Backup;
 
             if (backup == null)
                 return;
@@ -691,6 +418,7 @@ namespace IDevice
                 showMenu.Enabled = false;
                 exportMenu.Enabled = false;
             }
+
             List<IPhoneFile> list = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
             {
@@ -701,16 +429,10 @@ namespace IDevice
 
         }
 
-        private void OnSelectedFiles(IPhoneFile[] file)
-        {
-            if (SelectedFiles != null)
-                SelectedFiles(fileList, new IPhoneFileSelectedArgs(file));
-        }
-
         private void toolShowBtn_Click(object sender, EventArgs e)
         {
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
-            IPhoneBackup backup = (IPhoneBackup)backupSelect.SelectedItem;
+            IPhoneBackup backup = _selectionModel.Backup;
 
             FileManager filemanager = new FileManager();
             FileInfo dest = filemanager.GetWorkingFile(backup, file);
@@ -741,7 +463,7 @@ namespace IDevice
 
         private void toolExportBtn_Click(object sender, EventArgs e)
         {
-            IPhoneBackup backup = backupSelect.SelectedItem as IPhoneBackup;
+            IPhoneBackup backup = _selectionModel.Backup;
             List<IPhoneFile> files = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
                 files.Add(itm.Tag as IPhoneFile);
@@ -823,35 +545,6 @@ namespace IDevice
             fileList.EndUpdate();
         }
 
-        /// <summary>
-        /// Search for apps
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void appSearchTxt_TextChanged(object sender, EventArgs e)
-        {
-            string content = appSearchTxt.Text.ToLower();
-            comboBox1_SelectedIndexChanged(sender, e); //fill
-
-            List<ListViewItem> collection = new List<ListViewItem>();
-            foreach (ListViewItem itm in folderList.Items)
-                collection.Add(itm);
-
-            folderList.Items.Clear();
-            folderList.BeginUpdate();
-            foreach (ListViewItem itm in collection)
-            {
-                IPhoneApp file = itm.Tag as IPhoneApp;
-                if (file.DisplayName.ToLower().Contains(content)
-                    || file.Identifier.ToLower().Contains(content)
-                    || string.IsNullOrWhiteSpace(content))
-                {
-                    folderList.Items.Add(itm);
-                }
-            }
-            folderList.EndUpdate();
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("iDevice Backup Browser\n"
@@ -879,6 +572,114 @@ namespace IDevice
             PluginManagerWindow win = new PluginManagerWindow(_pluginManager);
             win.ShowDialog(this);
         }
+
+        private void folderList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            IPhoneApp app = folderList.FocusedItem.Tag as IPhoneApp;
+            OnSelectedApps(app);
+        }
+
+        private void OnSelectedApps(IPhoneApp app)
+        {
+            if (SelectedApps != null)
+                SelectedApps(this, new IPhoneAppSelectedArgs(app));
+        }
+
+        private void OnSelectedBackup(IPhoneBackup backup)
+        {
+            if (SelectedBackup != null)
+            {
+                SelectedBackup(this, new IPhoneBackupSelectedArgs(backup));
+            }
+        }
+
+        private void OnSelectedFiles(IPhoneFile[] file)
+        {
+            if (SelectedFiles != null)
+                SelectedFiles(fileList, new IPhoneFileSelectedArgs(file));
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog from = new FolderBrowserDialog();
+            from.Description = "Select a iDevice backup to inspect";
+
+            string s = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            s = Path.Combine(s, "Apple Computer", "MobileSync", "Backup");
+            from.SelectedPath = s;
+
+            DialogResult result = from.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                DirectoryInfo d = new DirectoryInfo(from.SelectedPath);
+                List<IPhoneBackup> backups = new List<IPhoneBackup>();
+                foreach (DirectoryInfo sd in d.EnumerateDirectories())
+                {
+                    try
+                    {
+                        FileManager fm = new FileManager();
+                        IPhoneBackup backup = fm.GetBackup(sd);
+                        backups.Add(backup);
+                    }
+                    catch (FileLoadException ex)
+                    {
+                        Logger.DebugException(ex.Message, ex);
+                    }
+                }
+
+                if (backups.Count < 1)
+                {
+                    MessageBox.Show("No backups found!");
+                }
+                else
+                {
+                    changeBackupToolStripMenuItem.DropDownItems.Clear();
+                    foreach (IPhoneBackup b in backups)
+                    {
+                        ToolStripMenuItem itm = new ToolStripMenuItem(b.ToString());
+                        itm.Tag = b;
+                        itm.Click += delegate(object se, EventArgs arg)
+                        {
+                            ToolStripMenuItem me = se as ToolStripMenuItem;
+                            if (me != null)
+                                SelectBackup(me.Tag as IPhoneBackup);
+                        };
+                        changeBackupToolStripMenuItem.DropDownItems.Add(itm);
+                    }
+
+                    SelectBackupForm form = new SelectBackupForm(backups.ToArray());
+                    form.ShowDialog(this);
+                    if (form.Selected != null)
+                        SelectBackup(form.Selected);
+                }
+            }
+        }
+
+        private void SelectBackup(IPhoneBackup backup)
+        {
+            folderList.Items.Clear();
+            fileList.Items.Clear();
+
+            OnSelectedBackup(backup);
+
+            UpdateTitle(backup.DisplayName);
+
+            FileManager fm = new FileManager();
+            List<IPhoneApp> apps = fm.GetApps(backup);
+            foreach (var app in apps)
+            {
+                ListViewItem lvi = new ListViewItem();
+                lvi.Tag = app;
+                lvi.Text = app.DisplayName;
+                lvi.SubItems.Add(app.Files != null ? app.Files.Count.ToString() : "N/A");
+                folderList.Items.Add(lvi);
+            }
+        }
+
+        private void UpdateTitle(string p)
+        {
+            Text = "iDevice Backup Browser [" + p + "]";
+        }
     }
 
     public class IPhoneFileSelectedArgs : EventArgs
@@ -886,6 +687,16 @@ namespace IDevice
         public IPhoneFile[] Selected { get; private set; }
 
         public IPhoneFileSelectedArgs(IPhoneFile[] selected)
+        {
+            Selected = selected;
+        }
+    }
+
+    public class IPhoneAppSelectedArgs : EventArgs
+    {
+        public IPhoneApp Selected { get; private set; }
+
+        public IPhoneAppSelectedArgs(IPhoneApp selected)
         {
             Selected = selected;
         }

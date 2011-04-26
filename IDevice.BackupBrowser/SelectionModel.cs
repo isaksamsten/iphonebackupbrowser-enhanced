@@ -14,6 +14,13 @@ namespace IDevice
         {
             browser.SelectedFiles += new EventHandler<IPhoneFileSelectedArgs>(browser_SelectedApp);
             browser.SelectedBackup += new EventHandler<IPhoneBackupSelectedArgs>(browser_SelectedBackup);
+            browser.SelectedApps += new EventHandler<IPhoneAppSelectedArgs>(browser_SelectedApps);
+        }
+
+        void browser_SelectedApps(object sender, IPhoneAppSelectedArgs e)
+        {
+            App = e.Selected;
+            OnChanged();
         }
 
         void browser_SelectedBackup(object sender, IPhoneBackupSelectedArgs e)
@@ -38,5 +45,7 @@ namespace IDevice
         public IPhoneFile[] Files { get; private set; }
 
         public IPhoneBackup Backup { get; private set; }
+
+        public IPhoneApp App { get; private set; }
     }
 }

@@ -48,23 +48,13 @@ namespace IDevice.Plugins.Browsers.SQL
         {
             get { return null; }
         }
-        private ToolStripMenuItem menu = new ToolStripMenuItem("SQL Browser");
-        public override void RegisterMenu(Managers.MenuManager manager)
-        {
-            manager.Add(Managers.MenuContainer.Base, menu);
-        }
 
-        public override void UnregisterMenu(Managers.MenuManager manager)
-        {
-            manager.Remove(Managers.MenuContainer.Base, menu);
-        }
-
-        public override Form Open()
+        public Form Open()
         {
             IPhoneFile file = SelectedFiles.FirstOrDefault();
             if (file != null)
             {
-                FileInfo path = FileManager.GetWorkingFile(SelectedBackup, file);
+                FileInfo path = FileManager.GetWorkingFile(SelectedBackup, file, true);
                 return new SQLiteBrowser(path.FullName);
             }
 
@@ -73,7 +63,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
         public string[] Prefixes
         {
-            get { return new string[] { ".db", ".sqlite" }; }
+            get { return new string[] { ".db", ".sqlite", ".sqlitedb" }; }
         }
 
         public override void Dispose()

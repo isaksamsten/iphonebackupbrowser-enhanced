@@ -8,7 +8,7 @@ using IDevice.IPhone;
 using IDevice.Managers;
 using System.Drawing;
 
-namespace IDevice.Plugins.Browsers
+namespace IDevice.Plugins
 {
     public abstract class AbstractPlugin : IPlugin
     {
@@ -45,6 +45,14 @@ namespace IDevice.Plugins.Browsers
         protected virtual IPhoneBackup SelectedBackup
         {
             get { return _selectionModel.Backup; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual IPhoneApp SelectedApp
+        {
+            get { return _selectionModel.App; }
         }
 
         /// <summary>
@@ -150,6 +158,34 @@ namespace IDevice.Plugins.Browsers
         #endregion
 
         /// <summary>
+        /// Set a setting value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void SetSetting(string key, string value)
+        {
+            IDevice.Properties.Settings.Default.Plugin.Add(key, value);
+        }
+
+        /// <summary>
+        /// Retrive a setting value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetSetting(string key)
+        {
+            return IDevice.Properties.Settings.Default.Plugin.Get(key);
+        }
+
+        /// <summary>
+        /// Save the settings to the next run
+        /// </summary>
+        public void PersistSetting()
+        {
+            IDevice.Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
         /// Dispose me!
         /// 
         /// Subclass: remember to base.Dispose()!
@@ -158,11 +194,5 @@ namespace IDevice.Plugins.Browsers
         {
             _selectionModel.Changed -= new EventHandler(OnSelectionChanged);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public abstract Form Open();
     }
 }

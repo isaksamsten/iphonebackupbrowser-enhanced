@@ -134,7 +134,6 @@
             // 
             this.groupBox2.Controls.Add(this.databaseTableList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(294, 166);
@@ -146,10 +145,9 @@
             // 
             this.databaseTableList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.databaseTableList.FormattingEnabled = true;
-            this.databaseTableList.ItemHeight = 20;
-            this.databaseTableList.Location = new System.Drawing.Point(3, 22);
+            this.databaseTableList.Location = new System.Drawing.Point(3, 16);
             this.databaseTableList.Name = "databaseTableList";
-            this.databaseTableList.Size = new System.Drawing.Size(288, 141);
+            this.databaseTableList.Size = new System.Drawing.Size(288, 147);
             this.databaseTableList.TabIndex = 0;
             this.databaseTableList.DoubleClick += new System.EventHandler(this.databaseTableList_DoubleClick);
             // 
@@ -157,7 +155,6 @@
             // 
             this.groupBox1.Controls.Add(this.tableColumnList);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(303, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(294, 166);
@@ -169,18 +166,16 @@
             // 
             this.tableColumnList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableColumnList.FormattingEnabled = true;
-            this.tableColumnList.Location = new System.Drawing.Point(3, 22);
+            this.tableColumnList.Location = new System.Drawing.Point(3, 16);
             this.tableColumnList.MultiColumn = true;
             this.tableColumnList.Name = "tableColumnList";
-            this.tableColumnList.Size = new System.Drawing.Size(288, 141);
+            this.tableColumnList.Size = new System.Drawing.Size(288, 147);
             this.tableColumnList.TabIndex = 0;
             // 
             // groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox3.Controls.Add(this.tableLayoutPanel3);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(603, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(304, 166);
@@ -196,23 +191,22 @@
             this.tableLayoutPanel3.Controls.Add(this.manualQueryField, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 23);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(298, 140);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(298, 147);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // manualQueryField
             // 
             this.manualQueryField.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.manualQueryField.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manualQueryField.Location = new System.Drawing.Point(3, 3);
             this.manualQueryField.Multiline = true;
             this.manualQueryField.Name = "manualQueryField";
-            this.manualQueryField.Size = new System.Drawing.Size(292, 94);
+            this.manualQueryField.Size = new System.Drawing.Size(292, 101);
             this.manualQueryField.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -224,7 +218,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Controls.Add(this.queryExecuteButton, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 103);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 110);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -234,7 +228,6 @@
             // queryExecuteButton
             // 
             this.queryExecuteButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.queryExecuteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.queryExecuteButton.Image = global::IDevice.Plugins.Properties.Resources.view_next1;
             this.queryExecuteButton.Location = new System.Drawing.Point(3, 3);
             this.queryExecuteButton.Name = "queryExecuteButton";
@@ -247,7 +240,6 @@
             // tableContentList
             // 
             this.tableContentList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableContentList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableContentList.FullRowSelect = true;
             this.tableContentList.Location = new System.Drawing.Point(3, 203);
             this.tableContentList.Name = "tableContentList";

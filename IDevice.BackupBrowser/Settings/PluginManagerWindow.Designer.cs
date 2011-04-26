@@ -47,20 +47,19 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.pluginList.AutoGenerateColumns = false;
+            this.pluginList.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.pluginList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameDataGridViewTextBoxColumn,
             this.enabledDataGridViewCheckBoxColumn});
             this.pluginList.DataSource = this.iPluginBindingSource;
             this.pluginList.Location = new System.Drawing.Point(12, 11);
             this.pluginList.Name = "pluginList";
+            this.pluginList.RowHeadersVisible = false;
             this.pluginList.Size = new System.Drawing.Size(558, 232);
             this.pluginList.TabIndex = 0;
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Location = new System.Drawing.Point(414, 249);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);

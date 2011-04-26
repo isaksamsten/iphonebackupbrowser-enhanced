@@ -11,7 +11,7 @@ namespace IDevice.Plugins.Browsers
 {
     public class DefaultBrowser : AbstractPlugin, IBrowsable
     {
-        public override Form Open()
+        public Form Open()
         {
             FileInfo info = FileManager.GetWorkingFile(SelectedBackup, SelectedFiles.FirstOrDefault());
             Process.Start(info.FullName).Start();

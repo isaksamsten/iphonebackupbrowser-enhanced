@@ -45,6 +45,7 @@ namespace IDevice.Settings
                 }
             }
 
+            Properties.Settings.Default.Save();
             Close();
         }
 

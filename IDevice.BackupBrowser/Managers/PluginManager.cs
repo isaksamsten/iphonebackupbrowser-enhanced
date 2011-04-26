@@ -32,16 +32,11 @@ namespace IDevice.Managers
         public event EventHandler<PluginArgs> Removed;
 
         private List<IPlugin> _plugins = new List<IPlugin>();
-        private StringCollection _pluginsAssemblies;
-        private StringCollection _blacklist;
         public PluginManager()
         {
             try
             {
-                _blacklist = Properties.Settings.Default.Blacklist;
-                _pluginsAssemblies = Properties.Settings.Default.Plugins;
-
-                foreach (string a in _pluginsAssemblies)
+                foreach (string a in Properties.Settings.Default.EnabledPlugins)
                     Load(a);
             }
             catch
@@ -107,9 +102,9 @@ namespace IDevice.Managers
             IPlugin plugin = _plugins.FirstOrDefault(p => p.Name == name);
             if (plugin != null)
             {
-                if (_blacklist.Contains(name))
+                if (Properties.Settings.Default.BlacklistedPlugins.Contains(name))
                 {
-                    _blacklist.Remove(name);
+                    Properties.Settings.Default.BlacklistedPlugins.Remove(name);
                     OnAdded(plugin);
                 }
             }
@@ -125,7 +120,7 @@ namespace IDevice.Managers
             IPlugin plugin = _plugins.FirstOrDefault(p => p.Name == name);
             if (plugin != null)
             {
-                _blacklist.Add(name);
+                Properties.Settings.Default.BlacklistedPlugins.Add(name);
                 OnRemoved(plugin);
             }
             else
@@ -136,12 +131,16 @@ namespace IDevice.Managers
 
         public bool Enabled(string name)
         {
-            return !_blacklist.Contains(name);
+            return !Properties.Settings.Default.BlacklistedPlugins.Contains(name);
         }
 
+        /// <summary>
+        /// Enumerate enabled plugins
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<IPlugin> GetEnumerator()
         {
-            return _plugins.Where(t => !_blacklist.Contains(t.Name)).GetEnumerator();
+            return _plugins.Where(t => Enabled(t.Name)).GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

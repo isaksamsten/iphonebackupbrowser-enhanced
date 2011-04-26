@@ -31,6 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="PList">
       <HintPath>..\IDevice.BackupBrowser\bin\Debug\PList.dll</HintPath>
     </Reference>
@@ -51,7 +58,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browsers\AbstractPlugin.cs" />
+    <Compile Include="Analyzers\Image\ImageAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analyzers\Image\ImageAnalyzer.Designer.cs">
+      <DependentUpon>ImageAnalyzer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Analyzers\Image\ImageAnalyzerPlugin.cs" />
+    <Compile Include="AbstractPlugin.cs" />
     <Compile Include="Browsers\DefaultBrowser.cs" />
     <Compile Include="Browsers\PList\PListBrowser.cs">
       <SubType>Form</SubType>
@@ -81,6 +95,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Analyzers\Image\ImageAnalyzer.resx">
+      <DependentUpon>ImageAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Browsers\PList\PListBrowser.resx">
       <DependentUpon>PListBrowser.cs</DependentUpon>
     </EmbeddedResource>
