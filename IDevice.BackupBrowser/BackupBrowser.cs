@@ -22,6 +22,7 @@ using IDevice.IPhone;
 using IDevice.Plugins;
 using IDevice.Managers;
 using NLog;
+using IDevice.Settings;
 
 namespace IDevice
 {
@@ -150,8 +151,7 @@ namespace IDevice
         {
             InitializeComponent();
 
-            _pluginManager = new PluginManager(Properties.Settings.Default.Plugins.ToArray(),
-                Properties.Settings.Default.Blacklist.ToArray());
+            _pluginManager = new PluginManager();
 
             _pluginManager.Added += new EventHandler<PluginArgs>(_pluginManager_Added);
             _pluginManager.Removed += new EventHandler<PluginArgs>(_pluginManager_Removed);
@@ -160,6 +160,7 @@ namespace IDevice
 
             _menuManager = new MenuManager();
             _menuManager.Added += new EventHandler<MenuEvent>(_menuManager_Added);
+            _menuManager.Removed += new EventHandler<MenuEvent>(_menuManager_Removed);
 
             _selectionModel = new SelectionModel(this);
 
@@ -172,39 +173,59 @@ namespace IDevice
             var x = mainMenu.Items.Find("fileToolStripMenuItem", true);
         }
 
+        void _menuManager_Removed(object sender, MenuEvent e)
+        {
+            ToolStripItemCollection collection = GetMenuCollection(e.At);
+            if (collection == null)
+            {
+                ToolStripItem[] coll = mainMenu.Items.Find(e.Name, true);
+                if (coll.Length == 1)
+                    (coll.FirstOrDefault() as ToolStripMenuItem).DropDownItems.Remove(e.Item);
+            }
+            else
+            {
+                collection.Remove(e.Item);
+            }
+        }
+
         void _menuManager_Added(object sender, MenuEvent e)
         {
-            switch (e.At)
+            ToolStripItemCollection collection = GetMenuCollection(e.At);
+            if (collection == null)
+            {
+                ToolStripItem[] coll = mainMenu.Items.Find(e.Name, true);
+                if (coll.Length == 1)
+                    (coll.FirstOrDefault() as ToolStripMenuItem).DropDownItems.Add(e.Item);
+            }
+            else
+            {
+                collection.Add(e.Item);
+            }
+        }
+
+        private ToolStripItemCollection GetMenuCollection(MenuContainer at)
+        {
+            switch (at)
             {
                 case MenuContainer.Base:
-                    mainMenu.Items.Add(e.Item);
-                    break;
+                    return mainMenu.Items;
                 case MenuContainer.File:
-                    fileToolStripMenuItem.DropDownItems.Add(e.Item);
-                    break;
+                    return fileToolStripMenuItem.DropDownItems;
                 case MenuContainer.Edit:
-                    editToolStripMenuItem.DropDownItems.Add(e.Item);
-                    break;
+                    return editToolStripMenuItem.DropDownItems;
                 case MenuContainer.View:
-                    viewToolStripMenuItem.DropDownItems.Add(e.Item);
-                    break;
+                    return viewToolStripMenuItem.DropDownItems;
                 case MenuContainer.Analyzer:
-                    analyzeToolStripMenuItem.DropDownItems.Add(e.Item);
-                    break;
+                    return analyzeToolStripMenuItem.DropDownItems;
                 default:
-                    ToolStripItem[] collection = mainMenu.Items.Find(e.Name, true);
-                    if (collection.Length == 1)
-                        (collection.FirstOrDefault() as ToolStripMenuItem).DropDownItems.Add(e.Item);
-
-                    break;
+                    return null;
             }
-
         }
 
         protected virtual void Register(IPlugin p)
         {
             Console.WriteLine("ars");
-            Logger.Debug("Register '{0}'", p.PluginName);
+            Logger.Debug("Register '{0}'", p.Name);
             try
             {
                 p.RegisterModel(_selectionModel);
@@ -218,7 +239,7 @@ namespace IDevice
 
         protected virtual void Unregister(IPlugin p)
         {
-            Logger.Debug("Unregister '{0}'", p.PluginName);
+            Logger.Debug("Unregister '{0}'", p.Name);
             try
             {
                 p.UnregisterMenu(_menuManager);
@@ -702,7 +723,7 @@ namespace IDevice
                     Form form = browser.Open();
                     if (form != null)
                     {
-                        if (browser.IsModal)
+                        if (browser.Modal)
                             form.ShowDialog(this);
                         else
                             form.Show();
@@ -713,7 +734,7 @@ namespace IDevice
             {
                 MessageBox.Show(string.Format("'{0}' could not be opened by '{1}'"
                                                 + "\n\n'{2}'"
-                                                + "\nStacktrace\n{3}", dest.Name, browser.PluginName,
+                                                + "\nStacktrace\n{3}", dest.Name, browser.Name,
                                                 ex.Message, ex.StackTrace), ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -851,6 +872,12 @@ namespace IDevice
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManagerWindow win = new PluginManagerWindow(_pluginManager);
+            win.ShowDialog(this);
         }
     }
 

@@ -92,6 +92,12 @@
     <Compile Include="PropertyList-1_0.cs" />
     <Compile Include="Reader\IReader.cs" />
     <Compile Include="PListExtensions.cs" />
+    <Compile Include="Settings\PluginManagerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\PluginManagerWindow.Designer.cs">
+      <DependentUpon>PluginManagerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="xdict.cs" />
     <Compile Include="BackupBrowser.cs">
       <SubType>Form</SubType>
@@ -114,8 +120,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\PluginManagerWindow.resx">
+      <DependentUpon>PluginManagerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\IDevice.Plugins.IPlugin.datasource" />
+    <None Include="Properties\DataSources\IDevice.Settings.PluginInfo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

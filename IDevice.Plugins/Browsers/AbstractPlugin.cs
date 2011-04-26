@@ -6,34 +6,50 @@ using System.IO;
 using System.Windows.Forms;
 using IDevice.IPhone;
 using IDevice.Managers;
+using System.Drawing;
 
 namespace IDevice.Plugins.Browsers
 {
-    public abstract class AbstractPlugin : Form
+    public abstract class AbstractPlugin : IPlugin
     {
         private SelectionModel _selectionModel;
         private FileManager _fileManager;
 
+        /// <summary>
+        /// Initializer
+        /// </summary>
         protected AbstractPlugin()
         {
             _fileManager = new FileManager();
         }
 
+        /// <summary>
+        /// Get the selection model
+        /// </summary>
         protected SelectionModel SelectionModel
         {
             get { return _selectionModel; }
         }
 
+        /// <summary>
+        /// Get the currently selected files using the SelectionModel
+        /// </summary>
         protected virtual IPhoneFile[] SelectedFiles
         {
             get { return _selectionModel.Files; }
         }
 
+        /// <summary>
+        /// GEt the currently selected backup
+        /// </summary>
         protected virtual IPhoneBackup SelectedBackup
         {
             get { return _selectionModel.Backup; }
         }
 
+        /// <summary>
+        /// Get a file manager helper
+        /// </summary>
         protected virtual FileManager FileManager
         {
             get { return _fileManager; }
@@ -42,23 +58,7 @@ namespace IDevice.Plugins.Browsers
         /// <summary>
         /// Default to a modal window
         /// </summary>
-        public virtual bool IsModal { get { return true; } }
-
-        /// <summary>
-        /// Invoked before the form is opened.
-        /// 
-        /// Conviniet to use to initizlize here
-        /// </summary>
-        protected virtual void PreOpen()
-        {
-
-        }
-
-        public virtual Form Open()
-        {
-            PreOpen();
-            return this;
-        }
+        public virtual bool Modal { get { return true; } }
 
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace IDevice.Plugins.Browsers
         /// 
         /// </summary>
         /// <param name="model"></param>
-        public void RegisterModel(SelectionModel model)
+        public virtual void RegisterModel(SelectionModel model)
         {
             _selectionModel = model;
             _selectionModel.Changed += new EventHandler(OnSelectionChanged);
@@ -92,6 +92,9 @@ namespace IDevice.Plugins.Browsers
 
         /// <summary>
         /// Invoked when the selection modelse selection changes
+        /// 
+        /// Override to know when a selection change in the main
+        /// window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -102,16 +105,25 @@ namespace IDevice.Plugins.Browsers
 
         #region plugin info
 
-        public abstract string PluginAuthor { get; }
+        /// <summary>
+        /// The name of this plugin author
+        /// </summary>
+        public abstract string Author { get; }
 
-        //public virtual string PluginAuthor
-        //{
-        //    get { return "none"; }
-        //}
+        /// <summary>
+        /// The description
+        /// </summary>
+        public abstract string Description { get; }
 
-        public abstract string PluginDescription { get; }
+        /// <summary>
+        /// The name
+        /// </summary>
+        public abstract string Name { get; }
 
-        public abstract string PluginName { get; }
+        /// <summary>
+        /// The icon
+        /// </summary>
+        public abstract Icon Icon { get; }
 
         #endregion
 
@@ -119,7 +131,7 @@ namespace IDevice.Plugins.Browsers
 
         public override int GetHashCode()
         {
-            return PluginName.GetHashCode();
+            return Name.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -132,9 +144,25 @@ namespace IDevice.Plugins.Browsers
 
         public int CompareTo(IPlugin other)
         {
-            return PluginName.CompareTo(other.PluginName);
+            return Name.CompareTo(other.Name);
         }
 
         #endregion
+
+        /// <summary>
+        /// Dispose me!
+        /// 
+        /// Subclass: remember to base.Dispose()!
+        /// </summary>
+        public virtual void Dispose()
+        {
+            _selectionModel.Changed -= new EventHandler(OnSelectionChanged);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract Form Open();
     }
 }

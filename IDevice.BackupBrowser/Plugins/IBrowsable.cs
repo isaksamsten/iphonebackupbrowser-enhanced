@@ -14,5 +14,16 @@ namespace IDevice.Plugins
         /// The prefix this browser handels
         /// </summary>
         string[] Prefixes { get; }
+
+        /// <summary>
+        /// is this a modal window
+        /// </summary>
+        bool Modal { get; }
+
+        /// <summary>
+        /// Open this plugin
+        /// </summary>
+        /// <returns></returns>
+        Form Open();
     }
 }

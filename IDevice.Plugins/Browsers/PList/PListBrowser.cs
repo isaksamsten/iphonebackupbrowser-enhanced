@@ -15,23 +15,12 @@ using IDevice;
 
 namespace IDevice.Plugins.Browsers.PList
 {
-    public partial class PListBrowser : AbstractPlugin, IBrowsable
+    public partial class PListBrowser : Form
     {
-        public PListBrowser()
+        public PListBrowser(PListRoot root)
         {
             InitializeComponent();
-        }
-
-        protected override void PreOpen()
-        {
-            plistList.Clear();
-            IPhoneFile file = SelectedFiles.FirstOrDefault();
-            if (file != null)
-            {
-                FileInfo info = FileManager.GetWorkingFile(SelectedBackup, file);
-                PListRoot root = PListRoot.Load(info.FullName);
-                PopulateRecurse(root.Root as PListDict, "");
-            }
+            PopulateRecurse(root.Root as PListDict, "");
         }
 
         private void PopulateRecurse(PListDict dict, string space)
@@ -69,36 +58,6 @@ namespace IDevice.Plugins.Browsers.PList
             }
         }
 
-        private void PListBrowser_Load(object sender, EventArgs e)
-        {
-            plistList.Columns.Add("Key", 100);
-            plistList.Columns.Add("Value", 300);
-        }
-
-        public override string PluginAuthor
-        {
-            get
-            {
-                return "Isak Karlsson";
-            }
-        }
-
-        public override string PluginName
-        {
-            get
-            {
-                return "PListBrowser";
-            }
-        }
-
-        public override string PluginDescription
-        {
-            get
-            {
-                return "Browse plist files";
-            }
-        }
-
         private void plistList_SelectedIndexChanged(object sender, EventArgs e)
         {
             IPListElement element = plistList.FocusedItem.Tag as IPListElement;
@@ -107,9 +66,10 @@ namespace IDevice.Plugins.Browsers.PList
 
         }
 
-        public string[] Prefixes
+        private void PListBrowser_Load(object sender, EventArgs e)
         {
-            get { return new string[] { ".plist" }; }
+            plistList.Columns.Add("Key", 100);
+            plistList.Columns.Add("Value", 300);
         }
     }
 }

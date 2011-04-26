@@ -28,16 +28,6 @@ namespace IDevice.Plugins
         /// <param name="model"></param>
         void RegisterModel(SelectionModel model);
 
-        /// <summary>
-        /// is this a modal window
-        /// </summary>
-        bool IsModal { get; }
-
-        /// <summary>
-        /// Open this plugin
-        /// </summary>
-        /// <returns></returns>
-        Form Open();
 
         // TO BE ADDED
         /// <summary>
@@ -45,22 +35,21 @@ namespace IDevice.Plugins
         /// 
         /// It is supposed to be unique
         /// </summary>
-        string PluginName { get; }
+        string Name { get; }
 
         /// <summary>
         /// Name of the author
         /// </summary>
-        string PluginAuthor { get; }
+        string Author { get; }
         
         /// <summary>
         /// Description
         /// </summary>
-        string PluginDescription { get; }
+        string Description { get; }
 
-
-        //Icon Icon { get; }
-
-
-
+        /// <summary>
+        /// Icon
+        /// </summary>
+        Icon Icon { get; }
     }
 }

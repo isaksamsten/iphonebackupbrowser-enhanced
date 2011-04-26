@@ -51,18 +51,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browsers\AbstractBrowsable.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Browsers\DefaultHandler.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Browsers\AbstractPlugin.cs" />
+    <Compile Include="Browsers\DefaultBrowser.cs" />
     <Compile Include="Browsers\PList\PListBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Browsers\PList\PListBrowser.Designer.cs">
       <DependentUpon>PListBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Browsers\PList\PListBrowserPlugin.cs" />
     <Compile Include="Browsers\SQL\ManualQueryHelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +72,7 @@
     <Compile Include="Browsers\SQL\SQLiteBrowser.Designer.cs">
       <DependentUpon>SQLiteBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Browsers\SQL\SQLiteBrowserPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>

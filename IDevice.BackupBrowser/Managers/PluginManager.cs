@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using IDevice.Plugins;
+using System.Collections.Specialized;
 
 namespace IDevice.Managers
 {
@@ -31,14 +32,16 @@ namespace IDevice.Managers
         public event EventHandler<PluginArgs> Removed;
 
         private List<IPlugin> _plugins = new List<IPlugin>();
-        private List<string> _blacklist = new List<string>();
-
-        public PluginManager(string[] assmblies, string[] blacklist)
+        private StringCollection _pluginsAssemblies;
+        private StringCollection _blacklist;
+        public PluginManager()
         {
             try
             {
-                _blacklist.AddRange(blacklist);
-                foreach (string a in assmblies)
+                _blacklist = Properties.Settings.Default.Blacklist;
+                _pluginsAssemblies = Properties.Settings.Default.Plugins;
+
+                foreach (string a in _pluginsAssemblies)
                     Load(a);
             }
             catch
@@ -99,9 +102,46 @@ namespace IDevice.Managers
             }
         }
 
+        public void Enable(string name)
+        {
+            IPlugin plugin = _plugins.FirstOrDefault(p => p.Name == name);
+            if (plugin != null)
+            {
+                if (_blacklist.Contains(name))
+                {
+                    _blacklist.Remove(name);
+                    OnAdded(plugin);
+                }
+            }
+            else
+            {
+                throw new Exception("No such plugin to enable");
+            }
+        }
+
+
+        public void Disable(string name)
+        {
+            IPlugin plugin = _plugins.FirstOrDefault(p => p.Name == name);
+            if (plugin != null)
+            {
+                _blacklist.Add(name);
+                OnRemoved(plugin);
+            }
+            else
+            {
+                throw new Exception("No such plugin to disable");
+            }
+        }
+
+        public bool Enabled(string name)
+        {
+            return !_blacklist.Contains(name);
+        }
+
         public IEnumerator<IPlugin> GetEnumerator()
         {
-            return _plugins.Where(t => !_blacklist.Contains(t.PluginName)).GetEnumerator();
+            return _plugins.Where(t => !_blacklist.Contains(t.Name)).GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

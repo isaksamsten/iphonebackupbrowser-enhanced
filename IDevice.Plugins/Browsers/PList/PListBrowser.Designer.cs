@@ -73,7 +73,6 @@
             this.plistList.TabIndex = 0;
             this.plistList.UseCompatibleStateImageBehavior = false;
             this.plistList.View = System.Windows.Forms.View.Details;
-            this.plistList.SelectedIndexChanged += new System.EventHandler(this.plistList_SelectedIndexChanged);
             // 
             // txtContent
             // 

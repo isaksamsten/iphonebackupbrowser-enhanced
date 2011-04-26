@@ -57,6 +57,16 @@ namespace IDevice.Managers
             OnAdded(container, itm);
         }
 
+        public void Remove(MenuContainer container, ToolStripItem itm)
+        {
+            if (!_items.ContainsKey(container))
+                return;
+            List<ToolStripItem> list = _items[container];
+            list.Remove(itm);
+
+            OnRemoved(container, itm);
+        }
+
         public ToolStripItem Find(MenuContainer at, string name)
         {
             if (!_items.ContainsKey(at))

@@ -52,6 +52,7 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -243,7 +244,8 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showMenu,
-            this.exportMenu});
+            this.exportMenu,
+            this.pluginsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -254,7 +256,7 @@
             this.dsaToolStripMenuItem});
             this.showMenu.Enabled = false;
             this.showMenu.Name = "showMenu";
-            this.showMenu.Size = new System.Drawing.Size(117, 22);
+            this.showMenu.Size = new System.Drawing.Size(152, 22);
             this.showMenu.Text = "View";
             this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
             // 
@@ -268,7 +270,7 @@
             // 
             this.exportMenu.Enabled = false;
             this.exportMenu.Name = "exportMenu";
-            this.exportMenu.Size = new System.Drawing.Size(117, 22);
+            this.exportMenu.Size = new System.Drawing.Size(152, 22);
             this.exportMenu.Text = "Export";
             this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
             // 
@@ -290,6 +292,13 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // pluginsToolStripMenuItem
+            // 
+            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pluginsToolStripMenuItem.Text = "Plugins";
+            this.pluginsToolStripMenuItem.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
             // 
             // BackupBrowser
             // 
@@ -347,5 +356,6 @@
         private System.Windows.Forms.ToolStripMenuItem analyzeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dsaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
     }
 }

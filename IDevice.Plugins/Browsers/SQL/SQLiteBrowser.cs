@@ -14,15 +14,16 @@ using System.IO;
 
 namespace IDevice.Plugins.Browsers.SQL
 {
-    public partial class SQLiteBrowser : AbstractPlugin, IBrowsable
+    public partial class SQLiteBrowser : Form
     {
         private static string m_DatabaseFilePath;
         private Dictionary<string, Table> m_Tables = new Dictionary<string, Table>();
 
 
-        public SQLiteBrowser()
+        public SQLiteBrowser(string path)
         {
             InitializeComponent();
+            databaseTableExtraction(path);
         }
 
 
@@ -294,59 +295,6 @@ namespace IDevice.Plugins.Browsers.SQL
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
-
-        public override bool IsModal
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public override string PluginAuthor
-        {
-            get
-            {
-                return "Magnus Wahlgren";
-            }
-        }
-
-        public override string PluginDescription
-        {
-            get
-            {
-                return "Simple db browser";
-            }
-        }
-
-        public override string PluginName
-        {
-            get
-            {
-                return "SQLiteBrowser";
-            }
-        }
-
-        public override void RegisterMenu(Managers.MenuManager manager)
-        {
-            throw new Exception("isak");
-            manager.Add(Managers.MenuContainer.Base, new ToolStripMenuItem("SQL Browser"));
-        }
-
-        protected override void PreOpen()
-        {
-            IPhoneFile file = SelectedFiles.FirstOrDefault();
-            if (file != null)
-            {
-                FileInfo path = FileManager.GetWorkingFile(SelectedBackup, file);
-                databaseTableExtraction(path.FullName);
-            }
-        }
-
-        public string[] Prefixes
-        {
-            get { return new  string[]{ ".db", ".sqlite" }; }
         }
     }
         #endregion

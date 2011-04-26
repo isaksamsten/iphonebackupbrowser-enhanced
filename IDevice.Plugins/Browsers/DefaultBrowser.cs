@@ -5,16 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Drawing;
 
 namespace IDevice.Plugins.Browsers
 {
     public class DefaultBrowser : AbstractPlugin, IBrowsable
     {
-        public string[] Prefixes
-        {
-            get { return new string[] { "*" }; }
-        }
-
         public override Form Open()
         {
             FileInfo info = FileManager.GetWorkingFile(SelectedBackup, SelectedFiles.FirstOrDefault());
@@ -22,19 +18,29 @@ namespace IDevice.Plugins.Browsers
             return null;
         }
 
-        public override string PluginAuthor
+        public string[] Prefixes
+        {
+            get { return new string[] { "*" }; }
+        }
+
+        public override string Author
         {
             get { return "Isak Karlsson"; }
         }
 
-        public override string PluginDescription
+        public override string Description
         {
             get { return "Default handler. Handle using Operating system."; }
         }
 
-        public override string PluginName
+        public override string Name
         {
             get { return "DefaultBrowser"; }
+        }
+
+        public override Icon Icon
+        {
+            get { return null; }
         }
     }
 }
