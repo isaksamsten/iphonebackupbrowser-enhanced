@@ -12,7 +12,7 @@ namespace IDevice.Plugins.Browsers.SQL
     public class SQLiteBrowserPlugin : AbstractPlugin, IBrowsable
     {
 
-        public override bool Modal
+        public bool Modal
         {
             get
             {

@@ -69,13 +69,15 @@
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\MenuManager.cs" />
     <Compile Include="Plugins\IAnalyzer.cs" />
+    <Compile Include="Plugins\IRegisterArgs.cs" />
+    <Compile Include="Plugins\RegisterArgs.cs" />
     <Compile Include="SelectBackupForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SelectBackupForm.Designer.cs">
       <DependentUpon>SelectBackupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectionModel.cs" />
+    <Compile Include="BrowserModel.cs" />
     <Compile Include="Plugins\IBrowsable.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Managers\BrowserManager.cs" />
@@ -96,8 +98,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="PropertyList-1_0.cs" />
-    <Compile Include="Reader\IReader.cs" />
-    <Compile Include="PListExtensions.cs" />
+    <Compile Include="Extensions\PListExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Settings\PluginManagerWindow.cs">
       <SubType>Form</SubType>

@@ -12,7 +12,7 @@ namespace IDevice.Plugins
 {
     public abstract class AbstractPlugin : IPlugin
     {
-        private SelectionModel _selectionModel;
+        private BrowserModel _selectionModel;
         private FileManager _fileManager;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace IDevice.Plugins
         /// <summary>
         /// Get the selection model
         /// </summary>
-        protected SelectionModel SelectionModel
+        protected virtual BrowserModel SelectionModel
         {
             get { return _selectionModel; }
         }
@@ -64,16 +64,10 @@ namespace IDevice.Plugins
         }
 
         /// <summary>
-        /// Default to a modal window
-        /// </summary>
-        public virtual bool Modal { get { return true; } }
-
-
-        /// <summary>
         /// Register the menu
         /// </summary>
         /// <param name="manager"></param>
-        public virtual void RegisterMenu(MenuManager manager)
+        protected virtual void OnRegisterMenu(MenuManager manager)
         {
 
         }
@@ -82,17 +76,33 @@ namespace IDevice.Plugins
         /// Un register when not needed
         /// </summary>
         /// <param name="manager"></param>
-        public virtual void UnregisterMenu(MenuManager manager)
+        protected virtual void OnUnregisterMenu(MenuManager manager)
         {
 
         }
+
+        /// <summary>
+        /// After we are registerd
+        /// </summary>
+        protected virtual void OnPostRegister()
+        {
+
+        }
+
+        /// <summary>
+        /// after we are un registered
+        /// </summary>
+        protected virtual void OnPostUnregister()
+        {
+
+        } 
 
         /// <summary>
         /// Standard to register a model and a selection changed
         /// 
         /// </summary>
         /// <param name="model"></param>
-        public virtual void RegisterModel(SelectionModel model)
+        protected virtual void OnRegisterModel(BrowserModel model)
         {
             _selectionModel = model;
             _selectionModel.Changed += new EventHandler(OnSelectionChanged);
@@ -193,6 +203,20 @@ namespace IDevice.Plugins
         public virtual void Dispose()
         {
             _selectionModel.Changed -= new EventHandler(OnSelectionChanged);
+        }
+
+        public void Register(IRegisterArgs args)
+        {
+            OnRegisterModel(args.SelectionModel);
+            OnRegisterMenu(args.MenuManager);
+
+            OnPostRegister();
+        }
+
+        public void Unregister(IRegisterArgs args)
+        {
+            OnUnregisterMenu(args.MenuManager);
+            OnPostUnregister();
         }
     }
 }

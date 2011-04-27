@@ -5,7 +5,7 @@ using System.Text;
 using PList;
 using System.Collections.Specialized;
 
-namespace IDevice
+namespace IDevice.Extensions
 {
     public static class StringCollectionExtension
     {

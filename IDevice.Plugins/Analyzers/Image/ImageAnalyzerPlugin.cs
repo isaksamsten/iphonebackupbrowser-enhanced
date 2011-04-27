@@ -47,12 +47,12 @@ namespace IDevice.Plugins.Analyzers.Image
             get { return null; }
         }
 
-        public override void RegisterMenu(Managers.MenuManager manager)
+        protected override void OnRegisterMenu(Managers.MenuManager manager)
         {
             manager.Add(Managers.MenuContainer.Analyzer, start);
         }
 
-        public override void UnregisterMenu(Managers.MenuManager manager)
+        protected override void OnUnregisterMenu(Managers.MenuManager manager)
         {
             manager.Remove(Managers.MenuContainer.Analyzer, start);
         }

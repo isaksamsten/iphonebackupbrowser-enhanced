@@ -17,7 +17,7 @@ using System.Diagnostics;
 using mbdbdump;
 using PList;
 
-using IDevice.Reader;
+using IDevice;
 using IDevice.IPhone;
 using IDevice.Plugins;
 using IDevice.Managers;
@@ -139,7 +139,7 @@ namespace IDevice
         private ListViewColumnSorter lvwColumnSorter;
         private BrowserManager _browserManger;
         private PluginManager _pluginManager;
-        private SelectionModel _selectionModel;
+        private BrowserModel _selectionModel;
         private MenuManager _menuManager;
 
         public BackupBrowser()
@@ -157,15 +157,13 @@ namespace IDevice
             _menuManager.Added += new EventHandler<MenuEvent>(_menuManager_Added);
             _menuManager.Removed += new EventHandler<MenuEvent>(_menuManager_Removed);
 
-            _selectionModel = new SelectionModel(this);
+            _selectionModel = new BrowserModel(this);
 
-
+            //init and load all plugins that is not blacklisted
             foreach (IPlugin p in _pluginManager)
             {
                 Register(p);
             }
-
-            var x = mainMenu.Items.Find("fileToolStripMenuItem", true);
         }
 
         void _menuManager_Removed(object sender, MenuEvent e)
@@ -198,7 +196,7 @@ namespace IDevice
             }
         }
 
-        private ToolStripItemCollection GetMenuCollection(MenuContainer at)
+        protected virtual ToolStripItemCollection GetMenuCollection(MenuContainer at)
         {
             switch (at)
             {
@@ -226,8 +224,8 @@ namespace IDevice
             Logger.Debug("Register '{0}'", p.Name);
             try
             {
-                p.RegisterModel(_selectionModel);
-                p.RegisterMenu(_menuManager);
+                IRegisterArgs args = new RegisterArgs(_menuManager, _selectionModel);
+                p.Register(args);
             }
             catch (Exception ex)
             {
@@ -240,7 +238,10 @@ namespace IDevice
             Logger.Debug("Unregister '{0}'", p.Name);
             try
             {
-                p.UnregisterMenu(_menuManager);
+                IRegisterArgs args = new RegisterArgs(_menuManager, _selectionModel);
+                p.Unregister(args);
+
+
                 p.Dispose(); // clean!
             }
             catch (Exception ex)
@@ -262,9 +263,7 @@ namespace IDevice
         private void Form1_Load(object sender, EventArgs e)
         {
             folderList.Columns.Add("Display Name", 200);
-            //folderList.Columns.Add("Name", 200);
             folderList.Columns.Add("Files");
-            //folderList.Columns.Add("Identifier", 200);
 
             fileList.Columns.Add("Name", 400);
             fileList.Columns.Add("Size");
@@ -280,43 +279,6 @@ namespace IDevice
         {
             IPhoneApp app = (IPhoneApp)folderList.FocusedItem.Tag;
             SelectApp(app);
-        }
-
-        public void SelectApp(IPhoneApp app)
-        {
-            fileList.Items.Clear();
-
-            if (app.Files == null)
-                return;
-
-            fileList.BeginUpdate();
-            Cursor.Current = Cursors.WaitCursor;
-
-            try
-            {
-                ListViewItem[] lvic = new ListViewItem[app.Files.Count];
-                int idx = 0;
-
-                foreach (IPhoneFile ff in app.Files)
-                {
-                    ListViewItem lvi = new ListViewItem();
-                    lvi.Tag = ff;
-                    lvi.Text = ff.Path;
-                    lvi.SubItems.Add(ff.FileLength.ToString());
-                    lvi.SubItems.Add(ff.ModificationTime);
-                    lvi.SubItems.Add(ff.Domain);
-                    lvi.SubItems.Add(ff.Key);
-
-                    lvic[idx++] = lvi;
-                }
-
-                fileList.Items.AddRange(lvic);
-            }
-            finally
-            {
-                fileList.EndUpdate();
-                Cursor.Current = Cursors.Default;
-            }
         }
 
         private void folderList_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -682,6 +644,43 @@ namespace IDevice
                 lvi.Text = app.DisplayName;
                 lvi.SubItems.Add(app.Files != null ? app.Files.Count.ToString() : "N/A");
                 folderList.Items.Add(lvi);
+            }
+        }
+
+        public void SelectApp(IPhoneApp app)
+        {
+            fileList.Items.Clear();
+
+            if (app.Files == null)
+                return;
+
+            fileList.BeginUpdate();
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                ListViewItem[] lvic = new ListViewItem[app.Files.Count];
+                int idx = 0;
+
+                foreach (IPhoneFile ff in app.Files)
+                {
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.Tag = ff;
+                    lvi.Text = ff.Path;
+                    lvi.SubItems.Add(ff.FileLength.ToString());
+                    lvi.SubItems.Add(ff.ModificationTime);
+                    lvi.SubItems.Add(ff.Domain);
+                    lvi.SubItems.Add(ff.Key);
+
+                    lvic[idx++] = lvi;
+                }
+
+                fileList.Items.AddRange(lvic);
+            }
+            finally
+            {
+                fileList.EndUpdate();
+                Cursor.Current = Cursors.Default;
             }
         }
 

@@ -58,5 +58,15 @@ namespace IDevice.Plugins.Browsers.PList
         {
             get { return new string[] { ".plist" }; }
         }
+
+        #region IBrowsable Members
+
+
+        public bool Modal
+        {
+            get { return false; }
+        }
+
+        #endregion
     }
 }

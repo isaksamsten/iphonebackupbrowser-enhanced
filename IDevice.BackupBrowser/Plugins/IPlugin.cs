@@ -11,22 +11,16 @@ namespace IDevice.Plugins
     public interface IPlugin : IComparable<IPlugin>, IDisposable
     {
         /// <summary>
-        /// Get the menu to be added to the menu
+        /// 
         /// </summary>
-        /// <returns></returns>
-        void RegisterMenu(MenuManager manager);
+        /// <param name="args"></param>
+        void Register(IRegisterArgs args);
 
         /// <summary>
-        /// Unregister my menu
+        /// 
         /// </summary>
-        /// <param name="manager"></param>
-        void UnregisterMenu(MenuManager manager);
-
-        /// <summary>
-        /// Get an instance of a the selection model
-        /// </summary>
-        /// <param name="model"></param>
-        void RegisterModel(SelectionModel model);
+        /// <param name="args"></param>
+        void Unregister(IRegisterArgs args);
 
 
         // TO BE ADDED

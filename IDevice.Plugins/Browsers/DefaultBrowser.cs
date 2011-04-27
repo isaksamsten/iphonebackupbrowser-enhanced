@@ -42,5 +42,15 @@ namespace IDevice.Plugins.Browsers
         {
             get { return null; }
         }
+
+        #region IBrowsable Members
+
+
+        public bool Modal
+        {
+            get { return false; }
+        }
+
+        #endregion
     }
 }

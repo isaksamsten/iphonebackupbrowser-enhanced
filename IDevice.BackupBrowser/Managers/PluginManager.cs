@@ -39,9 +39,9 @@ namespace IDevice.Managers
                 foreach (string a in Properties.Settings.Default.EnabledPlugins)
                     Load(a);
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("Pluginerror");
+                throw new Exception("Pluginerror", e);
             }
 
         }

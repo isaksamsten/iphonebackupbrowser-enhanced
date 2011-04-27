@@ -12,6 +12,7 @@ using System.Xml;
 using IDevice.IPhone;
 
 using IDevice;
+using IDevice.Extensions;
 
 namespace IDevice.Plugins.Browsers.PList
 {

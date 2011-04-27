@@ -6,6 +6,8 @@ using System.IO;
 using PList;
 using mbdbdump;
 
+using IDevice.Extensions;
+
 namespace IDevice.IPhone
 {
     public class IPhoneBackup
