@@ -11,10 +11,19 @@ namespace IDevice
         public event EventHandler Changed;
         private BackupBrowser _browser;
 
+        /// <summary>
+        /// Same as App.Files in most cases
+        /// </summary>
         public IPhoneFile[] Files { get; private set; }
 
+        /// <summary>
+        /// Get the backup
+        /// </summary>
         public IPhoneBackup Backup { get; private set; }
 
+        /// <summary>
+        /// same as Backup.GetApps
+        /// </summary>
         public IPhoneApp App { get; private set; }
 
         public BrowserModel(BackupBrowser browser)
