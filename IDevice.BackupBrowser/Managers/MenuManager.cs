@@ -16,6 +16,9 @@ namespace IDevice.Managers
         Analyzer,
         Plugin,
 
+        FolderContext,
+        FileContext,
+
         Custom
     }
 

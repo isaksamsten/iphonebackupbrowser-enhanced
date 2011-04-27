@@ -212,6 +212,10 @@ namespace IDevice
                     return viewToolStripMenuItem.DropDownItems;
                 case MenuContainer.Analyzer:
                     return analyzeToolStripMenuItem.DropDownItems;
+                case MenuContainer.FolderContext:
+                    return folderContextMenu.Items;
+                case MenuContainer.FileContext:
+                    return fileContextMenu.Items;
                 default:
                     return null;
             }
@@ -237,6 +241,7 @@ namespace IDevice
             try
             {
                 p.UnregisterMenu(_menuManager);
+                p.Dispose(); // clean!
             }
             catch (Exception ex)
             {
@@ -274,6 +279,11 @@ namespace IDevice
         private void folderList_DoubleClick(object sender, EventArgs e)
         {
             IPhoneApp app = (IPhoneApp)folderList.FocusedItem.Tag;
+            SelectApp(app);
+        }
+
+        public void SelectApp(IPhoneApp app)
+        {
             fileList.Items.Clear();
 
             if (app.Files == null)
@@ -617,8 +627,7 @@ namespace IDevice
                 {
                     try
                     {
-                        FileManager fm = new FileManager();
-                        IPhoneBackup backup = fm.GetBackup(sd);
+                        IPhoneBackup backup = IPhoneBackup.New(sd);
                         backups.Add(backup);
                     }
                     catch (FileLoadException ex)
@@ -655,7 +664,7 @@ namespace IDevice
             }
         }
 
-        private void SelectBackup(IPhoneBackup backup)
+        public void SelectBackup(IPhoneBackup backup)
         {
             folderList.Items.Clear();
             fileList.Items.Clear();
@@ -665,7 +674,7 @@ namespace IDevice
             UpdateTitle(backup.DisplayName);
 
             FileManager fm = new FileManager();
-            List<IPhoneApp> apps = fm.GetApps(backup);
+            List<IPhoneApp> apps = backup.GetApps();
             foreach (var app in apps)
             {
                 ListViewItem lvi = new ListViewItem();
@@ -676,7 +685,7 @@ namespace IDevice
             }
         }
 
-        private void UpdateTitle(string p)
+        public void UpdateTitle(string p)
         {
             Text = "iDevice Backup Browser [" + p + "]";
         }

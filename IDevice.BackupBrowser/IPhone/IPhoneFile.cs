@@ -11,6 +11,6 @@ namespace IDevice.IPhone
         public string Domain { get; set; }
         public long FileLength { get; set; }
         public string ModificationTime { get; set; }
-        public string Path { get; set; }                 // information issue de .mdinfo
+        public string Path { get; set; }
     };
 }
