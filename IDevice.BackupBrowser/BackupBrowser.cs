@@ -34,6 +34,10 @@ namespace IDevice
         public event EventHandler<IPhoneBackupSelectedArgs> SelectedBackup;
         public event EventHandler<IPhoneAppSelectedArgs> SelectedApps;
 
+        public BrowserModel Model { get { return _model; } }
+
+        public ToolStripProgressBar ProgressBar { get { return toolExportProgress; } }
+
         /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
         /// </summary>
@@ -139,7 +143,7 @@ namespace IDevice
         private ListViewColumnSorter lvwColumnSorter;
         private BrowserManager _browserManger;
         private PluginManager _pluginManager;
-        private BrowserModel _selectionModel;
+        private BrowserModel _model;
         private MenuManager _menuManager;
 
         public BackupBrowser()
@@ -157,7 +161,7 @@ namespace IDevice
             _menuManager.Added += new EventHandler<MenuEvent>(_menuManager_Added);
             _menuManager.Removed += new EventHandler<MenuEvent>(_menuManager_Removed);
 
-            _selectionModel = new BrowserModel(this);
+            _model = new BrowserModel(this);
 
             //init and load all plugins that is not blacklisted
             foreach (IPlugin p in _pluginManager)
@@ -224,7 +228,7 @@ namespace IDevice
             Logger.Debug("Register '{0}'", p.Name);
             try
             {
-                IRegisterArgs args = new RegisterArgs(_menuManager, _selectionModel);
+                IRegisterArgs args = new RegisterArgs(_menuManager, Model);
                 p.Register(args);
             }
             catch (Exception ex)
@@ -238,7 +242,7 @@ namespace IDevice
             Logger.Debug("Unregister '{0}'", p.Name);
             try
             {
-                IRegisterArgs args = new RegisterArgs(_menuManager, _selectionModel);
+                IRegisterArgs args = new RegisterArgs(_menuManager, Model);
                 p.Unregister(args);
 
 
@@ -265,7 +269,7 @@ namespace IDevice
             folderList.Columns.Add("Display Name", 200);
             folderList.Columns.Add("Files");
 
-            fileList.Columns.Add("Name", 400);
+            fileList.Columns.Add("Name", 300);
             fileList.Columns.Add("Size");
             fileList.Columns.Add("Date", 130);
             fileList.Columns.Add("Domain", 300);
@@ -315,54 +319,34 @@ namespace IDevice
 
         private void fileList_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            IPhoneBackup backup = _selectionModel.Backup;
+            IPhoneBackup backup = Model.Backup;
             List<IPhoneFile> files = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
                 files.Add(itm.Tag as IPhoneFile);
 
-
-            toolExportProgress.Visible = true;
-            toolExportProgress.Maximum = files.Count;
-            toolExportProgress.Step = 1;
-
             string path = Path.GetTempPath();
             List<string> filenames = new List<string>();
-            foreach (var ifile in files)
+            Model.Dispatch(files, delegate(IPhoneFile file)
             {
-                string source = Path.Combine(backup.Path, ifile.Key);
-                string dest = Path.Combine(path, ifile.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
+                string source = Path.Combine(backup.Path, file.Key);
+                string dest = Path.Combine(path, file.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
                 // If there is a folder structure
                 // create it.
-                int lastIndex = ifile.Path.LastIndexOf("/");
+                int lastIndex = file.Path.LastIndexOf("/");
                 if (lastIndex >= 0)
                 {
-                    string fileFolder = ifile.Path.Substring(0, lastIndex);
+                    string fileFolder = file.Path.Substring(0, lastIndex);
                     Directory.CreateDirectory(Path.Combine(path, fileFolder.Replace("/", Path.DirectorySeparatorChar.ToString())));
                 }
 
                 // Copy the file (overwrite)
                 File.Copy(source, dest, true);
                 filenames.Add(dest);
-            }
 
-            toolExportProgress.Value = 0;
-            toolExportProgress.Visible = false;
-
+                return true;
+            });
             fileList.DoDragDrop(new DataObject(DataFormats.FileDrop, filenames.ToArray()), DragDropEffects.Copy);
-        }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            IPhoneBackup backup = _selectionModel.Backup;
-
-            if (backup == null)
-                return;
-
-            System.Diagnostics.Process prc = new System.Diagnostics.Process();
-            prc.StartInfo.FileName = backup.Path;
-            prc.Start();
         }
 
         private void fileList_SelectedIndexChanged(object sender, EventArgs e)
@@ -404,7 +388,7 @@ namespace IDevice
         private void toolShowBtn_Click(object sender, EventArgs e)
         {
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
-            IPhoneBackup backup = _selectionModel.Backup;
+            IPhoneBackup backup = Model.Backup;
 
             FileManager filemanager = new FileManager();
             FileInfo dest = filemanager.GetWorkingFile(backup, file);
@@ -435,7 +419,7 @@ namespace IDevice
 
         private void toolExportBtn_Click(object sender, EventArgs e)
         {
-            IPhoneBackup backup = _selectionModel.Backup;
+            IPhoneBackup backup = Model.Backup;
             List<IPhoneFile> files = new List<IPhoneFile>();
             foreach (ListViewItem itm in fileList.SelectedItems)
                 files.Add(itm.Tag as IPhoneFile);
@@ -445,24 +429,18 @@ namespace IDevice
 
             if (result == DialogResult.OK)
             {
-                toolExportProgress.Visible = true;
-                toolExportProgress.Maximum = files.Count;
-                toolExportProgress.Step = 1;
-
-                Cursor.Current = Cursors.WaitCursor;
-                String path = dialog.SelectedPath;
-
-                foreach (var ifile in files)
+                string path = dialog.SelectedPath;
+                Model.Dispatch(files, delegate(IPhoneFile file)
                 {
-                    string source = Path.Combine(backup.Path, ifile.Key);
-                    string dest = Path.Combine(path, ifile.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
+                    string source = Path.Combine(backup.Path, file.Key);
+                    string dest = Path.Combine(path, file.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
                     // If there is a folder structur
                     // create it.
-                    int lastIndex = ifile.Path.LastIndexOf("/");
+                    int lastIndex = file.Path.LastIndexOf("/");
                     if (lastIndex >= 0)
                     {
-                        string fileFolder = ifile.Path.Substring(0, lastIndex);
+                        string fileFolder = file.Path.Substring(0, lastIndex);
                         Directory.CreateDirectory(Path.Combine(path, fileFolder.Replace("/", Path.DirectorySeparatorChar.ToString())));
                     }
 
@@ -483,14 +461,13 @@ namespace IDevice
                                 }
                             }
                         }
-                        catch { }
+                        catch(Exception ex)
+                        {
+                            Logger.ErrorException(ex.Message, ex);
+                        }
                     }
-
-                    toolExportProgress.Value = toolExportProgress.Value + 1;
-                }
-                Cursor.Current = Cursors.Default;
-                toolExportProgress.Value = 0;
-                toolExportProgress.Visible = false;
+                    return true;
+                }, Cursors.WaitCursor);
             }
 
         }
@@ -641,7 +618,7 @@ namespace IDevice
             {
                 ListViewItem lvi = new ListViewItem();
                 lvi.Tag = app;
-                lvi.Text = app.DisplayName;
+                lvi.Text = app.Name;
                 lvi.SubItems.Add(app.Files != null ? app.Files.Count.ToString() : "N/A");
                 folderList.Items.Add(lvi);
             }

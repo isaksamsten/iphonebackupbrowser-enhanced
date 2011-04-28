@@ -12,7 +12,7 @@ namespace IDevice.Plugins
 {
     public abstract class AbstractPlugin : IPlugin
     {
-        private BrowserModel _selectionModel;
+        private BrowserModel _model;
         private FileManager _fileManager;
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace IDevice.Plugins
         /// <summary>
         /// Get the selection model
         /// </summary>
-        protected virtual BrowserModel SelectionModel
+        protected virtual BrowserModel Model
         {
-            get { return _selectionModel; }
+            get { return _model; }
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace IDevice.Plugins
         /// </summary>
         protected virtual IPhoneFile[] SelectedFiles
         {
-            get { return _selectionModel.Files; }
+            get { return _model.Files; }
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace IDevice.Plugins
         /// </summary>
         protected virtual IPhoneBackup SelectedBackup
         {
-            get { return _selectionModel.Backup; }
+            get { return _model.Backup; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace IDevice.Plugins
         /// </summary>
         protected virtual IPhoneApp SelectedApp
         {
-            get { return _selectionModel.App; }
+            get { return _model.App; }
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace IDevice.Plugins
         protected virtual void OnPostUnregister()
         {
 
-        } 
+        }
 
         /// <summary>
         /// Standard to register a model and a selection changed
@@ -104,8 +104,8 @@ namespace IDevice.Plugins
         /// <param name="model"></param>
         protected virtual void OnRegisterModel(BrowserModel model)
         {
-            _selectionModel = model;
-            _selectionModel.Changed += new EventHandler(OnSelectionChanged);
+            _model = model;
+            _model.Changed += new EventHandler(OnSelectionChanged);
         }
 
         /// <summary>
@@ -119,6 +119,20 @@ namespace IDevice.Plugins
         protected virtual void OnSelectionChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void Register(IRegisterArgs args)
+        {
+            OnRegisterModel(args.SelectionModel);
+            OnRegisterMenu(args.MenuManager);
+
+            OnPostRegister();
+        }
+
+        public void Unregister(IRegisterArgs args)
+        {
+            OnUnregisterMenu(args.MenuManager);
+            OnPostUnregister();
         }
 
         #region plugin info
@@ -190,7 +204,7 @@ namespace IDevice.Plugins
         /// <summary>
         /// Save the settings to the next run
         /// </summary>
-        public void PersistSetting()
+        public void PersistSettings()
         {
             IDevice.Properties.Settings.Default.Save();
         }
@@ -202,21 +216,7 @@ namespace IDevice.Plugins
         /// </summary>
         public virtual void Dispose()
         {
-            _selectionModel.Changed -= new EventHandler(OnSelectionChanged);
-        }
-
-        public void Register(IRegisterArgs args)
-        {
-            OnRegisterModel(args.SelectionModel);
-            OnRegisterMenu(args.MenuManager);
-
-            OnPostRegister();
-        }
-
-        public void Unregister(IRegisterArgs args)
-        {
-            OnUnregisterMenu(args.MenuManager);
-            OnPostUnregister();
+            _model.Changed -= new EventHandler(OnSelectionChanged);
         }
     }
 }
