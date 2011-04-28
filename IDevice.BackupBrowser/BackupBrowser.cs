@@ -36,8 +36,6 @@ namespace IDevice
 
         public BrowserModel Model { get { return _model; } }
 
-        public ToolStripProgressBar ProgressBar { get { return toolExportProgress; } }
-
         /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
         /// </summary>
@@ -326,7 +324,7 @@ namespace IDevice
 
             string path = Path.GetTempPath();
             List<string> filenames = new List<string>();
-            Model.Dispatch(files, delegate(IPhoneFile file)
+            Model.InvokeAsync(files, delegate(IPhoneFile file)
             {
                 string source = Path.Combine(backup.Path, file.Key);
                 string dest = Path.Combine(path, file.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
@@ -343,9 +341,7 @@ namespace IDevice
                 // Copy the file (overwrite)
                 File.Copy(source, dest, true);
                 filenames.Add(dest);
-
-                return true;
-            });
+            }, "Export...");
             fileList.DoDragDrop(new DataObject(DataFormats.FileDrop, filenames.ToArray()), DragDropEffects.Copy);
         }
 
@@ -430,7 +426,7 @@ namespace IDevice
             if (result == DialogResult.OK)
             {
                 string path = dialog.SelectedPath;
-                Model.Dispatch(files, delegate(IPhoneFile file)
+                Model.InvokeAsync(files, delegate(IPhoneFile file)
                 {
                     string source = Path.Combine(backup.Path, file.Key);
                     string dest = Path.Combine(path, file.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
@@ -461,13 +457,12 @@ namespace IDevice
                                 }
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Logger.ErrorException(ex.Message, ex);
                         }
                     }
-                    return true;
-                }, Cursors.WaitCursor);
+                }, "Copying..", Cursors.WaitCursor);
             }
 
         }
@@ -664,6 +659,52 @@ namespace IDevice
         public void UpdateTitle(string p)
         {
             Text = "iDevice Backup Browser [" + p + "]";
+        }
+
+        public ProgressArgs PushProgress(string name)
+        {
+            ProgressArgs arg = new ProgressArgs(name);
+            progressPanel.Controls.Add(arg.Panel);
+            return arg;
+        }
+
+        public void PopProgress(ProgressArgs arg)
+        {
+            progressPanel.Controls.RemoveByKey(arg.Key);
+        }
+    }
+
+    public class ProgressArgs
+    {
+        private string _name;
+        public ProgressBar ProgressBar { get; private set; }
+        public Label Label { get; private set; }
+        public Button Button { get; private set; }
+        public string Key { get; private set; }
+
+        public TableLayoutPanel Panel
+        {
+            get
+            {
+                TableLayoutPanel panel = new TableLayoutPanel();
+                panel.AutoSize = true;
+                panel.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
+                panel.Name = Key;
+                panel.Controls.Add(Label, 0, 0);
+                panel.Controls.Add(ProgressBar, 1, 0);
+                panel.Controls.Add(Button, 2, 0);
+
+                return panel;
+            }
+        }
+
+        public ProgressArgs(string name)
+        {
+            _name = name;
+            ProgressBar = new ProgressBar { Maximum = 100, Anchor = AnchorStyles.Right | AnchorStyles.Left };
+            Label = new Label { Text = name, Anchor = AnchorStyles.Left };
+            Button = new Button { Text = "Cancel", Anchor = AnchorStyles.Right };
+            Key = Guid.NewGuid().ToString();
         }
     }
 

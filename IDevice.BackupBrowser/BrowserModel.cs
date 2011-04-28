@@ -5,6 +5,8 @@ using System.Text;
 using IDevice.IPhone;
 using System.Windows.Forms;
 using NLog;
+using System.Threading;
+using System.ComponentModel;
 
 namespace IDevice
 {
@@ -44,53 +46,77 @@ namespace IDevice
         }
 
         /// <summary>
-        /// Run long running list like this. It will 
-        /// show an indicator to the user that the program 
-        /// is working
+        /// Should run a background worker and update 
+        /// the progress bar in the main gui with the progress
+        /// of the current operation
         /// 
-        /// <code>
-        ///     Model.Dispatch(list, delegate(T itm) {
-        ///         //DoThingsHere
-        ///         
-        ///         return true; // false will break the task
-        ///     });
-        /// </code>
+        /// Remember to be good and check for the cancelation!
+        /// 
+        /// This is kind of stupid since its using one ProgressBar
+        /// so only one action at a time is allowed.
+        /// 
+        /// Will be improved....
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="task"></param>
-        public void Dispatch<T>(IEnumerable<T> list, TaskDispatcher<T> task, Cursor cursor = null)
+        /// <param name="doWork"></param>
+        /// <param name="completed"></param>
+        /// <param name="arg"></param>
+        /// <exception cref="Exception">Thrown if two operations at the same time...</exception>
+        public void InvokeAsync(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler completed, string name, bool canCancel = true, object arg = null)
         {
-            _browser.ProgressBar.Visible = true;
-            _browser.ProgressBar.Maximum = list.Count();
-            _browser.ProgressBar.Step = 1;
-            if (cursor != null)
-                Cursor.Current = cursor;
-            try
-            {
-                foreach (T itm in list)
-                {
-                    if (task(itm))
-                    {
-                        _browser.ProgressBar.Value++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.ErrorException(e.Message, e);
-            }
-            finally
-            {
-                _browser.ProgressBar.Visible = false;
-                _browser.ProgressBar.Value = 0;
-                Cursor.Current = Cursors.Default;
-            }
+            ProgressArgs args = _browser.PushProgress(name);
+            ProgressBar bar = args.ProgressBar;
+            Button cancel = args.Button;
 
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.WorkerSupportsCancellation = canCancel;
+
+            EventHandler abort = delegate(object sender, EventArgs e)
+            {
+                worker.CancelAsync();
+            };
+            cancel.Click += abort;
+            cancel.Enabled = canCancel;
+
+            worker.DoWork += doWork;
+            worker.RunWorkerCompleted += completed;
+            worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
+            {
+                cancel.Click -= abort;
+                _browser.PopProgress(args);
+            };
+
+            worker.ProgressChanged += delegate(object sender, ProgressChangedEventArgs e)
+            {
+                bar.Value = e.ProgressPercentage;
+            };
+
+            worker.RunWorkerAsync(arg);
+        }
+
+
+        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action, string name, Cursor cursor = null)
+        {
+            DoWorkEventHandler work = delegate(object sender, DoWorkEventArgs evt)
+            {
+                IEnumerable<T> items = evt.Argument as IEnumerable<T>;
+                BackgroundWorker worker = sender as BackgroundWorker;
+                int length = items.Count(), start = 0;
+                foreach (T item in items)
+                {
+                    if (evt.Cancel)
+                        return;
+                    action(item);
+                    int progress = (int)(((double)start++ / length) * 100);
+                    worker.ReportProgress(progress);
+                }
+            };
+
+            RunWorkerCompletedEventHandler complete = delegate(object sender, RunWorkerCompletedEventArgs e)
+            {
+            };
+
+            InvokeAsync(work, complete, name, true, payload);
         }
 
         /// <summary>

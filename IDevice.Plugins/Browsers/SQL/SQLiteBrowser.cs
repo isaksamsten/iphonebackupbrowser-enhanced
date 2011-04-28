@@ -17,6 +17,7 @@ namespace IDevice.Plugins.Browsers.SQL
     public partial class SQLiteBrowser : Form
     {
         private string m_DatabaseFilePath;
+        private readonly BackgroundWorker _worker;
         private Dictionary<string, Table> m_Tables = new Dictionary<string, Table>();
 
 
@@ -24,6 +25,33 @@ namespace IDevice.Plugins.Browsers.SQL
         {
             InitializeComponent();
             databaseTableExtraction(path);
+            _worker = new BackgroundWorker();
+            _worker.DoWork += new DoWorkEventHandler(_worker_DoWork);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_worker_RunWorkerCompleted);
+
+        }
+
+        void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Cursor.Current = Cursors.Default;
+            object[] arr = e.Result as object[];
+            Table t = arr[0] as Table;
+            ListViewItem[] items = arr[1] as ListViewItem[];
+            if (items != null && t != null)
+            {
+                foreach (Column currentColumn in t.getColumns())
+                {
+                    tableColumnList.Items.Add(currentColumn.name, true);
+                    tableContentList.Columns.Add(currentColumn.name);
+                }
+                tableContentList.Items.AddRange(items);
+            }
+        }
+
+        void _worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Table t = PopulateTableWithColumns((string)e.Argument);
+            e.Result = new object[] { t, GetRowsFromTable(t.getTableName()) };
         }
 
 
@@ -64,57 +92,16 @@ namespace IDevice.Plugins.Browsers.SQL
 
         #region Columns From Table Extraction
 
-        public void getColumnsInTable(string tableName)
+        private Table PopulateTableWithColumns(string tableName)
         {
-            clearLists();
-
             Table currentTable = m_Tables[tableName];
 
             if (currentTable.getSelectColumns().Length == 0)
-                return;
-
+                return currentTable;
             string[] columns = currentTable.getSelectColumns().Split(' ');
 
-            SQLiteConnection SQLiteConnection = new SQLiteConnection(@"Data Source=" + m_DatabaseFilePath);
-            SQLiteConnection.Open();
-
-            SQLiteCommand SQLiteCommand = new SQLiteCommand();
-            SQLiteCommand.Connection = SQLiteConnection;
-
-
-            SQLiteCommand = new SQLiteCommand();
-            SQLiteCommand.Connection = SQLiteConnection;
-
-            SQLiteCommand.CommandText = ("PRAGMA table_info( " + tableName + " );");
-            SQLiteCommand.CommandType = CommandType.Text;
-
-            DbDataReader reader = SQLiteCommand.ExecuteReader();
-
-            while (reader.Read())
+            using (SQLiteConnection SQLiteConnection = new SQLiteConnection(@"Data Source=" + m_DatabaseFilePath))
             {
-                currentTable.addNewColumn(new Column(reader[1].ToString()));
-            }
-
-            foreach (Column currentColumn in currentTable.getColumns())
-            {
-                tableColumnList.Items.Add(currentColumn.name, true);
-                tableContentList.Columns.Add(currentColumn.name);
-            }
-
-            populateTableView(currentTable.getTableName());
-
-            SQLiteConnection.Close();
-        }
-
-        public void populateTableView(string tableName)
-        {
-            try
-            {
-                Table currentTable = m_Tables[tableName];
-
-                string query = "SELECT " + currentTable.getSelectColumnsForSelectStatement() + " FROM " + tableName + ";";
-
-                SQLiteConnection SQLiteConnection = new SQLiteConnection(@"Data Source=" + m_DatabaseFilePath);
                 SQLiteConnection.Open();
 
                 SQLiteCommand SQLiteCommand = new SQLiteCommand();
@@ -124,52 +111,72 @@ namespace IDevice.Plugins.Browsers.SQL
                 SQLiteCommand = new SQLiteCommand();
                 SQLiteCommand.Connection = SQLiteConnection;
 
-                SQLiteCommand.CommandText = (query);
+                SQLiteCommand.CommandText = ("PRAGMA table_info( " + tableName + " );");
                 SQLiteCommand.CommandType = CommandType.Text;
+
                 DbDataReader reader = SQLiteCommand.ExecuteReader();
-
-
 
                 while (reader.Read())
                 {
-
-                    ListViewItem currentItem = new ListViewItem();
-
-
-
-                    foreach (Column currentColumn in currentTable.getColumns())
-                    {
-                        try
-                        {
-                            if (currentItem.Text.Length == 0)
-                                currentItem.Text = reader[currentColumn.name].ToString();
-                            else
-                                currentItem.SubItems.Add(reader[currentColumn.name].ToString());
-
-                        }
-                        catch
-                        {
-                            //don't prompt user
-                        }
-
-                    }
-                    tableContentList.Items.Add(currentItem);
+                    currentTable.addNewColumn(new Column(reader[1].ToString()));
                 }
+                return currentTable;
+            }
 
-                //Arrange column headers to display everything
-                int numberOfColumns = currentTable.getColumns().Count;
-                for (int i = 0; i < numberOfColumns; i++)
+        }
+
+        public ListViewItem[] GetRowsFromTable(string tableName)
+        {
+            try
+            {
+                Table currentTable = m_Tables[tableName];
+
+                string query = "SELECT " + currentTable.getSelectColumnsForSelectStatement() + " FROM " + tableName + ";";
+
+                using (SQLiteConnection SQLiteConnection = new SQLiteConnection(@"Data Source=" + m_DatabaseFilePath))
                 {
-                    tableContentList.Columns[i].Width = -2;
+                    SQLiteConnection.Open();
+
+                    SQLiteCommand SQLiteCommand = new SQLiteCommand();
+                    SQLiteCommand.Connection = SQLiteConnection;
+
+
+                    SQLiteCommand = new SQLiteCommand();
+                    SQLiteCommand.Connection = SQLiteConnection;
+
+                    SQLiteCommand.CommandText = (query);
+                    SQLiteCommand.CommandType = CommandType.Text;
+
+                    DbDataReader reader = SQLiteCommand.ExecuteReader();
+                    List<ListViewItem> items = new List<ListViewItem>();
+                    while (reader.Read())
+                    {
+                        ListViewItem currentItem = new ListViewItem();
+                        foreach (Column currentColumn in currentTable.getColumns())
+                        {
+                            try
+                            {
+                                if (currentItem.Text.Length == 0)
+                                    currentItem.Text = reader[currentColumn.name].ToString();
+                                else
+                                    currentItem.SubItems.Add(reader[currentColumn.name].ToString());
+
+                            }
+                            catch
+                            {
+                                //don't prompt user
+                            }
+
+                        }
+                        items.Add(currentItem);
+                    }
+                    return items.ToArray();
                 }
-
-
-
-                SQLiteConnection.Close();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return null;
             }
         }
 
@@ -183,7 +190,10 @@ namespace IDevice.Plugins.Browsers.SQL
             ListBox tableListBox = (ListBox)sender;
             string tableName = tableListBox.SelectedItem.ToString();
 
-            getColumnsInTable(tableName);
+            Cursor.Current = Cursors.WaitCursor;
+            clearLists(); // then do work
+
+            _worker.RunWorkerAsync(tableName);
         }
 
         #endregion
@@ -282,7 +292,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
         private void tableColumnList_ItemCheck(object sender, EventArgs e)
         {
-            populateTableView(databaseTableList.SelectedItem.ToString());
+            GetRowsFromTable(databaseTableList.SelectedItem.ToString());
         }
 
         private void helpButton_Click(object sender, EventArgs e)

@@ -8,6 +8,8 @@ using System.IO;
 using PList;
 using System.Xml;
 using NLog;
+using System.ComponentModel;
+using System.Threading;
 
 namespace IDevice.Plugins.Menus
 {
@@ -59,7 +61,7 @@ namespace IDevice.Plugins.Menus
                 IPhoneApp app = SelectedApp;
                 IPhoneBackup backup = SelectedBackup;
                 string path = dialog.SelectedPath;
-                Model.Dispatch(app.Files, delegate(IPhoneFile file)
+                Model.InvokeAsync(app.Files, delegate(IPhoneFile file)
                 {
                     string source = Path.Combine(backup.Path, file.Key);
                     string dest = Path.Combine(path, app.Name, file.Path.Replace("/", Path.DirectorySeparatorChar.ToString()));
@@ -95,14 +97,43 @@ namespace IDevice.Plugins.Menus
                             Logger.ErrorException(ex.Message, ex);
                         }
                     }
-                    return true;
-                }, Cursors.WaitCursor);
+                }, "Export: " + app.Name, Cursors.WaitCursor);
             }
         }
 
         void properties_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not implemented");
+            try
+            {
+                Model.InvokeAsync(delegate(object w, DoWorkEventArgs a)
+                {
+                    BackgroundWorker worker = w as BackgroundWorker;
+                    for (int i = 0; i < 100; i++)
+                    {
+                        if (!worker.CancellationPending)
+                        {
+                            worker.ReportProgress(i);
+                            Thread.Sleep(100);
+                        }
+                        else
+                        {
+                            a.Cancel = true;
+                            break; // cancel!
+                        }
+                    }
+                },
+                delegate(object w, RunWorkerCompletedEventArgs a)
+                {
+                    if (a.Cancelled)
+                        MessageBox.Show("Canceled!");
+                    else
+                        MessageBox.Show("You waited a long time!");
+                }, "T");
+            }
+            catch
+            {
+                MessageBox.Show("Aleady working... wait");
+            }
         }
 
         protected override void OnRegisterMenu(Managers.MenuManager manager)

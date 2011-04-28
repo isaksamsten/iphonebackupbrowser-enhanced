@@ -55,7 +55,6 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolShowBtn = new System.Windows.Forms.ToolStripButton();
             this.toolExportBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolExportProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.searchBox = new System.Windows.Forms.ToolStripTextBox();
@@ -63,6 +62,7 @@
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.progressPanel = new System.Windows.Forms.TableLayoutPanel();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -245,6 +245,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.progressPanel);
             this.splitContainer1.Panel1.Controls.Add(this.folderList);
             // 
             // splitContainer1.Panel2
@@ -277,7 +278,6 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolShowBtn,
             this.toolExportBtn,
-            this.toolExportProgress,
             this.toolStripSeparator1,
             this.toolStripLabel1,
             this.searchBox});
@@ -305,15 +305,6 @@
             this.toolExportBtn.Size = new System.Drawing.Size(87, 22);
             this.toolExportBtn.Text = "Export Selected";
             this.toolExportBtn.Click += new System.EventHandler(this.toolExportBtn_Click);
-            // 
-            // toolExportProgress
-            // 
-            this.toolExportProgress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolExportProgress.Name = "toolExportProgress";
-            this.toolExportProgress.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolExportProgress.Size = new System.Drawing.Size(130, 22);
-            this.toolExportProgress.Step = 1;
-            this.toolExportProgress.Visible = false;
             // 
             // toolStripSeparator1
             // 
@@ -372,6 +363,20 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
+            // progressPanel
+            // 
+            this.progressPanel.AutoSize = true;
+            this.progressPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.progressPanel.ColumnCount = 1;
+            this.progressPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.progressPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressPanel.Location = new System.Drawing.Point(0, 515);
+            this.progressPanel.Name = "progressPanel";
+            this.progressPanel.RowCount = 1;
+            this.progressPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.progressPanel.Size = new System.Drawing.Size(284, 0);
+            this.progressPanel.TabIndex = 8;
+            // 
             // BackupBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,6 +392,7 @@
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -427,7 +433,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolShowBtn;
         private System.Windows.Forms.ToolStripButton toolExportBtn;
-        private System.Windows.Forms.ToolStripProgressBar toolExportProgress;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox searchBox;
@@ -437,5 +442,6 @@
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ContextMenuStrip fileContextMenu;
         private System.Windows.Forms.ContextMenuStrip folderContextMenu;
+        private System.Windows.Forms.TableLayoutPanel progressPanel;
     }
 }
