@@ -51,11 +51,6 @@ namespace IDevice
         /// of the current operation
         /// 
         /// Remember to be good and check for the cancelation!
-        /// 
-        /// This is kind of stupid since its using one ProgressBar
-        /// so only one action at a time is allowed.
-        /// 
-        /// Will be improved....
         /// </summary>
         /// <param name="doWork"></param>
         /// <param name="completed"></param>
@@ -63,10 +58,12 @@ namespace IDevice
         /// <exception cref="Exception">Thrown if two operations at the same time...</exception>
         public void InvokeAsync(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler completed, string name, bool canCancel = true, object arg = null)
         {
+            Logger.Debug("Starting async work '{0}' and pushing progressbar", name);
             ProgressArgs args = _browser.PushProgress(name);
             ProgressBar bar = args.ProgressBar;
             Button cancel = args.Button;
 
+            Logger.Debug("Work '{0}' was assigned key '{1}'", name, args.Key);
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.WorkerSupportsCancellation = canCancel;
@@ -82,6 +79,7 @@ namespace IDevice
             worker.RunWorkerCompleted += completed;
             worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
             {
+                Logger.Debug("Work with key '{0}' is completed (Cancelled? {1})", args.Key, e.Cancelled);
                 _browser.PopProgress(args);
             };
 
@@ -96,6 +94,7 @@ namespace IDevice
 
         public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action, string name, Cursor cursor = null)
         {
+            Logger.Debug("Starting an async work on an Enumerable<{0}> with name '{1}'", typeof(T).Name, name);
             DoWorkEventHandler work = delegate(object sender, DoWorkEventArgs evt)
             {
                 IEnumerable<T> items = evt.Argument as IEnumerable<T>;

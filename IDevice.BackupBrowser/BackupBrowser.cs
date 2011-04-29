@@ -280,6 +280,7 @@ namespace IDevice
             IPhoneBackup[] backups = IPhoneBackup.Load(IPhoneBackup.DefaultPath);
             ToolStripItem[] items = PopulateBackupChangeList(backups);
             changeBackupToolStripMenuItem.DropDownItems.AddRange(items);
+            SelectBackup(backups.FirstOrDefault());
         }
 
         private void folderList_DoubleClick(object sender, EventArgs e)

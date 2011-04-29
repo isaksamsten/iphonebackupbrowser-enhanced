@@ -14,7 +14,7 @@ namespace IDevice.Plugins.Analyzers.Image
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private ToolStripMenuItem start = new ToolStripMenuItem("Image analyzer");
+        private ToolStripMenuItem start = new ToolStripMenuItem("Images");
         public ImageAnalyzerPlugin()
         {
             start.Click += new EventHandler(start_Click);

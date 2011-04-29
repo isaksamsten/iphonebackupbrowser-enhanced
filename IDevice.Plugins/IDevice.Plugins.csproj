@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.KML, Version=2.1.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IDevice.BackupBrowser\Libs\Google.KML.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IDevice.BackupBrowser\Libs\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.2.0.0.0\lib\NET40\NLog.dll</HintPath>
@@ -68,6 +76,8 @@
     </Compile>
     <Compile Include="Analyzers\Image\ImageAnalyzerPlugin.cs" />
     <Compile Include="AbstractPlugin.cs" />
+    <Compile Include="Analyzers\Location\Location.cs" />
+    <Compile Include="Analyzers\Location\LocationAnalyzerPlugin.cs" />
     <Compile Include="Browsers\DefaultBrowser.cs" />
     <Compile Include="Browsers\PList\PListBrowser.cs">
       <SubType>Form</SubType>
@@ -151,9 +161,6 @@
       <Project>{806CFEC2-A2A6-4995-8534-755069E1889A}</Project>
       <Name>IDevice.BackupBrowser</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analyzers\Location\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
