@@ -182,6 +182,9 @@
     <Content Include="Libs\System.Data.SQLite.dll" />
     <Content Include="Libs\System.Data.SQLite.Linq.dll" />
     <Content Include="Libs\System.Runtime.Serialization.Plists.dll" />
+    <None Include="Resources\plugin.png" />
+    <None Include="Resources\page2.png" />
+    <None Include="Resources\script_save2.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

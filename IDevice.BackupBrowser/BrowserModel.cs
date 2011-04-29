@@ -71,18 +71,17 @@ namespace IDevice
             worker.WorkerReportsProgress = true;
             worker.WorkerSupportsCancellation = canCancel;
 
-            EventHandler abort = delegate(object sender, EventArgs e)
+            cancel.Click += delegate(object sender, EventArgs e)
             {
                 worker.CancelAsync();
+                cancel.Enabled = false;
             };
-            cancel.Click += abort;
             cancel.Enabled = canCancel;
 
             worker.DoWork += doWork;
             worker.RunWorkerCompleted += completed;
             worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
             {
-                cancel.Click -= abort;
                 _browser.PopProgress(args);
             };
 
@@ -104,11 +103,17 @@ namespace IDevice
                 int length = items.Count(), start = 0;
                 foreach (T item in items)
                 {
-                    if (evt.Cancel)
-                        return;
-                    action(item);
-                    int progress = (int)(((double)start++ / length) * 100);
-                    worker.ReportProgress(progress);
+                    if (!worker.CancellationPending)
+                    {
+                        action(item);
+                        int progress = (int)(((double)start++ / length) * 100);
+                        worker.ReportProgress(progress);
+                    }
+                    else
+                    {
+                        evt.Cancel = true;
+                        break;
+                    }
                 }
             };
 

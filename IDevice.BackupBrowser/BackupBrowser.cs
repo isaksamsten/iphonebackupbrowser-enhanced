@@ -261,6 +261,7 @@ namespace IDevice
         {
             Register(e.Plugin);
         }
+        #region EVENT HANDLERS
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -275,6 +276,10 @@ namespace IDevice
 
             lvwColumnSorter = new ListViewColumnSorter();
             fileList.ListViewItemSorter = lvwColumnSorter;
+
+            IPhoneBackup[] backups = IPhoneBackup.Load(IPhoneBackup.DefaultPath);
+            ToolStripItem[] items = PopulateBackupChangeList(backups);
+            changeBackupToolStripMenuItem.DropDownItems.AddRange(items);
         }
 
         private void folderList_DoubleClick(object sender, EventArgs e)
@@ -442,26 +447,6 @@ namespace IDevice
 
                     // Copy the file (overwrite)
                     File.Copy(source, dest, true);
-
-                    FileInfo info = new FileInfo(dest);
-                    if (info.Extension == ".plist")
-                    {
-                        try
-                        {
-                            PListRoot root = PListRoot.Load(info.FullName);
-                            if (root.Format == PListFormat.Binary)
-                            {
-                                using (XmlWriter writer = XmlWriter.Create(Path.Combine(info.Directory.FullName, "converted_" + info.Name)))
-                                {
-                                    root.WriteXml(writer);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.ErrorException(ex.Message, ex);
-                        }
-                    }
                 }, "Copying..", Cursors.WaitCursor);
             }
 
@@ -523,6 +508,37 @@ namespace IDevice
             OnSelectedApps(app);
         }
 
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog from = new FolderBrowserDialog();
+            from.Description = "Select a iDevice backup to inspect";
+            from.SelectedPath = IPhoneBackup.DefaultPath;
+
+            DialogResult result = from.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                IPhoneBackup[] backups = IPhoneBackup.Load(from.SelectedPath);
+
+                if (backups.Length < 1)
+                {
+                    MessageBox.Show("No backups found!");
+                }
+                else
+                {
+                    changeBackupToolStripMenuItem.DropDownItems.Clear();
+                    ToolStripItem[] items = PopulateBackupChangeList(backups);
+                    changeBackupToolStripMenuItem.DropDownItems.AddRange(items);
+
+                    SelectBackupForm form = new SelectBackupForm(backups.ToArray());
+                    form.ShowDialog(this);
+                    if (form.Selected != null)
+                        SelectBackup(form.Selected);
+                }
+            }
+        }
+
+        #endregion
+
         private void OnSelectedApps(IPhoneApp app)
         {
             if (SelectedApps != null)
@@ -543,59 +559,29 @@ namespace IDevice
                 SelectedFiles(fileList, new IPhoneFileSelectedArgs(file));
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Build a list of backups for as a tool strip
+        /// </summary>
+        /// <param name="backups"></param>
+        /// <returns></returns>
+        private ToolStripItem[] PopulateBackupChangeList(IPhoneBackup[] backups)
         {
-            FolderBrowserDialog from = new FolderBrowserDialog();
-            from.Description = "Select a iDevice backup to inspect";
-
-            string s = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            s = Path.Combine(s, "Apple Computer", "MobileSync", "Backup");
-            from.SelectedPath = s;
-
-            DialogResult result = from.ShowDialog(this);
-            if (result == DialogResult.OK)
+            List<ToolStripItem> items = new List<ToolStripItem>();
+            foreach (IPhoneBackup b in backups)
             {
-                DirectoryInfo d = new DirectoryInfo(from.SelectedPath);
-                List<IPhoneBackup> backups = new List<IPhoneBackup>();
-                foreach (DirectoryInfo sd in d.EnumerateDirectories())
+                ToolStripMenuItem itm = new ToolStripMenuItem(b.ToString());
+                itm.Tag = b;
+                itm.Click += delegate(object se, EventArgs arg)
                 {
-                    try
+                    ToolStripMenuItem me = se as ToolStripMenuItem;
+                    if (me != null)
                     {
-                        IPhoneBackup backup = IPhoneBackup.New(sd);
-                        backups.Add(backup);
+                        SelectBackup(me.Tag as IPhoneBackup);
                     }
-                    catch (FileLoadException ex)
-                    {
-                        Logger.DebugException(ex.Message, ex);
-                    }
-                }
-
-                if (backups.Count < 1)
-                {
-                    MessageBox.Show("No backups found!");
-                }
-                else
-                {
-                    changeBackupToolStripMenuItem.DropDownItems.Clear();
-                    foreach (IPhoneBackup b in backups)
-                    {
-                        ToolStripMenuItem itm = new ToolStripMenuItem(b.ToString());
-                        itm.Tag = b;
-                        itm.Click += delegate(object se, EventArgs arg)
-                        {
-                            ToolStripMenuItem me = se as ToolStripMenuItem;
-                            if (me != null)
-                                SelectBackup(me.Tag as IPhoneBackup);
-                        };
-                        changeBackupToolStripMenuItem.DropDownItems.Add(itm);
-                    }
-
-                    SelectBackupForm form = new SelectBackupForm(backups.ToArray());
-                    form.ShowDialog(this);
-                    if (form.Selected != null)
-                        SelectBackup(form.Selected);
-                }
+                };
+                items.Add(itm);
             }
+            return items.ToArray();
         }
 
         public void SelectBackup(IPhoneBackup backup)
@@ -686,10 +672,13 @@ namespace IDevice
         {
             get
             {
-                TableLayoutPanel panel = new TableLayoutPanel();
-                panel.AutoSize = true;
-                panel.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
-                panel.Name = Key;
+                TableLayoutPanel panel = new TableLayoutPanel
+                {
+                    AutoSize = true,
+                    GrowStyle = TableLayoutPanelGrowStyle.AddColumns,
+                    Name = Key,
+                    Height = 20
+                };
                 panel.Controls.Add(Label, 0, 0);
                 panel.Controls.Add(ProgressBar, 1, 0);
                 panel.Controls.Add(Button, 2, 0);
@@ -701,9 +690,22 @@ namespace IDevice
         public ProgressArgs(string name)
         {
             _name = name;
-            ProgressBar = new ProgressBar { Maximum = 100, Anchor = AnchorStyles.Right | AnchorStyles.Left };
-            Label = new Label { Text = name, Anchor = AnchorStyles.Left };
-            Button = new Button { Text = "Cancel", Anchor = AnchorStyles.Right };
+            ProgressBar = new ProgressBar
+            {
+                Maximum = 100,
+                Anchor = AnchorStyles.Right | AnchorStyles.Left
+            };
+            Label = new Label
+            {
+                Text = name.Substring(0, name.Length > 30 ? 30 : name.Length),
+                Width = 100,
+                Anchor = AnchorStyles.Left
+            };
+            Button = new Button
+            {
+                Text = "Cancel",
+                Anchor = AnchorStyles.Right
+            };
             Key = Guid.NewGuid().ToString();
         }
     }

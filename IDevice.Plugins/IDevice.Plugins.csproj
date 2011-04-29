@@ -152,7 +152,9 @@
       <Name>IDevice.BackupBrowser</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Analyzers\Location\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)\IDevice.BackupBrowser\bin\Debug\"</PostBuildEvent>

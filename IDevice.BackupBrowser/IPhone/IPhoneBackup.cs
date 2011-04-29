@@ -7,15 +7,27 @@ using PList;
 using mbdbdump;
 
 using IDevice.Extensions;
+using NLog;
 
 namespace IDevice.IPhone
 {
     public class IPhoneBackup
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Use IPhoneBackup.New
         /// </summary>
         private IPhoneBackup() { }
+
+        public static string DefaultPath
+        {
+            get
+            {
+                string s = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                s = System.IO.Path.Combine(s, "Apple Computer", "MobileSync", "Backup");
+                return s;
+            }
+        }
 
         public static IPhoneBackup New(DirectoryInfo path)
         {
@@ -49,6 +61,26 @@ namespace IDevice.IPhone
             {
                 throw new FileLoadException("No backup at " + path, e);
             }
+        }
+
+        public static IPhoneBackup[] Load(string path)
+        {
+            DirectoryInfo d = new DirectoryInfo(path);
+            List<IPhoneBackup> backups = new List<IPhoneBackup>();
+            foreach (DirectoryInfo sd in d.EnumerateDirectories())
+            {
+                try
+                {
+                    IPhoneBackup backup = New(sd);
+                    backups.Add(backup);
+                }
+                catch (FileLoadException ex)
+                {
+                    Logger.DebugException(ex.Message, ex);
+                }
+            }
+
+            return backups.ToArray();
         }
 
         public string DeviceName { get; set; }

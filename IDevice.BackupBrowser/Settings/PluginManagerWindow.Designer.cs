@@ -55,11 +55,14 @@
             this.pluginList.Location = new System.Drawing.Point(12, 11);
             this.pluginList.Name = "pluginList";
             this.pluginList.RowHeadersVisible = false;
+            this.pluginList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.pluginList.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.pluginList.Size = new System.Drawing.Size(558, 232);
             this.pluginList.TabIndex = 0;
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Location = new System.Drawing.Point(414, 249);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -70,6 +73,7 @@
             // 
             // cancelBtn
             // 
+            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.Location = new System.Drawing.Point(495, 249);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(75, 23);
@@ -105,6 +109,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.pluginList);
             this.Name = "PluginManagerWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Plugin Manager";
             this.Load += new System.EventHandler(this.PluginManagerWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pluginList)).EndInit();

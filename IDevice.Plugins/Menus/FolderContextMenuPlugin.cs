@@ -77,26 +77,6 @@ namespace IDevice.Plugins.Menus
 
                     // Copy the file (overwrite)
                     File.Copy(source, dest, true);
-
-                    FileInfo info = new FileInfo(dest);
-                    if (info.Extension == ".plist")
-                    {
-                        try
-                        {
-                            PListRoot root = PListRoot.Load(info.FullName);
-                            if (root.Format == PListFormat.Binary)
-                            {
-                                using (XmlWriter writer = XmlWriter.Create(Path.Combine(info.Directory.FullName, "converted_" + info.Name)))
-                                {
-                                    root.WriteXml(writer);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.ErrorException(ex.Message, ex);
-                        }
-                    }
                 }, "Export: " + app.Name, Cursors.WaitCursor);
             }
         }
