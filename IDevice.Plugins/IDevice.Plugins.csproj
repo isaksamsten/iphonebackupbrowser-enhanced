@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExifMetadata">
+      <HintPath>..\IDevice.BackupBrowser\Libs\ExifMetadata.dll</HintPath>
+    </Reference>
     <Reference Include="Google.KML, Version=2.1.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\IDevice.BackupBrowser\Libs\Google.KML.dll</HintPath>

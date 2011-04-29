@@ -178,6 +178,7 @@
     <None Include="Resources\page.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libs\ExifMetadata.dll" />
     <Content Include="Libs\Google.KML.dll" />
     <Content Include="Libs\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Libs\SQLite.Interop.dll" />

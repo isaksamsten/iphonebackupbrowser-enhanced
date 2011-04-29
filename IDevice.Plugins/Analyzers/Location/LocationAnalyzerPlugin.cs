@@ -9,12 +9,16 @@ using Google.KML;
 using System.IO;
 using IDevice.IPhone;
 using System.Data.SQLite;
+using System.Drawing;
+using System.Globalization;
+using LevDan.Exif;
+using System.Text.RegularExpressions;
 
 namespace IDevice.Plugins.Analyzers.Location
 {
     public class LocationAnalyzerPlugin : AbstractPlugin
     {
-        private ToolStripMenuItem _analyze = new ToolStripMenuItem("Locations");
+        private ToolStripMenuItem _analyze = new ToolStripMenuItem("Export Locations");
 
         public LocationAnalyzerPlugin()
         {
@@ -25,9 +29,9 @@ namespace IDevice.Plugins.Analyzers.Location
         {
             IPhoneBackup backup = SelectedBackup;
             IPhoneApp app = backup.GetApps().FirstOrDefault(t => t.Name == "System");
-            IPhoneFile file = app.Files.FirstOrDefault(t => t.Path.Contains("consolidated"));
-
-            FileInfo fileInfo = FileManager.GetWorkingFile(backup, file);
+            IPhoneFile dbFile = app.Files.FirstOrDefault(t => t.Path.Contains("consolidated"));
+            IEnumerable<IPhoneFile> imgs = app.Files.Where(t => t.Path.Contains("DCIM/100APPLE") && t.Domain == "MediaDomain");
+            FileInfo fileInfo = FileManager.GetWorkingFile(backup, dbFile);
             Model.InvokeAsync(delegate(object w, DoWorkEventArgs a)
             {
                 BackgroundWorker worker = w as BackgroundWorker;
@@ -54,7 +58,7 @@ namespace IDevice.Plugins.Analyzers.Location
                         }
                         reader.Close();
 
-                        worker.ReportProgress(50);
+                        worker.ReportProgress(33);
 
                         cmd.CommandText = "SELECT * FROM CellLocation";
                         reader = cmd.ExecuteReader();
@@ -71,6 +75,38 @@ namespace IDevice.Plugins.Analyzers.Location
                                 Longitude = reader.GetDouble(6)
                             });
                         }
+
+                        worker.ReportProgress(33);
+                    }
+
+                    int count = imgs.Count() + 66, current = 66;
+                    foreach (IPhoneFile file in imgs)
+                    {
+                        FileInfo info = FileManager.GetWorkingFile(backup, file);
+                        ExifTagCollection er = new ExifTagCollection(info.FullName);
+
+                        //not working...
+                        Location location = new Location();
+                        double lat = 0, lon = 0;
+                        foreach (ExifTag tag in er)
+                        {
+                            if (tag.FieldName == "GPSLatitude")
+                            {
+                                string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
+                                double.TryParse(dec, out lat);
+                            }
+                            else if (tag.FieldName == "GPSLongitude")
+                            {
+                                string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
+                                double.TryParse(dec, out lon);
+                            }
+                        }
+                        location.Latitude = lat;
+                        location.Longitude = lon;
+                        location.Name = "[Image] " + info.Name;
+                        locations.Add(location);
+
+                        worker.ReportProgress(Model.Percent(current++, count));
                     }
 
                     geKML kml = Location.ToKML(locations.OrderBy(x => x.Time));

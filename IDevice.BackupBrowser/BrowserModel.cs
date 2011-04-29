@@ -105,8 +105,7 @@ namespace IDevice
                     if (!worker.CancellationPending)
                     {
                         action(item);
-                        int progress = (int)(((double)start++ / length) * 100);
-                        worker.ReportProgress(progress);
+                        worker.ReportProgress(Percent(start++, length));
                     }
                     else
                     {
@@ -121,6 +120,11 @@ namespace IDevice
             };
 
             InvokeAsync(work, complete, name, true, payload);
+        }
+
+        public int Percent(int current, int length)
+        {
+            return (int)(((double)current / length) * 100);
         }
 
         /// <summary>
