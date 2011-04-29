@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using IDevice.Plugins;
 using System.Collections.Specialized;
+using NLog;
 
 namespace IDevice.Managers
 {
@@ -16,6 +17,7 @@ namespace IDevice.Managers
             return t.GetInterfaces().Any(p => p == (t2));
         }
     }
+
     public class PluginArgs : EventArgs
     {
         public PluginArgs(IPlugin plugin)
@@ -26,8 +28,16 @@ namespace IDevice.Managers
         public IPlugin Plugin { get; private set; }
     }
 
+    public class PluginException : Exception
+    {
+        public PluginException(string msg, Exception e) : base(msg, e) { }
+        public PluginException(string msg) : base(msg) { }
+    }
+
     public class PluginManager : IEnumerable<IPlugin>
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public event EventHandler<PluginArgs> Added;
         public event EventHandler<PluginArgs> Removed;
 
@@ -41,25 +51,24 @@ namespace IDevice.Managers
             }
             catch (Exception e)
             {
-                throw new Exception("Pluginerror", e);
+                Logger.ErrorException(e.Message, e);
+                throw new PluginException("Could not load plugin", e);
             }
 
         }
 
         public void Load(string assembly)
         {
-            if (!Properties.Settings.Default.EnabledPlugins.Contains(assembly))
-                Properties.Settings.Default.EnabledPlugins.Add(assembly);
             try
             {
                 Load(Assembly.Load(assembly));
-                Properties.Settings.Default.Save();
             }
-            catch
+            catch (Exception e)
             {
-
+                string msg = "Failed to load assembly " + assembly;
+                Logger.ErrorException(msg, e);
+                throw new PluginException(msg, e);
             }
-
         }
 
         public void Load(Assembly assembly)
@@ -78,15 +87,15 @@ namespace IDevice.Managers
 
         public void Unload(string assembly)
         {
-            if (Properties.Settings.Default.EnabledPlugins.Contains(assembly))
-                Properties.Settings.Default.EnabledPlugins.Remove(assembly);
             try
             {
                 Unload(Assembly.Load(assembly));
-                Properties.Settings.Default.Save();
             }
-            catch
+            catch (Exception e)
             {
+                string msg = "Failed to unload assembly " + assembly;
+                Logger.ErrorException(msg, e);
+                throw new PluginException(msg, e);
             }
         }
 
@@ -105,14 +114,21 @@ namespace IDevice.Managers
 
         public void Add(IPlugin plugin)
         {
-            _plugins.Add(plugin);
-            OnAdded(plugin);
+            if (!_plugins.Contains(plugin))
+            {
+                _plugins.Add(plugin);
+                OnAdded(plugin);
+            }
         }
 
         public void Remove(IPlugin plugin)
         {
-            _plugins.Remove(plugin);
-            OnRemoved(plugin);
+            IPlugin removed = _plugins.FirstOrDefault(x => x.Name == plugin.Name);
+            if (removed != null)
+            {
+                _plugins.Remove(plugin);
+                OnRemoved(removed);
+            }
         }
 
         protected virtual void OnRemoved(IPlugin p)
@@ -148,7 +164,7 @@ namespace IDevice.Managers
             }
             else
             {
-                throw new Exception("No such plugin to enable");
+                throw new PluginException("No such plugin to enable");
             }
         }
 
@@ -163,7 +179,7 @@ namespace IDevice.Managers
             }
             else
             {
-                throw new Exception("No such plugin to disable");
+                throw new PluginException("No such plugin to disable");
             }
         }
 

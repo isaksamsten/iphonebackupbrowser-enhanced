@@ -18,47 +18,29 @@ namespace IDevice.Settings
         public PluginManagerWindow(PluginManager manager)
         {
             _manager = manager;
-            _manager.Added += new EventHandler<PluginArgs>(_manager_Added);
-            _manager.Removed += new EventHandler<PluginArgs>(_manager_Removed);
-            Properties.Settings.Default.SettingsSaving += new System.Configuration.SettingsSavingEventHandler(Default_SettingsSaving);
             InitializeComponent();
         }
 
-        void Default_SettingsSaving(object sender, CancelEventArgs e)
+        private void PluginManagerWindow_Load(object sender, EventArgs e)
+        {
+            Reload();
+        }
+
+        private void Reload()
         {
             assemblies.Items.Clear();
             foreach (string str in Properties.Settings.Default.EnabledPlugins)
             {
                 assemblies.Items.Add(str);
             }
-        }
 
-        void _manager_Removed(object sender, PluginArgs e)
-        {
-            //PluginManagerWindow_Load(sender, e);
-        }
-
-        void _manager_Added(object sender, PluginArgs e)
-        {
-            //PluginManagerWindow_Load(sender, e);
-        }
-
-        private void PluginManagerWindow_Load(object sender, EventArgs e)
-        {
             iPluginBindingSource.Clear();
             IEnumerable<PluginInfo> data = _manager.Plugins.Select(x => new PluginInfo
             {
                 Name = x.Name,
                 Enabled = _manager.Enabled(x.Name)
             });
-
             iPluginBindingSource.DataSource = data.ToArray();
-
-            assemblies.Items.Clear();
-            foreach (string str in Properties.Settings.Default.EnabledPlugins)
-            {
-                assemblies.Items.Add(str);
-            }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -101,16 +83,35 @@ namespace IDevice.Settings
 
                 }
                 string name = info.Name.Replace(".dll", "");
-                _manager.Load(name);
+                try
+                {
+                    _manager.Load(name);
+                    if (!Properties.Settings.Default.EnabledPlugins.Contains(name))
+                    {
+                        Properties.Settings.Default.EnabledPlugins.Add(name);
+                        Properties.Settings.Default.Save();
+                    }
+
+                    Reload();
+                }
+                catch (PluginException pe)
+                {
+                    MessageBox.Show("Could not load plugin.", "Could not load", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
             string assembly = assemblies.SelectedItem as string;
-            _manager.Unload(assembly);
-
-            // TODO remove .dll
+            Properties.Settings.Default.EnabledPlugins.Remove(assembly);
+            Properties.Settings.Default.Save();
+            try
+            {
+                _manager.Unload(assembly);
+                Reload();
+            }
+            catch { }
         }
     }
 

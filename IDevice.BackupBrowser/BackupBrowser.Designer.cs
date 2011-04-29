@@ -40,7 +40,10 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,20 +53,16 @@
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolShowBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolExportBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.searchBox = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolShowBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolExportBtn = new System.Windows.Forms.ToolStripButton();
-            this.showMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.dsaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.mainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -177,15 +176,41 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.editToolStripMenuItem.Text = "Edit";
             // 
+            // showMenu
+            // 
+            this.showMenu.Enabled = false;
+            this.showMenu.Image = global::IDevice.Properties.Resources.View;
+            this.showMenu.Name = "showMenu";
+            this.showMenu.Size = new System.Drawing.Size(152, 22);
+            this.showMenu.Text = "View";
+            this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
+            // 
+            // exportMenu
+            // 
+            this.exportMenu.Enabled = false;
+            this.exportMenu.Image = global::IDevice.Properties.Resources.Export1;
+            this.exportMenu.Name = "exportMenu";
+            this.exportMenu.Size = new System.Drawing.Size(152, 22);
+            this.exportMenu.Text = "Export";
+            this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(121, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // pluginsToolStripMenuItem
+            // 
+            this.pluginsToolStripMenuItem.Image = global::IDevice.Properties.Resources.plugin;
+            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pluginsToolStripMenuItem.Text = "Plugins";
+            this.pluginsToolStripMenuItem.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // viewToolStripMenuItem
@@ -272,10 +297,40 @@
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolShowBtn
+            // 
+            this.toolShowBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolShowBtn.Enabled = false;
+            this.toolShowBtn.Image = global::IDevice.Properties.Resources.View;
+            this.toolShowBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolShowBtn.Name = "toolShowBtn";
+            this.toolShowBtn.Size = new System.Drawing.Size(23, 22);
+            this.toolShowBtn.Text = "View File";
+            this.toolShowBtn.ToolTipText = "Show Selected";
+            this.toolShowBtn.Click += new System.EventHandler(this.toolShowBtn_Click);
+            // 
+            // toolExportBtn
+            // 
+            this.toolExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolExportBtn.Enabled = false;
+            this.toolExportBtn.Image = global::IDevice.Properties.Resources.Export1;
+            this.toolExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolExportBtn.Name = "toolExportBtn";
+            this.toolExportBtn.Size = new System.Drawing.Size(23, 22);
+            this.toolExportBtn.Text = "Export Selected";
+            this.toolExportBtn.Click += new System.EventHandler(this.toolExportBtn_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // searchBox
+            // 
+            this.searchBox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(200, 25);
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // toolStripLabel1
             // 
@@ -284,12 +339,15 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(40, 22);
             this.toolStripLabel1.Text = "Search";
             // 
-            // searchBox
+            // toolStripButton1
             // 
-            this.searchBox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(200, 25);
-            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::IDevice.Properties.Resources.plugin;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
             // 
             // RightToolStripPanel
             // 
@@ -330,73 +388,6 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // toolShowBtn
-            // 
-            this.toolShowBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolShowBtn.Enabled = false;
-            this.toolShowBtn.Image = global::IDevice.Properties.Resources.View;
-            this.toolShowBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolShowBtn.Name = "toolShowBtn";
-            this.toolShowBtn.Size = new System.Drawing.Size(23, 22);
-            this.toolShowBtn.Text = "View File";
-            this.toolShowBtn.ToolTipText = "Show Selected";
-            this.toolShowBtn.Click += new System.EventHandler(this.toolShowBtn_Click);
-            // 
-            // toolExportBtn
-            // 
-            this.toolExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolExportBtn.Enabled = false;
-            this.toolExportBtn.Image = global::IDevice.Properties.Resources.Export1;
-            this.toolExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolExportBtn.Name = "toolExportBtn";
-            this.toolExportBtn.Size = new System.Drawing.Size(23, 22);
-            this.toolExportBtn.Text = "Export Selected";
-            this.toolExportBtn.Click += new System.EventHandler(this.toolExportBtn_Click);
-            // 
-            // showMenu
-            // 
-            this.showMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dsaToolStripMenuItem});
-            this.showMenu.Enabled = false;
-            this.showMenu.Image = global::IDevice.Properties.Resources.View;
-            this.showMenu.Name = "showMenu";
-            this.showMenu.Size = new System.Drawing.Size(124, 22);
-            this.showMenu.Text = "View";
-            this.showMenu.Click += new System.EventHandler(this.toolShowBtn_Click);
-            // 
-            // dsaToolStripMenuItem
-            // 
-            this.dsaToolStripMenuItem.Name = "dsaToolStripMenuItem";
-            this.dsaToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
-            this.dsaToolStripMenuItem.Text = "dsa";
-            // 
-            // exportMenu
-            // 
-            this.exportMenu.Enabled = false;
-            this.exportMenu.Image = global::IDevice.Properties.Resources.Export1;
-            this.exportMenu.Name = "exportMenu";
-            this.exportMenu.Size = new System.Drawing.Size(124, 22);
-            this.exportMenu.Text = "Export";
-            this.exportMenu.Click += new System.EventHandler(this.toolExportBtn_Click);
-            // 
-            // pluginsToolStripMenuItem
-            // 
-            this.pluginsToolStripMenuItem.Image = global::IDevice.Properties.Resources.plugin;
-            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
-            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.pluginsToolStripMenuItem.Text = "Plugins";
-            this.pluginsToolStripMenuItem.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::IDevice.Properties.Resources.plugin;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
             // 
             // BackupBrowser
             // 
@@ -440,7 +431,6 @@
         private System.Windows.Forms.ToolStripMenuItem showMenu;
         private System.Windows.Forms.ToolStripMenuItem exportMenu;
         private System.Windows.Forms.ToolStripMenuItem analyzeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dsaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;

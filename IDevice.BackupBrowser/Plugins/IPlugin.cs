@@ -8,6 +8,12 @@ using IDevice.Managers;
 
 namespace IDevice.Plugins
 {
+    /// <summary>
+    /// Plugins should be compared based on their NAME
+    /// remember that!
+    /// 
+    /// Or use the abstract Plugin!!!
+    /// </summary>
     public interface IPlugin : IComparable<IPlugin>, IDisposable
     {
         /// <summary>
