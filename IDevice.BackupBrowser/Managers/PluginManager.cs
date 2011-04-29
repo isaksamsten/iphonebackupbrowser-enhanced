@@ -39,7 +39,7 @@ namespace IDevice.Managers
                 foreach (string a in Properties.Settings.Default.EnabledPlugins)
                     Load(a);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception("Pluginerror", e);
             }
@@ -48,7 +48,18 @@ namespace IDevice.Managers
 
         public void Load(string assembly)
         {
-            Load(Assembly.Load(assembly));
+            if (!Properties.Settings.Default.EnabledPlugins.Contains(assembly))
+                Properties.Settings.Default.EnabledPlugins.Add(assembly);
+            try
+            {
+                Load(Assembly.Load(assembly));
+                Properties.Settings.Default.Save();
+            }
+            catch
+            {
+
+            }
+
         }
 
         public void Load(Assembly assembly)
@@ -63,6 +74,33 @@ namespace IDevice.Managers
                 Add(plugin);
             }
 
+        }
+
+        public void Unload(string assembly)
+        {
+            if (Properties.Settings.Default.EnabledPlugins.Contains(assembly))
+                Properties.Settings.Default.EnabledPlugins.Remove(assembly);
+            try
+            {
+                Unload(Assembly.Load(assembly));
+                Properties.Settings.Default.Save();
+            }
+            catch
+            {
+            }
+        }
+
+        public void Unload(Assembly assembly)
+        {
+            IEnumerable<Type> types = assembly
+                .GetTypes()
+                .Where(t => t.HasInterface(typeof(IPlugin)) && !t.IsAbstract && !t.IsInterface);
+
+            foreach (Type t in types)
+            {
+                IPlugin plugin = (IPlugin)Activator.CreateInstance(t);
+                Remove(plugin);
+            }
         }
 
         public void Add(IPlugin plugin)

@@ -30,11 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pluginList = new System.Windows.Forms.DataGridView();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.cancelBtn = new System.Windows.Forms.Button();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.enabledDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.iPluginBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnOk = new System.Windows.Forms.Button();
+            this.cancelBtn = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.assemblies = new System.Windows.Forms.ListBox();
+            this.btnRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pluginList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iPluginBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -52,13 +55,31 @@
             this.nameDataGridViewTextBoxColumn,
             this.enabledDataGridViewCheckBoxColumn});
             this.pluginList.DataSource = this.iPluginBindingSource;
-            this.pluginList.Location = new System.Drawing.Point(12, 11);
+            this.pluginList.Location = new System.Drawing.Point(176, 11);
             this.pluginList.Name = "pluginList";
             this.pluginList.RowHeadersVisible = false;
             this.pluginList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.pluginList.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.pluginList.Size = new System.Drawing.Size(558, 232);
+            this.pluginList.Size = new System.Drawing.Size(394, 232);
             this.pluginList.TabIndex = 0;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // enabledDataGridViewCheckBoxColumn
+            // 
+            this.enabledDataGridViewCheckBoxColumn.DataPropertyName = "Enabled";
+            this.enabledDataGridViewCheckBoxColumn.HeaderText = "Enabled";
+            this.enabledDataGridViewCheckBoxColumn.Name = "enabledDataGridViewCheckBoxColumn";
+            // 
+            // iPluginBindingSource
+            // 
+            this.iPluginBindingSource.DataSource = typeof(IDevice.Settings.PluginInfo);
             // 
             // btnOk
             // 
@@ -82,29 +103,42 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
-            // nameDataGridViewTextBoxColumn
+            // btnAdd
             // 
-            this.nameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btnAdd.Location = new System.Drawing.Point(13, 249);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btn_Click);
             // 
-            // enabledDataGridViewCheckBoxColumn
+            // assemblies
             // 
-            this.enabledDataGridViewCheckBoxColumn.DataPropertyName = "Enabled";
-            this.enabledDataGridViewCheckBoxColumn.HeaderText = "Enabled";
-            this.enabledDataGridViewCheckBoxColumn.Name = "enabledDataGridViewCheckBoxColumn";
+            this.assemblies.FormattingEnabled = true;
+            this.assemblies.Location = new System.Drawing.Point(13, 14);
+            this.assemblies.Name = "assemblies";
+            this.assemblies.Size = new System.Drawing.Size(157, 225);
+            this.assemblies.TabIndex = 4;
             // 
-            // iPluginBindingSource
+            // btnRemove
             // 
-            this.iPluginBindingSource.DataSource = typeof(IDevice.Settings.PluginInfo);
+            this.btnRemove.Location = new System.Drawing.Point(95, 248);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.TabIndex = 5;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // PluginManagerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 278);
+            this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.assemblies);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.pluginList);
@@ -126,5 +160,8 @@
         private System.Windows.Forms.BindingSource iPluginBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn enabledDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ListBox assemblies;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
