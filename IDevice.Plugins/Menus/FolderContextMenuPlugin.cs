@@ -144,7 +144,7 @@ namespace IDevice.Plugins.Menus
 
         public override string Name
         {
-            get { return "FolderContextMenuPlugin"; }
+            get { return "FolderContextMenu"; }
         }
 
         public override System.Drawing.Icon Icon

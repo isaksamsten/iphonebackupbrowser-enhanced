@@ -20,7 +20,7 @@ namespace IDevice.Managers
         /// <returns></returns>
         public FileInfo GetWorkingFile(IPhoneBackup backup, IPhoneFile file, bool random)
         {
-            string tempPath = Path.GetTempPath();
+            string tempPath = Path.Combine(Path.GetTempPath(), DateTime.Now.Ticks.ToString());
             string dest = Path.GetTempFileName();
             if (!random)
                 dest = Path.Combine(tempPath, GetFileName(file));

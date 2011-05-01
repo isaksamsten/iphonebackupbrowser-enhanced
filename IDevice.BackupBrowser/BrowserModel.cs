@@ -122,7 +122,7 @@ namespace IDevice
             InvokeAsync(work, complete, name, true, payload);
         }
 
-        public int Percent(int current, int length)
+        public static int Percent(int current, int length)
         {
             return (int)(((double)current / length) * 100);
         }

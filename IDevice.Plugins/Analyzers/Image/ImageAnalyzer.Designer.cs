@@ -29,58 +29,91 @@
         private void InitializeComponent()
         {
             this.imageView = new System.Windows.Forms.ListView();
-            this.infoPanel = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
+            this.progress = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.infoPanel = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // imageView
             // 
-            this.imageView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
+            this.imageView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageView.Location = new System.Drawing.Point(13, 13);
+            this.imageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.imageView.Location = new System.Drawing.Point(13, 12);
             this.imageView.Name = "imageView";
-            this.imageView.Size = new System.Drawing.Size(429, 394);
+            this.imageView.Size = new System.Drawing.Size(464, 395);
             this.imageView.TabIndex = 0;
             this.imageView.UseCompatibleStateImageBehavior = false;
-            // 
-            // infoPanel
-            // 
-            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.infoPanel.Location = new System.Drawing.Point(448, 13);
-            this.infoPanel.Name = "infoPanel";
-            this.infoPanel.Size = new System.Drawing.Size(158, 394);
-            this.infoPanel.TabIndex = 1;
+            this.imageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.imageView_ItemSelectionChanged);
             // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Location = new System.Drawing.Point(531, 413);
+            this.btnClose.Location = new System.Drawing.Point(647, 413);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
+            // progress
+            // 
+            this.progress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progress.Location = new System.Drawing.Point(12, 413);
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(465, 23);
+            this.progress.Step = 1;
+            this.progress.TabIndex = 3;
+            this.progress.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(483, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Information";
+            // 
+            // infoPanel
+            // 
+            this.infoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoPanel.Location = new System.Drawing.Point(483, 30);
+            this.infoPanel.Name = "infoPanel";
+            this.infoPanel.Size = new System.Drawing.Size(239, 377);
+            this.infoPanel.TabIndex = 6;
+            this.infoPanel.UseCompatibleStateImageBehavior = false;
+            this.infoPanel.View = System.Windows.Forms.View.Details;
+            // 
             // ImageAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 442);
-            this.Controls.Add(this.btnClose);
+            this.ClientSize = new System.Drawing.Size(734, 442);
             this.Controls.Add(this.infoPanel);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.progress);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.imageView);
             this.Name = "ImageAnalyzer";
             this.Text = "ImageAnalyzer";
+            this.Load += new System.EventHandler(this.ImageAnalyzer_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ListView imageView;
-        private System.Windows.Forms.Panel infoPanel;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.ProgressBar progress;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView infoPanel;
     }
 }

@@ -261,6 +261,7 @@ namespace IDevice
         {
             Register(e.Plugin);
         }
+
         #region EVENT HANDLERS
 
         private void Form1_Load(object sender, EventArgs e)
@@ -283,12 +284,22 @@ namespace IDevice
             SelectBackup(backups.FirstOrDefault());
         }
 
+        /// <summary>
+        /// Select an app on double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void folderList_DoubleClick(object sender, EventArgs e)
         {
             IPhoneApp app = (IPhoneApp)folderList.FocusedItem.Tag;
             SelectApp(app);
         }
 
+        /// <summary>
+        /// Sort on column click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void folderList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             switch (folderList.Sorting)
@@ -299,7 +310,11 @@ namespace IDevice
             }
         }
 
-
+        /// <summary>
+        /// sort
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == lvwColumnSorter.SortColumn)
@@ -321,6 +336,11 @@ namespace IDevice
             this.fileList.Sort();
         }
 
+        /// <summary>
+        /// Copy files to desktop..
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fileList_ItemDrag(object sender, ItemDragEventArgs e)
         {
             IPhoneBackup backup = Model.Backup;
@@ -351,6 +371,13 @@ namespace IDevice
             fileList.DoDragDrop(new DataObject(DataFormats.FileDrop, filenames.ToArray()), DragDropEffects.Copy);
         }
 
+        /// <summary>
+        /// Enable or disable the export and view buttons
+        /// 
+        /// And propagate the selection state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fileList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (fileList.SelectedItems.Count == 1)
@@ -387,6 +414,11 @@ namespace IDevice
 
         }
 
+        /// <summary>
+        /// View a file using a browser
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolShowBtn_Click(object sender, EventArgs e)
         {
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
@@ -412,6 +444,7 @@ namespace IDevice
             }
             catch (Exception ex)
             {
+                Logger.DebugException(ex.Message, ex);
                 MessageBox.Show(string.Format("'{0}' could not be opened by '{1}'"
                                                 + "\n\n'{2}'"
                                                 + "\nStacktrace\n{3}", dest.Name, browser.Name,
@@ -419,6 +452,11 @@ namespace IDevice
             }
         }
 
+        /// <summary>
+        /// Export some files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolExportBtn_Click(object sender, EventArgs e)
         {
             IPhoneBackup backup = Model.Backup;
@@ -453,6 +491,11 @@ namespace IDevice
 
         }
 
+        /// <summary>
+        /// Search for apps
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void searchBox_TextChanged(object sender, EventArgs e)
         {
             string content = searchBox.Text.ToLower();
@@ -503,12 +546,23 @@ namespace IDevice
             win.ShowDialog(this);
         }
 
+
+        /// <summary>
+        /// Select an app when selection changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void folderList_SelectedIndexChanged(object sender, EventArgs e)
         {
             IPhoneApp app = folderList.FocusedItem.Tag as IPhoneApp;
             OnSelectedApps(app);
         }
 
+        /// <summary>
+        /// Select a backup path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog from = new FolderBrowserDialog();

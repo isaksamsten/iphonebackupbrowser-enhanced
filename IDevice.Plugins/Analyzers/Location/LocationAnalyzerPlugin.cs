@@ -18,7 +18,7 @@ namespace IDevice.Plugins.Analyzers.Location
 {
     public class LocationAnalyzerPlugin : AbstractPlugin
     {
-        private ToolStripMenuItem _analyze = new ToolStripMenuItem("Export Locations");
+        private ToolStripMenuItem _analyze = new ToolStripMenuItem("Locations");
 
         public LocationAnalyzerPlugin()
         {
@@ -106,7 +106,7 @@ namespace IDevice.Plugins.Analyzers.Location
                         location.Name = "[Image] " + info.Name;
                         locations.Add(location);
 
-                        worker.ReportProgress(Model.Percent(current++, count));
+                        worker.ReportProgress(BrowserModel.Percent(current++, count));
                     }
 
                     geKML kml = Location.ToKML(locations.OrderBy(x => x.Time));
@@ -151,7 +151,7 @@ namespace IDevice.Plugins.Analyzers.Location
 
         public override string Name
         {
-            get { return "LocationAnalyzerPlugin"; }
+            get { return "LocationAnalyzer"; }
         }
 
         public override System.Drawing.Icon Icon
