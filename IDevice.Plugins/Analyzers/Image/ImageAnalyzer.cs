@@ -40,9 +40,11 @@ namespace IDevice.Plugins.Analyzers.Image
         void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             var x = e.Result as dynamic;
-            imageView.LargeImageList = x.ImageList;
-            imageView.Items.AddRange(x.ListViewItems);
-
+            imageView.BeginInvoke(new MethodInvoker(delegate()
+            {
+                imageView.LargeImageList = x.ImageList;
+                imageView.Items.AddRange(x.ListViewItems);
+            }));
             progress.Visible = false;
         }
 
