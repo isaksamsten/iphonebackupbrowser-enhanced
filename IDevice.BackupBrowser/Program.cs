@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using IDevice.Plugins;
+using IDevice.Managers;
 
 namespace IDevice
 {
@@ -16,9 +17,15 @@ namespace IDevice
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            BackupBrowser browser = new BackupBrowser();            
-            Application.Run(browser);
+            try
+            {
+                BackupBrowser browser = new BackupBrowser();
+                Application.Run(browser);
+            }
+            finally
+            {
+                FileManager.Current.Clean();
+            }
         }
     }
 }

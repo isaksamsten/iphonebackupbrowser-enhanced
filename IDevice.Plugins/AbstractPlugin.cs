@@ -20,7 +20,7 @@ namespace IDevice.Plugins
         /// </summary>
         protected AbstractPlugin()
         {
-            _fileManager = new FileManager();
+            _fileManager = FileManager.Current;
         }
 
         /// <summary>

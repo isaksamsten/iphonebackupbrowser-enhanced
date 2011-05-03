@@ -44,7 +44,8 @@ namespace IDevice.Plugins.Browsers.SQL
                     tableColumnList.Items.Add(currentColumn.name, true);
                     tableContentList.Columns.Add(currentColumn.name);
                 }
-                tableContentList.Items.AddRange(items);
+                // Invoke on thread
+                tableContentList.BeginInvoke(new MethodInvoker(() => tableContentList.Items.AddRange(items)));
             }
         }
 

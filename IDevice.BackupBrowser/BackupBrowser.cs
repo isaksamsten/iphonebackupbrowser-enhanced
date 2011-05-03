@@ -424,7 +424,7 @@ namespace IDevice
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
             IPhoneBackup backup = Model.Backup;
 
-            FileManager filemanager = new FileManager();
+            FileManager filemanager = FileManager.Current;
             FileInfo dest = filemanager.GetWorkingFile(backup, file);
 
             IBrowsable browser = _browserManger.Get(dest.Extension);
@@ -648,7 +648,7 @@ namespace IDevice
 
             UpdateTitle(backup.DisplayName);
 
-            FileManager fm = new FileManager();
+            FileManager fm = FileManager.Current;
             List<IPhoneApp> apps = backup.GetApps();
             foreach (var app in apps)
             {

@@ -55,7 +55,7 @@ namespace IDevice.Plugins.Analyzers.Image
 
             IPhoneApp system = backup.GetApps().FirstOrDefault(app => app.Name == "System");
             IEnumerable<IPhoneFile> images = system.Files.Where(file => file.Domain == "MediaDomain" && file.Path.Contains("DCIM/100APPLE"));
-            FileManager fm = new FileManager();
+            FileManager fm = FileManager.Current;
 
             ImageList imgList = new ImageList();
             imgList.ImageSize = new Size(64, 64);
@@ -65,7 +65,7 @@ namespace IDevice.Plugins.Analyzers.Image
             int length = images.Count(), current = 0;
             foreach (IPhoneFile file in images)
             {
-                FileInfo info = fm.GetWorkingFile(_backup, file);
+                FileInfo info = fm.GetWorkingFileCurrentClass(_backup, file);
                 ListViewItem itm = new ListViewItem();
                 itm.Tag = new Bitmap(info.FullName);
                 itm.Text = info.Name;
