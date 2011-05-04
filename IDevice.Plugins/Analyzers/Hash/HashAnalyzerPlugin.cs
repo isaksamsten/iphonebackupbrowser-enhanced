@@ -55,7 +55,7 @@ namespace IDevice.Plugins.Analyzers.Hash
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Row,DateTime,MD5,SHA1,DisplayName,FileName");
             int row = 0;
-            Model.InvokeAsync(files.Take(10), delegate(IPhoneFile file) // run
+            Model.InvokeAsync(files, delegate(IPhoneFile file) // run
             {
                 FileInfo fileInfo = FileManager.GetOriginalFile(backup, file);
                 string md5 = Util.MD5File(fileInfo);
