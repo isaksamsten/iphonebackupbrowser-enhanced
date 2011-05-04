@@ -38,6 +38,8 @@ namespace IDevice.Plugins.Menus
         {
             if (SelectedFiles != null && SelectedFiles.Count() > 0)
                 openWith.Enabled = true;
+            else
+                openWith.Enabled = false;
         }
 
         protected override void OnPostRegister()

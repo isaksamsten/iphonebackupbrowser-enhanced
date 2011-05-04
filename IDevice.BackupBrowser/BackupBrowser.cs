@@ -199,7 +199,10 @@ namespace IDevice
             }
             else
             {
-                collection.Add(e.Item);
+                if (e.Insert)
+                    collection.Insert(e.Index, e.Item);
+                else
+                    collection.Add(e.Item);
             }
         }
 

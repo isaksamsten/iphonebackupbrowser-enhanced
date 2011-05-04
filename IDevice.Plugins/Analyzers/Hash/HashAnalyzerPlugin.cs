@@ -35,10 +35,18 @@ namespace IDevice.Plugins.Analyzers.Hash
         }
 
         private ToolStripMenuItem hashes = new ToolStripMenuItem("Hashes");
+        private ToolStripMenuItem showHash = new ToolStripMenuItem("Show hash");
 
         public HashAnalyzerPlugin()
         {
             hashes.Click += new EventHandler(hashes_Click);
+            showHash.Click += new EventHandler(showHash_Click);
+        }
+
+        void showHash_Click(object sender, EventArgs e)
+        {
+            HashInfo info = new HashInfo(SelectedBackup, SelectedFiles.FirstOrDefault());
+            info.Show(Model.Window);
         }
 
         void hashes_Click(object sender, EventArgs e)
@@ -83,14 +91,24 @@ namespace IDevice.Plugins.Analyzers.Hash
             }, "Analyzing hashes");
         }
 
+        protected override void OnSelectionChanged(object sender, EventArgs e)
+        {
+            if (SelectedFiles != null && SelectedFiles.Count() > 0)
+                showHash.Enabled = true;
+            else
+                showHash.Enabled = false;
+        }
+
         protected override void OnRegisterMenu(Managers.MenuManager manager)
         {
+            manager.Add(Managers.MenuContainer.FileContext, showHash);
             manager.Add(Managers.MenuContainer.Analyzer, hashes);
         }
 
         protected override void OnUnregisterMenu(Managers.MenuManager manager)
         {
             manager.Remove(Managers.MenuContainer.Analyzer, hashes);
+            manager.Remove(Managers.MenuContainer.Analyzer, showHash);
         }
 
 

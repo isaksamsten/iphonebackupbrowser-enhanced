@@ -72,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers\Hash\HashAnalyzerPlugin.cs" />
+    <Compile Include="Analyzers\Hash\HashInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analyzers\Hash\HashInfo.Designer.cs">
+      <DependentUpon>HashInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analyzers\Image\ImageAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Analyzers\Hash\HashInfo.resx">
+      <DependentUpon>HashInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Analyzers\Image\ImageAnalyzer.resx">
       <DependentUpon>ImageAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
