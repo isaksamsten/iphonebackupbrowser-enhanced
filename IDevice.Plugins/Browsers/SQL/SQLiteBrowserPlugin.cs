@@ -63,7 +63,7 @@ namespace IDevice.Plugins.Browsers.SQL
 
         public string[] Prefixes
         {
-            get { return new string[] { ".db", ".sqlite", ".sqlitedb" }; }
+            get { return new string[] { ".db", ".sqlite", ".sqlitedb", ".dbb" }; }
         }
 
         public override void Dispose()

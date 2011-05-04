@@ -65,9 +65,6 @@ namespace IDevice.Plugins.Browsers.PList
         private void plistList_SelectedIndexChanged(object sender, EventArgs e)
         {
             IPListElement element = plistList.FocusedItem.Tag as IPListElement;
-
-            lblHead.Text = element.TypeName();
-
         }
 
         private void PListBrowser_Load(object sender, EventArgs e)

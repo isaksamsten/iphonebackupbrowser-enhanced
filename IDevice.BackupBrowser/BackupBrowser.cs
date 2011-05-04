@@ -37,6 +37,11 @@ namespace IDevice
         public BrowserModel Model { get { return _model; } }
 
         /// <summary>
+        /// Might be slow
+        /// </summary>
+        public IEnumerable<IBrowsable> BrowserManagers { get { return _browserManger.Select(kv => kv.Value); } }
+
+        /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
         /// </summary>
         public class ListViewColumnSorter : IComparer

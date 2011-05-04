@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainSplit = new System.Windows.Forms.SplitContainer();
-            this.plistList = new System.Windows.Forms.ListView();
-            this.txtContent = new System.Windows.Forms.TextBox();
-            this.lblHead = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,59 +35,9 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.readableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).BeginInit();
-            this.mainSplit.Panel1.SuspendLayout();
-            this.mainSplit.Panel2.SuspendLayout();
-            this.mainSplit.SuspendLayout();
+            this.plistList = new System.Windows.Forms.ListView();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // mainSplit
-            // 
-            this.mainSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainSplit.Location = new System.Drawing.Point(0, 24);
-            this.mainSplit.Name = "mainSplit";
-            // 
-            // mainSplit.Panel1
-            // 
-            this.mainSplit.Panel1.Controls.Add(this.plistList);
-            // 
-            // mainSplit.Panel2
-            // 
-            this.mainSplit.Panel2.Controls.Add(this.txtContent);
-            this.mainSplit.Panel2.Controls.Add(this.lblHead);
-            this.mainSplit.Size = new System.Drawing.Size(685, 459);
-            this.mainSplit.SplitterDistance = 489;
-            this.mainSplit.TabIndex = 2;
-            // 
-            // plistList
-            // 
-            this.plistList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plistList.Location = new System.Drawing.Point(0, 0);
-            this.plistList.Name = "plistList";
-            this.plistList.Size = new System.Drawing.Size(489, 459);
-            this.plistList.TabIndex = 0;
-            this.plistList.UseCompatibleStateImageBehavior = false;
-            this.plistList.View = System.Windows.Forms.View.Details;
-            // 
-            // txtContent
-            // 
-            this.txtContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtContent.Location = new System.Drawing.Point(0, 13);
-            this.txtContent.Multiline = true;
-            this.txtContent.Name = "txtContent";
-            this.txtContent.Size = new System.Drawing.Size(192, 446);
-            this.txtContent.TabIndex = 1;
-            // 
-            // lblHead
-            // 
-            this.lblHead.AutoSize = true;
-            this.lblHead.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblHead.Location = new System.Drawing.Point(0, 0);
-            this.lblHead.Name = "lblHead";
-            this.lblHead.Size = new System.Drawing.Size(35, 13);
-            this.lblHead.TabIndex = 0;
-            this.lblHead.Text = "label1";
             // 
             // menuStrip1
             // 
@@ -146,22 +92,27 @@
             this.readableToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.readableToolStripMenuItem.Text = "Readable";
             // 
+            // plistList
+            // 
+            this.plistList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plistList.Location = new System.Drawing.Point(0, 24);
+            this.plistList.Name = "plistList";
+            this.plistList.Size = new System.Drawing.Size(685, 459);
+            this.plistList.TabIndex = 2;
+            this.plistList.UseCompatibleStateImageBehavior = false;
+            this.plistList.View = System.Windows.Forms.View.Details;
+            // 
             // PListBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 483);
-            this.Controls.Add(this.mainSplit);
+            this.Controls.Add(this.plistList);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PListBrowser";
             this.Text = "PListBrowser";
             this.Load += new System.EventHandler(this.PListBrowser_Load);
-            this.mainSplit.Panel1.ResumeLayout(false);
-            this.mainSplit.Panel2.ResumeLayout(false);
-            this.mainSplit.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainSplit)).EndInit();
-            this.mainSplit.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -178,10 +129,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem binaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readableToolStripMenuItem;
-        private System.Windows.Forms.SplitContainer mainSplit;
         private System.Windows.Forms.ListView plistList;
-        private System.Windows.Forms.TextBox txtContent;
-        private System.Windows.Forms.Label lblHead;
 
     }
 }

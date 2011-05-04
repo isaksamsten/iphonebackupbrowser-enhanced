@@ -79,35 +79,36 @@ namespace IDevice.Plugins.Analyzers.Location
                         worker.ReportProgress(33);
                     }
 
-                    int count = imgs.Count() + 66, current = 66;
-                    foreach (IPhoneFile file in imgs)
-                    {
-                        FileInfo info = FileManager.GetWorkingFile(backup, file);
-                        ExifTagCollection er = new ExifTagCollection(info.FullName);
+                    //Gives incorrect results.. FIXIT
+                    //int count = imgs.Count() + 66, current = 66;
+                    //foreach (IPhoneFile file in imgs)
+                    //{
+                    //    FileInfo info = FileManager.GetWorkingFile(backup, file);
+                    //    ExifTagCollection er = new ExifTagCollection(info.FullName);
 
-                        //not working...
-                        Location location = new Location();
-                        double lat = 0, lon = 0;
-                        foreach (ExifTag tag in er)
-                        {
-                            if (tag.FieldName == "GPSLatitude")
-                            {
-                                string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
-                                double.TryParse(dec, out lat);
-                            }
-                            else if (tag.FieldName == "GPSLongitude")
-                            {
-                                string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
-                                double.TryParse(dec, out lon);
-                            }
-                        }
-                        location.Latitude = lat;
-                        location.Longitude = lon;
-                        location.Name = "[Image] " + info.Name;
-                        locations.Add(location);
+                    //    //not working...
+                    //    Location location = new Location();
+                    //    double lat = 0, lon = 0;
+                    //    foreach (ExifTag tag in er)
+                    //    {
+                    //        if (tag.FieldName == "GPSLatitude")
+                    //        {
+                    //            string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
+                    //            double.TryParse(dec, out lat);
+                    //        }
+                    //        else if (tag.FieldName == "GPSLongitude")
+                    //        {
+                    //            string dec = Regex.Match(tag.Value, @"\d+\.\d+").ToString();
+                    //            double.TryParse(dec, out lon);
+                    //        }
+                    //    }
+                    //    location.Latitude = lat;
+                    //    location.Longitude = lon;
+                    //    location.Name = "[Image] " + info.Name;
+                    //    locations.Add(location);
 
-                        worker.ReportProgress(Util.Percent(current++, count));
-                    }
+                    //    worker.ReportProgress(Util.Percent(current++, count));
+                    //}
 
                     geKML kml = Location.ToKML(locations.OrderBy(x => x.Time));
                     a.Result = kml;

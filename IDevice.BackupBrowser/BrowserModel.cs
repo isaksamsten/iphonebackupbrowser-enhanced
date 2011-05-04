@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using NLog;
 using System.Threading;
 using System.ComponentModel;
+using IDevice.Managers;
+using IDevice.Plugins;
 
 namespace IDevice
 {
@@ -35,6 +37,8 @@ namespace IDevice
         public IPhoneApp App { get; private set; }
 
         public IWin32Window Window { get { return _browser; } }
+
+        public IEnumerable<IBrowsable> BrowserManagers { get { return _browser.BrowserManagers; } }
 
         public BrowserModel(BackupBrowser browser)
         {
@@ -123,7 +127,7 @@ namespace IDevice
             InvokeAsync(work, complete, name, true, payload);
         }
 
-        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action,string name, Cursor cursor = null)
+        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action, string name, Cursor cursor = null)
         {
             InvokeAsync(payload, action, delegate() { }, name, cursor);
         }

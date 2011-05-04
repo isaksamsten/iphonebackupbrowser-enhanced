@@ -13,6 +13,9 @@ using LevDan.Exif;
 
 namespace IDevice.Plugins.Analyzers.Image
 {
+    /// <summary>
+    /// This is a memory HOG!
+    /// </summary>
     public partial class ImageAnalyzer : Form
     {
         private IPhoneBackup _backup;
@@ -105,6 +108,11 @@ namespace IDevice.Plugins.Analyzers.Image
                     infoPanel.Items.Add(item);
                 }
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
