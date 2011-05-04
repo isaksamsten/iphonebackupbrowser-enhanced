@@ -106,7 +106,7 @@ namespace IDevice.Plugins.Analyzers.Location
                         location.Name = "[Image] " + info.Name;
                         locations.Add(location);
 
-                        worker.ReportProgress(BrowserModel.Percent(current++, count));
+                        worker.ReportProgress(Util.Percent(current++, count));
                     }
 
                     geKML kml = Location.ToKML(locations.OrderBy(x => x.Time));

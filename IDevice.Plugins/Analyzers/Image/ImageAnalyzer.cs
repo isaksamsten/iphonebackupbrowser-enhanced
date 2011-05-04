@@ -74,7 +74,7 @@ namespace IDevice.Plugins.Analyzers.Image
                 imgList.Images.Add(info.Name, (Bitmap)itm.Tag);
                 listViewItems.Add(itm);
 
-                worker.ReportProgress(BrowserModel.Percent(current++, length));
+                worker.ReportProgress(Util.Percent(current++, length));
             }
 
             e.Result = new { ImageList = imgList, ListViewItems = listViewItems.ToArray() };

@@ -106,6 +106,7 @@
     <Compile Include="Settings\PluginManagerWindow.Designer.cs">
       <DependentUpon>PluginManagerWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
     <Compile Include="xdict.cs" />
     <Compile Include="BackupBrowser.cs">
       <SubType>Form</SubType>

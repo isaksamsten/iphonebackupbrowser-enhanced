@@ -74,22 +74,46 @@ namespace IDevice.Managers
         /// <param name="backup"></param>
         /// <param name="file"></param>
         /// <param name="random"></param>
+        /// <param name="dir"></param>
+        /// <param name="verify">Verify the files after copy (using md5)</param>
+        /// <exception cref="IOException">
+        /// Thrown if file copy failed or that the copy cannot be verified
+        /// </exception>
         /// <returns></returns>
-        public FileInfo GetWorkingFile(string dir, IPhoneBackup backup, IPhoneFile file, bool random)
+        public FileInfo GetWorkingFile(string dir, IPhoneBackup backup, IPhoneFile file, bool random, bool verify = true)
         {
             string tempPath = Path.Combine(Path.GetTempPath(), BasePath, dir);
             if (!Directory.Exists(tempPath))
                 Directory.CreateDirectory(tempPath);
 
-            string dest = Path.GetTempFileName();
+            FileInfo dest = new FileInfo(Path.GetTempFileName());
             if (!random)
-                dest = Path.Combine(tempPath, GetFileName(file));
+                dest = new FileInfo(Path.Combine(tempPath, GetFileName(file)));
 
-            string src = Path.Combine(backup.Path, file.Key);
+            FileInfo src = GetOriginalFile(backup, file);
+            string srcHash = "", destHash = "";
+            if (verify)
+                srcHash = Util.MD5File(src);
+
             if (src != dest)
-                File.Copy(src, dest, true);
+                File.Copy(src.FullName, dest.FullName, true);
 
-            return new FileInfo(dest);
+            if (verify)
+            {
+                destHash = Util.MD5File(dest);
+                if (srcHash != destHash)
+                {
+                    Clean(dest.FullName);
+                    throw new IOException("File copy failed. Reason: Hashes do not match!!");
+                }
+            }
+            return dest;
+        }
+
+        public FileInfo GetOriginalFile(IPhoneBackup backup, IPhoneFile file)
+        {
+            string src = Path.Combine(backup.Path, file.Key);
+            return new FileInfo(src);
         }
 
         /// <summary>
@@ -179,9 +203,9 @@ namespace IDevice.Managers
             {
                 Directory.Delete(Path.Combine(Path.GetTempPath(), BasePath, subPath));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.ErrorException(e.Message, e);   
+                Logger.ErrorException(e.Message, e);
             }
         }
 

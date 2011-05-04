@@ -92,7 +92,7 @@ namespace IDevice
         }
 
 
-        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action, string name, Cursor cursor = null)
+        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action, Action completed, string name, Cursor cursor = null)
         {
             Logger.Debug("Starting an async work on an Enumerable<{0}> with name '{1}'", typeof(T).Name, name);
             DoWorkEventHandler work = delegate(object sender, DoWorkEventArgs evt)
@@ -105,7 +105,7 @@ namespace IDevice
                     if (!worker.CancellationPending)
                     {
                         action(item);
-                        worker.ReportProgress(Percent(start++, length));
+                        worker.ReportProgress(Util.Percent(start++, length));
                     }
                     else
                     {
@@ -117,14 +117,15 @@ namespace IDevice
 
             RunWorkerCompletedEventHandler complete = delegate(object sender, RunWorkerCompletedEventArgs e)
             {
+                completed();
             };
 
             InvokeAsync(work, complete, name, true, payload);
         }
 
-        public static int Percent(int current, int length)
+        public void InvokeAsync<T>(IEnumerable<T> payload, Action<T> action,string name, Cursor cursor = null)
         {
-            return (int)(((double)current / length) * 100);
+            InvokeAsync(payload, action, delegate() { }, name, cursor);
         }
 
         /// <summary>

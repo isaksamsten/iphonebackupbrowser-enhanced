@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzers\Hash\HashAnalyzerPlugin.cs" />
     <Compile Include="Analyzers\Image\ImageAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
