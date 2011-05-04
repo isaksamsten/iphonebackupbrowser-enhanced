@@ -12,6 +12,13 @@ using NLog;
 
 namespace IDevice.Managers
 {
+    /// <summary>
+    /// Question: Is it required to have this thread safe?
+    /// 
+    /// Long copy operations will block for ever...
+    /// 
+    /// 
+    /// </summary>
     public class FileManager
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();
@@ -28,6 +35,8 @@ namespace IDevice.Managers
                 return _current;
             }
         }
+
+        private object _lock = new object();
 
         /// <summary>
         /// Use FileManager.Current instead
@@ -70,6 +79,11 @@ namespace IDevice.Managers
 
         /// <summary>
         /// Return a file copy from a temp folder
+        /// 
+        /// The path will be /Temp/$$idb$/{dir}/{fileName} (or random i.e. Path.GetTempFileName())
+        /// 
+        /// if verify == true the file from source and the destination hashes will be compared
+        /// if the comparsion fail. An IOExcetion is raised.
         /// </summary>
         /// <param name="backup"></param>
         /// <param name="file"></param>
@@ -82,32 +96,35 @@ namespace IDevice.Managers
         /// <returns></returns>
         public FileInfo GetWorkingFile(string dir, IPhoneBackup backup, IPhoneFile file, bool random, bool verify = true)
         {
-            string tempPath = Path.Combine(Path.GetTempPath(), BasePath, dir);
-            if (!Directory.Exists(tempPath))
-                Directory.CreateDirectory(tempPath);
-
-            FileInfo dest = new FileInfo(Path.GetTempFileName());
-            if (!random)
-                dest = new FileInfo(Path.Combine(tempPath, GetFileName(file)));
-
-            FileInfo src = GetOriginalFile(backup, file);
-            string srcHash = "", destHash = "";
-            if (verify)
-                srcHash = Util.MD5File(src);
-
-            if (src != dest)
-                File.Copy(src.FullName, dest.FullName, true);
-
-            if (verify)
+            lock (_lock)
             {
-                destHash = Util.MD5File(dest);
-                if (srcHash != destHash)
+                string tempPath = Path.Combine(Path.GetTempPath(), BasePath, dir);
+                if (!Directory.Exists(tempPath))
+                    Directory.CreateDirectory(tempPath);
+
+                FileInfo dest = new FileInfo(Path.GetTempFileName());
+                if (!random)
+                    dest = new FileInfo(Path.Combine(tempPath, GetFileName(file)));
+
+                FileInfo src = GetOriginalFile(backup, file);
+                string srcHash = "", destHash = "";
+                if (verify)
+                    srcHash = Util.MD5File(src);
+
+                if (src != dest)
+                    File.Copy(src.FullName, dest.FullName, true);
+
+                if (verify)
                 {
-                    Clean(dest.FullName);
-                    throw new IOException("File copy failed. Reason: Hashes do not match!!");
+                    destHash = Util.MD5File(dest);
+                    if (srcHash != destHash)
+                    {
+                        Clean(dest.FullName);
+                        throw new IOException("File copy failed. Reason: Hashes do not match!!");
+                    }
                 }
+                return dest;
             }
-            return dest;
         }
 
         public FileInfo GetOriginalFile(IPhoneBackup backup, IPhoneFile file)
@@ -152,10 +169,13 @@ namespace IDevice.Managers
         /// <param name="dest"></param>
         public void Copy(IPhoneBackup backup, IPhoneFile file, string dest)
         {
-            string src = Path.Combine(backup.Path, file.Key);
-            dest = Path.Combine(dest, GetFileName(file));
-            if (src != dest)
-                File.Copy(src, dest, true);
+            lock (_lock)
+            {
+                string src = Path.Combine(backup.Path, file.Key);
+                dest = Path.Combine(dest, GetFileName(file));
+                if (src != dest)
+                    File.Copy(src, dest, true);
+            }
         }
 
         /// <summary>
@@ -199,13 +219,16 @@ namespace IDevice.Managers
         /// <param name="subPath"></param>
         public void Clean(string subPath)
         {
-            try
+            lock (_lock)
             {
-                Directory.Delete(Path.Combine(Path.GetTempPath(), BasePath, subPath));
-            }
-            catch (Exception e)
-            {
-                Logger.ErrorException(e.Message, e);
+                try
+                {
+                    Directory.Delete(Path.Combine(Path.GetTempPath(), BasePath, subPath), true);
+                }
+                catch (Exception e)
+                {
+                    Logger.ErrorException(e.Message, e);
+                }
             }
         }
 
