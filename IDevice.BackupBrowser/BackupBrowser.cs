@@ -185,6 +185,7 @@ namespace IDevice
             else
             {
                 collection.Remove(e.Item);
+                Util.Sort(collection);
             }
         }
 
@@ -203,6 +204,8 @@ namespace IDevice
                     collection.Insert(e.Index, e.Item);
                 else
                     collection.Add(e.Item);
+
+                Util.Sort(collection);
             }
         }
 

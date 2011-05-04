@@ -35,12 +35,19 @@ namespace IDevice.Plugins.Analyzers.Hash
         }
 
         private ToolStripMenuItem hashes = new ToolStripMenuItem("Hashes");
+        private ToolStripSeparator sep = new ToolStripSeparator();
         private ToolStripMenuItem showHash = new ToolStripMenuItem("Show hash");
 
         public HashAnalyzerPlugin()
         {
             hashes.Click += new EventHandler(hashes_Click);
+            
             showHash.Click += new EventHandler(showHash_Click);
+            
+            // name is used for sorting
+            hashes.Name = "A";
+            sep.Name = "B";
+            showHash.Name = "C";
         }
 
         void showHash_Click(object sender, EventArgs e)
@@ -101,14 +108,16 @@ namespace IDevice.Plugins.Analyzers.Hash
 
         protected override void OnRegisterMenu(Managers.MenuManager manager)
         {
-            manager.Add(Managers.MenuContainer.FileContext, showHash);
             manager.Add(Managers.MenuContainer.Analyzer, hashes);
+            manager.Add(Managers.MenuContainer.FileContext, showHash);
+            manager.Add(Managers.MenuContainer.FileContext, sep);
         }
 
         protected override void OnUnregisterMenu(Managers.MenuManager manager)
         {
             manager.Remove(Managers.MenuContainer.Analyzer, hashes);
             manager.Remove(Managers.MenuContainer.Analyzer, showHash);
+            manager.Remove(Managers.MenuContainer.Analyzer, sep);
         }
 
 

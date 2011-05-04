@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows.Forms;
+using System.Collections;
 
 namespace IDevice
 {
@@ -47,6 +49,32 @@ namespace IDevice
             return (int)(((double)current / length) * 100);
         }
 
+        public static void Sort(ToolStripItemCollection collection, IComparer comparer)
+        {
+            ArrayList items = new ArrayList(collection);
+            items.Sort(comparer);
+
+            collection.Clear();
+            foreach (object itm in items)
+                collection.Add(itm as ToolStripItem);
+        }
+
+        public static void Sort(ToolStripItemCollection collection)
+        {
+            Sort(collection, new ToolStripItemComparer());
+        }
+
+
+        private class ToolStripItemComparer : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                ToolStripItem a = x as ToolStripItem;
+                ToolStripItem b = y as ToolStripItem;
+
+                return a.Name.CompareTo(b.Name);
+            }
+        }
         #endregion
     }
 }

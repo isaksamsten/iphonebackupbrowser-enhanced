@@ -193,8 +193,14 @@ namespace IDevice.Plugins.Browsers.SQL
 
             Cursor.Current = Cursors.WaitCursor;
             clearLists(); // then do work
-
-            _worker.RunWorkerAsync(tableName);
+            try
+            {
+                _worker.RunWorkerAsync(tableName);
+            }
+            catch
+            {
+                MessageBox.Show("DOuble actions running. Try again!");
+            }
         }
 
         #endregion
