@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using IDevice.IPhone;
 using System.IO;
+using System.ComponentModel;
 
 namespace IDevice.Plugins.Analyzers.Hash
 {
@@ -52,12 +53,27 @@ namespace IDevice.Plugins.Analyzers.Hash
 
         void showHash_Click(object sender, EventArgs e)
         {
-            HashInfo info = new HashInfo(SelectedBackup, SelectedFiles.FirstOrDefault());
-            info.Show(Model.Window);
+            Model.InvokeAsync(delegate(object s, DoWorkEventArgs arg)
+            {
+                var data = arg.Argument as dynamic;
+                HashInfo info = new HashInfo(data.Backup, data.File);
+                arg.Result = info;
+
+            }, delegate(object s, RunWorkerCompletedEventArgs arg)
+            {
+                if (!arg.Cancelled)
+                {
+                    Form info = arg.Result as Form;
+                    info.Show(Model.Window);
+                }
+
+            }, "Hashing...", true, new { Backup = SelectedBackup, File = SelectedFiles.FirstOrDefault()});
+
         }
 
         void hashes_Click(object sender, EventArgs e)
         {
+            hashes.Enabled = false;
             IPhoneBackup backup = SelectedBackup;
             if (backup == null)
                 return;
@@ -95,6 +111,7 @@ namespace IDevice.Plugins.Analyzers.Hash
                     File.WriteAllText(fileSaver.FileName, builder.ToString());
                 }
 
+                hashes.Enabled = true;
             }, "Analyzing hashes");
         }
 

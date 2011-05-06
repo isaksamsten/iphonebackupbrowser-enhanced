@@ -111,6 +111,11 @@ namespace IDevice.Managers
                 if (verify)
                     srcHash = Util.MD5File(src);
 
+                // Dont copy if it exist..
+                if (File.Exists(dest.FullName) && Util.MD5File(dest) == srcHash)
+                    return dest;
+
+                // if we dent copy to the src
                 if (src != dest)
                     File.Copy(src.FullName, dest.FullName, true);
 
