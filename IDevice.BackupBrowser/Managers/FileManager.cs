@@ -37,6 +37,7 @@ namespace IDevice.Managers
         }
 
         private object _lock = new object();
+        private bool _init = false;
 
         /// <summary>
         /// Use FileManager.Current instead
@@ -45,7 +46,6 @@ namespace IDevice.Managers
         /// </summary>
         private FileManager()
         {
-
         }
 
         /// <summary>
@@ -98,6 +98,9 @@ namespace IDevice.Managers
         {
             lock (_lock)
             {
+                if (!_init)
+                    Init();
+
                 string tempPath = Path.Combine(Path.GetTempPath(), BasePath, dir);
                 if (!Directory.Exists(tempPath))
                     Directory.CreateDirectory(tempPath);
@@ -255,6 +258,19 @@ namespace IDevice.Managers
         public void Clean()
         {
             Clean("");
+        }
+
+        /// <summary>
+        /// Ensure
+        /// </summary>
+        public void Init()
+        {
+            if (!_init)
+            {
+                string tempPath = Path.Combine(Path.GetTempPath(), BasePath);
+                if (!Directory.Exists(tempPath))
+                    Directory.CreateDirectory(tempPath);
+            }
         }
     }
 }
