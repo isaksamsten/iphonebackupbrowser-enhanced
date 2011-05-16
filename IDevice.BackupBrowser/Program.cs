@@ -21,6 +21,7 @@ namespace IDevice
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                FileManager.Current.Init();
                 BackupBrowser browser = new BackupBrowser();
                 Application.Run(browser);
             }

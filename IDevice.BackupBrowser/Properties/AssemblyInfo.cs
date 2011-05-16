@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("iPhone Backup Browser")]
-[assembly: AssemblyCopyright("Copyright © René DEVICHI 2010")]
+[assembly: AssemblyCopyright("Copyright © Isak Karlsson")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
