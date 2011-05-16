@@ -81,6 +81,13 @@
     <Compile Include="AbstractPlugin.cs" />
     <Compile Include="Analyzers\Location\Location.cs" />
     <Compile Include="Analyzers\Location\LocationAnalyzerPlugin.cs" />
+    <Compile Include="Analyzers\SMS\SMSAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analyzers\SMS\SMSAnalyzer.Designer.cs">
+      <DependentUpon>SMSAnalyzer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Analyzers\SMS\SMSAnalyzerPlugin.cs" />
     <Compile Include="Browsers\DefaultBrowser.cs" />
     <Compile Include="Browsers\PList\PListBrowser.cs">
       <SubType>Form</SubType>
@@ -114,6 +121,9 @@
     <EmbeddedResource Include="Analyzers\Image\ImageAnalyzer.resx">
       <DependentUpon>ImageAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Analyzers\SMS\SMSAnalyzer.resx">
+      <DependentUpon>SMSAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Browsers\PList\PListBrowser.resx">
       <DependentUpon>PListBrowser.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,6 +140,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\export.png" />
   </ItemGroup>
   <ItemGroup>

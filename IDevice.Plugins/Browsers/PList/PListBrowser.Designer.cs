@@ -110,19 +110,19 @@
             this.saveToolStripMenuItem,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // viewToolStripMenuItem
@@ -131,19 +131,19 @@
             this.binaryToolStripMenuItem,
             this.readableToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // binaryToolStripMenuItem
             // 
             this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.binaryToolStripMenuItem.Text = "Binary";
             // 
             // readableToolStripMenuItem
             // 
             this.readableToolStripMenuItem.Name = "readableToolStripMenuItem";
-            this.readableToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.readableToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.readableToolStripMenuItem.Text = "Readable";
             // 
             // PListBrowser
