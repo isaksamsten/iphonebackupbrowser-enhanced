@@ -44,7 +44,8 @@ namespace IDevice.Plugins.Browsers.SQL
                     tableColumnList.Items.Add(currentColumn.name, true);
                     tableContentList.Columns.Add(currentColumn.name);
                 }
-                tableContentList.Items.AddRange(items);
+                // Invoke on thread
+                tableContentList.BeginInvoke(new MethodInvoker(() => tableContentList.Items.AddRange(items)));
             }
         }
 
@@ -192,8 +193,14 @@ namespace IDevice.Plugins.Browsers.SQL
 
             Cursor.Current = Cursors.WaitCursor;
             clearLists(); // then do work
-
-            _worker.RunWorkerAsync(tableName);
+            try
+            {
+                _worker.RunWorkerAsync(tableName);
+            }
+            catch
+            {
+                MessageBox.Show("DOuble actions running. Try again!");
+            }
         }
 
         #endregion

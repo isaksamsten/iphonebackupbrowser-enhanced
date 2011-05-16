@@ -37,6 +37,11 @@ namespace IDevice
         public BrowserModel Model { get { return _model; } }
 
         /// <summary>
+        /// Might be slow
+        /// </summary>
+        public IEnumerable<IBrowsable> BrowserManagers { get { return _browserManger.Select(kv => kv.Value); } }
+
+        /// <summary>
         /// Cette classe est une implémentation de l'interface 'IComparer'.
         /// </summary>
         public class ListViewColumnSorter : IComparer
@@ -180,6 +185,7 @@ namespace IDevice
             else
             {
                 collection.Remove(e.Item);
+                Util.Sort(collection);
             }
         }
 
@@ -194,7 +200,12 @@ namespace IDevice
             }
             else
             {
-                collection.Add(e.Item);
+                if (e.Insert)
+                    collection.Insert(e.Index, e.Item);
+                else
+                    collection.Add(e.Item);
+
+                Util.Sort(collection);
             }
         }
 
@@ -424,7 +435,7 @@ namespace IDevice
             IPhoneFile file = (IPhoneFile)fileList.FocusedItem.Tag;
             IPhoneBackup backup = Model.Backup;
 
-            FileManager filemanager = new FileManager();
+            FileManager filemanager = FileManager.Current;
             FileInfo dest = filemanager.GetWorkingFile(backup, file);
 
             IBrowsable browser = _browserManger.Get(dest.Extension);
@@ -648,7 +659,7 @@ namespace IDevice
 
             UpdateTitle(backup.DisplayName);
 
-            FileManager fm = new FileManager();
+            FileManager fm = FileManager.Current;
             List<IPhoneApp> apps = backup.GetApps();
             foreach (var app in apps)
             {

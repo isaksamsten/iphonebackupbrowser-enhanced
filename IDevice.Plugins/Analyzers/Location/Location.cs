@@ -9,6 +9,9 @@ using System.Drawing.Imaging;
 
 namespace IDevice.Plugins.Analyzers.Location
 {
+    /// <summary>
+    /// Simple class to represent a location
+    /// </summary>
     public class Location
     {
         public double Longitude { get; set; }
@@ -16,19 +19,6 @@ namespace IDevice.Plugins.Analyzers.Location
         public string Name { get; set; }
         public object Tag { get; set; }
         public DateTime Time { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="arr"></param>
-        /// <returns></returns>
-        private static uint ConvertToInt32U(byte[] arr)
-        {
-            if (arr.Length != 4)
-                return 0;
-            else
-                return Convert.ToUInt32(arr[3] << 24 | arr[2] << 16 | arr[1] << 8 | arr[0]);
-        }
 
         public static geKML ToKML(IEnumerable<Location> locations)
         {

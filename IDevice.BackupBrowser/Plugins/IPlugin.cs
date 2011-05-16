@@ -28,8 +28,6 @@ namespace IDevice.Plugins
         /// <param name="args"></param>
         void Unregister(IRegisterArgs args);
 
-
-        // TO BE ADDED
         /// <summary>
         /// Name of the plugin
         /// 

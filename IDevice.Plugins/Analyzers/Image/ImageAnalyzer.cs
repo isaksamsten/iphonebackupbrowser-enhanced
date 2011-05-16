@@ -13,6 +13,9 @@ using LevDan.Exif;
 
 namespace IDevice.Plugins.Analyzers.Image
 {
+    /// <summary>
+    /// This is a memory HOG!
+    /// </summary>
     public partial class ImageAnalyzer : Form
     {
         private IPhoneBackup _backup;
@@ -55,7 +58,7 @@ namespace IDevice.Plugins.Analyzers.Image
 
             IPhoneApp system = backup.GetApps().FirstOrDefault(app => app.Name == "System");
             IEnumerable<IPhoneFile> images = system.Files.Where(file => file.Domain == "MediaDomain" && file.Path.Contains("DCIM/100APPLE"));
-            FileManager fm = new FileManager();
+            FileManager fm = FileManager.Current;
 
             ImageList imgList = new ImageList();
             imgList.ImageSize = new Size(64, 64);
@@ -65,7 +68,7 @@ namespace IDevice.Plugins.Analyzers.Image
             int length = images.Count(), current = 0;
             foreach (IPhoneFile file in images)
             {
-                FileInfo info = fm.GetWorkingFile(_backup, file);
+                FileInfo info = fm.GetWorkingFileCurrentClass(_backup, file);
                 ListViewItem itm = new ListViewItem();
                 itm.Tag = new Bitmap(info.FullName);
                 itm.Text = info.Name;
@@ -74,7 +77,7 @@ namespace IDevice.Plugins.Analyzers.Image
                 imgList.Images.Add(info.Name, (Bitmap)itm.Tag);
                 listViewItems.Add(itm);
 
-                worker.ReportProgress(BrowserModel.Percent(current++, length));
+                worker.ReportProgress(Util.Percent(current++, length));
             }
 
             e.Result = new { ImageList = imgList, ListViewItems = listViewItems.ToArray() };
@@ -105,6 +108,11 @@ namespace IDevice.Plugins.Analyzers.Image
                     infoPanel.Items.Add(item);
                 }
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
