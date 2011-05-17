@@ -28,11 +28,18 @@ namespace IDevice.Plugins.Analyzers.Image
             _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_worker_RunWorkerCompleted);
             _worker.ProgressChanged += new ProgressChangedEventHandler(_worker_ProgressChanged);
             _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
 
+            this.FormClosing += new FormClosingEventHandler(ImageAnalyzer_FormClosing);
             InitializeComponent();
 
             if (_backup != null)
                 this.Text += " [" + _backup.DisplayName + "]";
+        }
+
+        void ImageAnalyzer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _worker.CancelAsync();
         }
 
         void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -42,6 +49,8 @@ namespace IDevice.Plugins.Analyzers.Image
 
         void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (e.Cancelled || e.Result == null)
+                return;
             var x = e.Result as dynamic;
             imageView.BeginInvoke(new MethodInvoker(delegate()
             {
@@ -68,6 +77,8 @@ namespace IDevice.Plugins.Analyzers.Image
             int length = images.Count(), current = 0;
             foreach (IPhoneFile file in images)
             {
+                if (worker.CancellationPending)
+                    return;
                 FileInfo info = fm.GetWorkingFileCurrentClass(_backup, file);
                 ListViewItem itm = new ListViewItem();
                 itm.Tag = new Bitmap(info.FullName);

@@ -88,6 +88,13 @@
     <Compile Include="AbstractPlugin.cs" />
     <Compile Include="Analyzers\Location\Location.cs" />
     <Compile Include="Analyzers\Location\LocationAnalyzerPlugin.cs" />
+    <Compile Include="Analyzers\MMS\MMSAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analyzers\MMS\MMSAnalyzer.Designer.cs">
+      <DependentUpon>MMSAnalyzer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Analyzers\MMS\MMSAnalyzerPlugin.cs" />
     <Compile Include="Analyzers\SMS\SMSAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Analyzers\Image\ImageAnalyzer.resx">
       <DependentUpon>ImageAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Analyzers\MMS\MMSAnalyzer.resx">
+      <DependentUpon>MMSAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Analyzers\SMS\SMSAnalyzer.resx">
       <DependentUpon>SMSAnalyzer.cs</DependentUpon>

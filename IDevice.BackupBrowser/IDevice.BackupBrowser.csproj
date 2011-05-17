@@ -217,6 +217,9 @@
     <Content Include="Libs\ExifMetadata.dll" />
     <Content Include="Libs\Google.KML.dll" />
     <Content Include="Libs\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Libs\NLog.dll" />
+    <Content Include="Libs\NLog.Extended.dll" />
+    <Content Include="Libs\PList.dll" />
     <Content Include="Libs\SQLite.Interop.dll" />
     <Content Include="Libs\System.Data.SQLite.dll" />
     <Content Include="Libs\System.Data.SQLite.Linq.dll" />
